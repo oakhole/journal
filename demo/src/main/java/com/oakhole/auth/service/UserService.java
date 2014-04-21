@@ -78,25 +78,27 @@ public class UserService {
 
     /**
      * 发送jms消息
+     *
      * @param user
      */
     private void sendJmsMessage(User user) {
         try {
             notifyMessageProducer.sendQueue(user);
         } catch (Exception e) {
-            logger.error("发送jms消息错误",e);
+            logger.error("发送jms消息错误", e);
         }
     }
 
     /**
      * 删除用户,仅更改用户的有效值
+     *
      * @param id
      */
     public void deleteUser(Long id) {
         User user = this.userDao.findOne(id);
         if ("enabled".equals(user.getStatus())) {
             user.setStatus("disabled");
-        }else{
+        } else {
             user.setStatus("enabled");
         }
         this.userDao.save(user);
@@ -184,19 +186,4 @@ public class UserService {
         user.setPassword(Encodes.encodeHex(hashPassword));
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
-    }
-
-    public void setBusinessLogger(BusinessLogger businessLogger) {
-        this.businessLogger = businessLogger;
-    }
-
-    public void setNotifyMessageProducer(NotifyMessageProducer notifyMessageProducer) {
-        this.notifyMessageProducer = notifyMessageProducer;
-    }
 }
