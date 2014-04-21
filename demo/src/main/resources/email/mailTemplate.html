@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Insert title here</title></head>
+<body>
+<span th:text="${name}">Tom</span>你好！这是我发给你的邮件，喜欢么？？<p th:text="${data}"></p>
+想搜点东西么？？<a th:href="@{http://www.baidu.com/s(wd=${context})}">http://www.baidu.com/s?wd=<span
+        th:text="${context}"></span><![CDATA[&]]>e=sss</a></body>
+</html>
