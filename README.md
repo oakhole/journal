@@ -4,6 +4,10 @@ Journal
 
 **Why named journal ?**
 
+Just a nickname , whatever you called ,here it is .
+
+
+**How could I found it ?**
 
 Integration some framework init , such as springside's & lemon's .
 
@@ -13,7 +17,7 @@ Of course , still leave alone original author's name .
 
 ===
 
-**具体包含了哪些呢？**
+**What's including for this repo ?**
 
 - Web & UI
 
