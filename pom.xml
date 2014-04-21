@@ -40,12 +40,4 @@
         <url>https://github.com/oakhole/journal</url>
         <connection>scm:git:git://github.com/oakhole/journal.git</connection>
     </scm>
-
-    <repositories>
-        <repository>
-            <id>oschina</id>
-            <name>oschina</name>
-            <url>http://maven.oschina.net/content/groups/public/</url>
-        </repository>
-    </repositories>
 </project>

@@ -612,4 +612,11 @@
         </dependencies>
     </dependencyManagement>
 
+    <repositories>
+        <repository>
+            <id>oschina</id>
+            <name>oschina</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+        </repository>
+    </repositories>
 </project>
