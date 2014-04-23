@@ -1,13 +1,12 @@
 package com.oakhole;
 
-import java.io.File;
-
-import java.net.URL;
-
-import java.security.ProtectionDomain;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import java.io.File;
+import java.net.URL;
+import java.security.ProtectionDomain;
 
 public class Main {
 
