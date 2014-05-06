@@ -15,6 +15,12 @@ create table role(
     permissions varchar(255)
 )engine=innoDB;
 
+create table group(
+    id bigint primary key auto_increment,
+    name varchar(50),
+    parent_id bigint
+)engine=innoDB;
+
 create table user_role(
     user_id bigint not null,
     role_id bigint not null,

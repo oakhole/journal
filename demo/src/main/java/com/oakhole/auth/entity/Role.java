@@ -1,14 +1,13 @@
 package com.oakhole.auth.entity;
 
-import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -17,12 +16,16 @@ import java.util.List;
  */
 @SuppressWarnings("ALL")
 @Entity
-@Table(name="role")
+@Table(name = "auth_role")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Role extends IdEntity{
+public class Role extends IdEntity {
 
     private String name;
-    private String permissions;
+
+    private List<Perm> permissionList = Lists.newArrayList();
+
+    //shiro need
+    private List<String> permissions = Lists.newArrayList();
 
     public String getName() {
         return name;
@@ -32,21 +35,28 @@ public class Role extends IdEntity{
         this.name = name;
     }
 
-    public String getPermissions() {
-        return permissions;
+    @ManyToMany
+    @JoinTable(name = "auth_role_perm", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "perm_id")})
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("id asc")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    public List<Perm> getPermissionList() {
+        return permissionList;
     }
 
-    public void setPermissions(String permissions) {
-        this.permissions = permissions;
+    public void setPermissionList(List<Perm> permissionList) {
+        this.permissionList = permissionList;
     }
 
     @Transient
-    public List<String> getPermissionList() {
-        return ImmutableList.copyOf(StringUtils.split(permissions, ","));
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    @JsonIgnore
+    public List<String> getPermissions() {
+        for (Perm perm : this.permissionList) {
+            for (Operation oper : perm.getOperationList()) {
+                //shiro only need operation permissionList
+                this.permissions.add(oper.getCode());
+            }
+        }
+        return this.permissions;
     }
 }

@@ -24,6 +24,22 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="prettyPrint" value="true"/>
             </bean>
+            <!-- 使用XML格式输出数据 -->
+            <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                <constructor-arg>
+                    <bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+                        <property name="streamDriver">
+                            <bean class="com.thoughtworks.xstream.io.xml.StaxDriver"/>
+                        </property>
+                        <property name="annotatedClasses">
+                            <list>
+                                <value>com.oakhole.auth.entity.IdEntity</value>
+                            </list>
+                        </property>
+                    </bean>
+                </constructor-arg>
+                <property name="supportedMediaTypes" value="application/xml"></property>
+            </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
 
@@ -35,6 +51,8 @@
                 xml=application/xml
             </value>
         </property>
+        <property name="ignoreAcceptHeader" value="true"/>
+        <property name="favorPathExtension" value="true"/>
     </bean>
 
     <!-- 定义JSP文件的位置 -->

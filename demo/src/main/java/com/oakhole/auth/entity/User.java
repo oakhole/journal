@@ -1,6 +1,7 @@
 package com.oakhole.auth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.oakhole.core.uitls.Collections3;
 import org.hibernate.annotations.Cache;
@@ -11,18 +12,21 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
+ * 系统用户，用户鉴权操作和权限分配
+ *
  * @author Administrator
  * @since 14-3-6
  */
 @SuppressWarnings("ALL")
 @Entity
-@Table(name="user")
+@Table(name = "auth_user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@XmlRootElement
 public class User extends IdEntity {
 
     private String name;
@@ -34,6 +38,10 @@ public class User extends IdEntity {
     private String status;
 
     private List<Role> roleList = Lists.newArrayList();
+    private List<Group> groupList = Lists.newArrayList();
+
+    //shiro needs
+    private Set<Role> roles = new HashSet<Role>();
 
     public String getName() {
         return name;
@@ -87,7 +95,7 @@ public class User extends IdEntity {
     }
 
     @ManyToMany
-    @JoinTable(name="user_role",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(name = "auth_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     @Fetch(FetchMode.SUBSELECT)
     @OrderBy("id asc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -95,14 +103,37 @@ public class User extends IdEntity {
         return roleList;
     }
 
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "auth_user_group", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("id asc")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    public List<Group> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    @Transient
+    @JsonIgnore
+    public Set<Role> getRoles() {
+        this.roles.addAll(this.roleList);
+        for(Group group : this.groupList) {
+            this.roles.addAll(group.getRoleList());
+        }
+        return roles;
+    }
+
     @Transient
     @JsonIgnore
     public String getRoleNames() {
-        return Collections3.extractToString(this.roleList, "name", ",");
-    }
-
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+        return Collections3.extractToString(getRoles(), "name", ",");
     }
 
     public String getStatus() {

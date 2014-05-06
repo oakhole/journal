@@ -24,6 +24,7 @@
 
         <aspectj.version>1.7.3</aspectj.version>
         <jackson.version>2.3.1</jackson.version>
+        <xstream.version>1.4.3</xstream.version>
         <servlet.version>3.0.1</servlet.version>
         <jsp.version>2.1</jsp.version>
         <jetty.version>7.6.14.v20131031</jetty.version>
@@ -359,6 +360,11 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-expression</artifactId>
                 <version>${spring.version}</version>
             </dependency>
@@ -522,6 +528,14 @@
                 <version>${javasimon.version}</version>
             </dependency>
             <!-- Monitor End -->
+
+            <!-- XML parse Start -->
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+            <!-- XML parse End -->
 
             <!-- JSON Start -->
             <dependency>
