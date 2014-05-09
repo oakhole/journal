@@ -8,6 +8,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 /**
@@ -26,6 +27,12 @@ public class Role extends IdEntity {
 
     //shiro need
     private List<String> permissions = Lists.newArrayList();
+
+    //Menu Permissions
+    private List<Menu> menuPermissions = Lists.newArrayList();
+
+    //File Permissions
+    private List<File> filePermissions = Lists.newArrayList();
 
     public String getName() {
         return name;
@@ -49,6 +56,7 @@ public class Role extends IdEntity {
     }
 
     @Transient
+    @XmlTransient
     @JsonIgnore
     public List<String> getPermissions() {
         for (Perm perm : this.permissionList) {
@@ -58,5 +66,34 @@ public class Role extends IdEntity {
             }
         }
         return this.permissions;
+    }
+
+    @Transient
+    @XmlTransient
+    @JsonIgnore
+    public List<Menu> getMenuPermissions() {
+        for (Perm perm : this.permissionList) {
+            this.menuPermissions.addAll(perm.getMenuList());
+        }
+        return this.menuPermissions;
+    }
+
+    /**
+     * Those files only to view ,file's code according to the linux's file rule .
+     * {@code R} means Read it , {@code W} means Write it , {@code X} means that you can delete it  .
+     *
+     * U,G,O instead of User owner ,Group and the others .
+     *
+     * <p>{@code 777} express {@code rwx} satified all operation .</p>
+     * @return
+     */
+    @Transient
+    @XmlTransient
+    @JsonIgnore
+    public List<File> getFilePermissions() {
+        for (Perm perm : this.permissionList) {
+            this.filePermissions.addAll(perm.getFileList());
+        }
+        return filePermissions;
     }
 }

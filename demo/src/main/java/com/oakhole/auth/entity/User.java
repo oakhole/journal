@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -121,6 +123,7 @@ public class User extends IdEntity {
     }
 
     @Transient
+    @XmlTransient
     @JsonIgnore
     public Set<Role> getRoles() {
         this.roles.addAll(this.roleList);
@@ -131,6 +134,7 @@ public class User extends IdEntity {
     }
 
     @Transient
+    @XmlTransient
     @JsonIgnore
     public String getRoleNames() {
         return Collections3.extractToString(getRoles(), "name", ",");

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator" %>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib  prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
@@ -31,6 +32,20 @@
     </script>
 <![endif]-->
 <script type="text/javascript" src="${ctx}/static/scripts/simpla.jquery.configuration.js"></script>
+<script>
+    $(function(){
+
+        $("#trigger_profile").click(function(e){
+            e.preventDefault();
+            $("#profile").trigger("click");
+        });
+
+        $("#trigger_setting").click(function(e){
+            e.preventDefault();
+            $("#user").trigger("click");
+        });
+    });
+</script>
 <sitemesh:head/>
 </head>
 <body>
@@ -48,6 +63,5 @@
         <%@ include file="/WEB-INF/layouts/footer.jsp"%>
     </div>
 </div>
-
 </body>
 </html>

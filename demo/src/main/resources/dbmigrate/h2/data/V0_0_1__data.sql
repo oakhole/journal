@@ -13,10 +13,14 @@ insert into auth_perm (id,type) values(1,'menu');
 insert into auth_perm (id,type) values(2,'file');
 insert into auth_perm (id,type) values(3,'oper');
 
-insert into auth_menu (id,name,url) values(1,'parent1','parent1');
-insert into auth_menu (id,name,url) values(2,'parent2','parent2');
-insert into auth_menu (id,name,url,parent_id) values(3,'child1','child1',1);
-insert into auth_menu (id,name,url,parent_id) values(4,'child2','child2',2);
+insert into auth_menu (id,name) values(1,'组织管理');
+insert into auth_menu (id,name) values(2,'系统设置');
+insert into auth_menu (id,name,url,parent_id) values(3,'用户列表','user',1);
+insert into auth_menu (id,name,url,parent_id) values(4,'角色管理','profile',1);
+insert into auth_menu (id,name,url,parent_id) values(5,'组织列表','register',1);
+insert into auth_menu (id,name,url,parent_id) values(6,'个人信息','profile',2);
+insert into auth_menu (id,name,url,parent_id) values(7,'系统日志','profile',2);
+insert into auth_menu (id,name,url,parent_id) values(8,'个人信息','profile',2);
 
 -- code used to be linuxer
 insert into auth_file (id,name,code,url) values(1,'test.sql','777','static/test.sql');
@@ -42,6 +46,10 @@ insert into auth_perm_menu (perm_id,menu_id) values(1,1);
 insert into auth_perm_menu (perm_id,menu_id) values(1,2);
 insert into auth_perm_menu (perm_id,menu_id) values(1,3);
 insert into auth_perm_menu (perm_id,menu_id) values(1,4);
+insert into auth_perm_menu (perm_id,menu_id) values(1,5);
+insert into auth_perm_menu (perm_id,menu_id) values(1,6);
+insert into auth_perm_menu (perm_id,menu_id) values(1,7);
+insert into auth_perm_menu (perm_id,menu_id) values(1,8);
 
 insert into auth_perm_file (perm_id,file_id) values(2,1);
 

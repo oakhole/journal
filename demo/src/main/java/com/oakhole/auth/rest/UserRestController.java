@@ -1,5 +1,6 @@
 package com.oakhole.auth.rest;
 
+import com.oakhole.auth.entity.Menu;
 import com.oakhole.auth.entity.User;
 import com.oakhole.auth.service.UserService;
 import org.slf4j.Logger;
@@ -39,5 +40,10 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.GET)
     public List<User> list() {
         return this.userService.getUserList();
+    }
+
+    @RequestMapping(value = "menu")
+    public List<Menu> getMenu() {
+        return this.userService.getMenuTree(this.userService.getCurrentUser());
     }
 }

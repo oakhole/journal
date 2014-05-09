@@ -7,11 +7,24 @@ $(document).ready(function(){
 		
 		$("#main-nav li a.nav-top-item").click( // When a top menu item is clicked...
 			function () {
+			    $(this).parent().siblings().find("a").removeClass('current');
+			    $(this).addClass("current");
+			    $(this).next().removeClass("current");
 				$(this).parent().siblings().find("ul").slideUp("normal"); // Slide up all sub menus except the one clicked
 				$(this).next().slideToggle("normal"); // Slide down the clicked sub menu
 				return false;
 			}
 		);
+
+    // 默认只有二级菜单
+		$("#main-nav li ul li a").click( // When a top menu item is clicked...
+        		function (e) {
+        		    e.preventDefault();
+        			$(this).parent().siblings().find("a").removeClass('current');
+        			$(this).addClass('current');
+        			$("#main-content").load($(this).attr('href'));
+        		}
+        	);
 		
 		$("#main-nav li a.no-submenu").click( // When a menu item with no sub menu is clicked...
 			function () {

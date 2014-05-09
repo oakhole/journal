@@ -33,12 +33,12 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ShiroTestUtils.mockSubject(new ShiroDbRealm.ShiroUser("foo", "foo"));
+        ShiroTestUtils.mockSubject(new ShiroDbRealm.ShiroUser("admin", "admin"));
     }
 
     @After
     public void tearDown() throws Exception {
-        ShiroTestUtils.clearSubject();
+        com.oakhole.auth.service.ShiroTestUtils.clearSubject();
     }
 
     @Test
@@ -47,11 +47,12 @@ public class UserServiceTest {
         guest.setId(1L);
         guest.setUsername("guest");
         guest.setPlainPassword("guest");
-
         this.userService.saveUser(guest);
-
-        System.out.println(guest.getPassword() + " " + guest.getSalt());
-
         Mockito.verify(userDao,Mockito.never()).delete(1L);
+    }
+
+    @Test
+    public void testGetMenu() throws Exception {
+        this.userService.getMenuTree(this.userService.findUserByUsername("admin"));
     }
 }

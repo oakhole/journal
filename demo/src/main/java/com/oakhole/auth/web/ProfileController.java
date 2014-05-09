@@ -3,14 +3,12 @@ package com.oakhole.auth.web;
 import com.oakhole.auth.entity.User;
 import com.oakhole.auth.service.ShiroDbRealm;
 import com.oakhole.auth.service.UserService;
+import com.oakhole.core.uitls.Global;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -22,6 +20,7 @@ import javax.validation.Valid;
 @SuppressWarnings("ALL")
 @Controller
 @RequestMapping("/profile")
+@SessionAttributes(Global.CURRENT_ACTION)
 public class ProfileController {
 
     @Autowired
@@ -29,7 +28,8 @@ public class ProfileController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String profile(Model model) {
-        model.addAttribute("user", getCurrentUser());
+        model.addAttribute("user", this.userService.getCurrentUser());
+        model.addAttribute(Global.CURRENT_ACTION, "sys.profile");
         return "auth/user/profile";
     }
 
@@ -39,15 +39,6 @@ public class ProfileController {
         updateCurrentName(user.getName());
         redirectAttributes.addFlashAttribute("message", "更改个人信息成功");
         return "redirect:/";
-    }
-
-    /**
-     * obtain current user
-     * @return
-     */
-    private User getCurrentUser() {
-        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return this.userService.findUserByUsername(shiroUser.loginName);
     }
 
     @ModelAttribute

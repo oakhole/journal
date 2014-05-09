@@ -24,6 +24,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 /**
@@ -65,16 +66,16 @@ public class Menu extends IdEntity {
         return parent;
     }
 
-    @OneToMany(targetEntity = Menu.class, cascade = CascadeType.ALL, mappedBy = "parent")
-    @Fetch(FetchMode.SUBSELECT)
-    @OrderBy("id asc")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public void setParent(Menu parent) {
         this.parent = parent;
     }
 
-    @Transient
+    @OneToMany(targetEntity = Menu.class, cascade = CascadeType.ALL, mappedBy = "parent")
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("id asc")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnore
+    @XmlTransient
     public List<Menu> getChildList() {
         return childList;
     }

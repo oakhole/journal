@@ -1,5 +1,7 @@
 package com.oakhole.auth.service;
 
+import com.google.common.collect.Lists;
+import com.oakhole.auth.entity.Menu;
 import com.oakhole.auth.entity.Role;
 import com.oakhole.auth.entity.User;
 import com.oakhole.auth.repository.RoleDao;
@@ -176,6 +178,54 @@ public class UserService {
      */
     public List<Role> getAllRole() {
         return (List<Role>) this.roleDao.findAll();
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @return
+     */
+    public User getCurrentUser() {
+        ShiroDbRealm.ShiroUser shiroUser = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        return findUserByUsername(shiroUser.loginName);
+    }
+
+    /**
+     * 获取菜单
+     *
+     * @return
+     */
+    public List<Menu> getMenuTree(User user) {
+        List<Menu> menuList = Lists.newArrayList();
+        List<Menu> sourceList = Lists.newArrayList();
+        for (Role role : user.getRoleList()) {
+            sourceList.addAll(role.getMenuPermissions());
+        }
+        sortMenu(menuList, sourceList, null);
+        return menuList;
+    }
+
+    public List<Menu> getMenuTree() {
+        return getMenuTree(getCurrentUser());
+    }
+
+    /**
+     * 遍历菜单树
+     *
+     * @param menuList
+     * @param sourceMenus
+     * @param parent
+     */
+    private void sortMenu(List<Menu> menuList, List<Menu> sourceMenus, Menu parent) {
+
+        for (Menu menu : sourceMenus) {
+            if (menu.getParent() == parent) {
+                menuList.add(menu);
+            }
+            if (!Collections3.isEmpty(menu.getChildList())) {
+                sortMenu(menuList, menu.getChildList(), menu);
+            }
+        }
     }
 
     private void encryptPassword(User user) {
