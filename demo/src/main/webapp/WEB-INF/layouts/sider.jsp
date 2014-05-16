@@ -5,7 +5,7 @@
 
 <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
 
-			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+			<h1 id="sidebar-title"><a href="#">UPMS Admin</a></h1>
 
 			<!-- Logo (221px wide) -->
 			<a href="#"><img id="logo" src="${ctx}/static/images/logo.png" alt="Simpla Admin logo" /></a>
@@ -22,30 +22,6 @@
                         首页
                     </a>
                 </li>
-				<c:forEach var="menu" items="${menuList}">
-                    <c:if test="${menu.parent == null}">
-                        <li>
-                            <c:if test="${fn:length(menu.childList) > 0}">
-                                <a class="nav-top-item" href="#">
-                            </c:if>
-                            <c:if test="${fn:length(menu.childList) <= 0}">
-                                <a class="nav-top-item no-submenu" href="${ctx}/${menu.url}">
-                            </c:if>
-                                ${menu.name}
-                            </a>
-                            <c:if test="${fn:length(menu.childList) > 0}">
-                            <ul>
-                                <c:forEach var="subMenu" items="${menu.childList}">
-                                <li>
-                                    <a href="${ctx}/${subMenu.url}" id="${subMenu.url}">
-                                        ${subMenu.name}
-                                    </a>
-                                </li>
-                                </c:forEach>
-                                </ul>
-                            </c:if>
-                        </li>
-                    </c:if>
-				</c:forEach>
 			</ul> <!-- End #main-nav -->
 		</div></div> <!-- End #sidebar -->
+

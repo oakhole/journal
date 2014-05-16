@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Administrator
@@ -43,7 +44,7 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "menu")
-    public List<Menu> getMenu() {
-        return this.userService.getMenuTree(this.userService.getCurrentUser());
+    public Set<Menu> getMenu() {
+        return this.userService.getMenu(this.userService.getCurrentUser());
     }
 }

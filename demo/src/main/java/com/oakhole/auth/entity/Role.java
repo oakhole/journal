@@ -25,8 +25,8 @@ public class Role extends IdEntity {
 
     private List<Perm> permissionList = Lists.newArrayList();
 
-    //shiro need
-    private List<String> permissions = Lists.newArrayList();
+    //Operation Permissions
+    private List<Operation> operPermissions = Lists.newArrayList();
 
     //Menu Permissions
     private List<Menu> menuPermissions = Lists.newArrayList();
@@ -58,14 +58,13 @@ public class Role extends IdEntity {
     @Transient
     @XmlTransient
     @JsonIgnore
-    public List<String> getPermissions() {
+    public List<Operation> getOperPermissions() {
         for (Perm perm : this.permissionList) {
-            for (Operation oper : perm.getOperationList()) {
-                //shiro only need operation permissionList
-                this.permissions.add(oper.getCode());
+            if (perm.getOperation() != null) {
+                this.operPermissions.add(perm.getOperation());
             }
         }
-        return this.permissions;
+        return this.operPermissions;
     }
 
     @Transient
@@ -73,7 +72,9 @@ public class Role extends IdEntity {
     @JsonIgnore
     public List<Menu> getMenuPermissions() {
         for (Perm perm : this.permissionList) {
-            this.menuPermissions.addAll(perm.getMenuList());
+            if (perm.getMenu() != null) {
+                this.menuPermissions.add(perm.getMenu());
+            }
         }
         return this.menuPermissions;
     }
@@ -92,7 +93,9 @@ public class Role extends IdEntity {
     @JsonIgnore
     public List<File> getFilePermissions() {
         for (Perm perm : this.permissionList) {
-            this.filePermissions.addAll(perm.getFileList());
+            if (perm.getFile() != null) {
+                this.filePermissions.add(perm.getFile());
+            }
         }
         return filePermissions;
     }

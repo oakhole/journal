@@ -10,8 +10,17 @@ insert into auth_group (id,name) values(2,'normal');
 
 -- readonly , generate by system initial
 insert into auth_perm (id,type) values(1,'menu');
-insert into auth_perm (id,type) values(2,'file');
-insert into auth_perm (id,type) values(3,'oper');
+insert into auth_perm (id,type) values(2,'menu');
+insert into auth_perm (id,type) values(3,'menu');
+insert into auth_perm (id,type) values(4,'menu');
+insert into auth_perm (id,type) values(5,'menu');
+insert into auth_perm (id,type) values(6,'menu');
+insert into auth_perm (id,type) values(7,'menu');
+insert into auth_perm (id,type) values(8,'menu');
+insert into auth_perm (id,type) values(9,'file');
+insert into auth_perm (id,type) values(10,'oper');
+insert into auth_perm (id,type) values(11,'oper');
+
 
 insert into auth_menu (id,name) values(1,'组织管理');
 insert into auth_menu (id,name) values(2,'系统设置');
@@ -20,7 +29,7 @@ insert into auth_menu (id,name,url,parent_id) values(4,'角色管理','profile',
 insert into auth_menu (id,name,url,parent_id) values(5,'组织列表','register',1);
 insert into auth_menu (id,name,url,parent_id) values(6,'个人信息','profile',2);
 insert into auth_menu (id,name,url,parent_id) values(7,'系统日志','profile',2);
-insert into auth_menu (id,name,url,parent_id) values(8,'个人信息','profile',2);
+insert into auth_menu (id,name,url,parent_id) values(8,'系统设置','profile',2);
 
 -- code used to be linuxer
 insert into auth_file (id,name,code,url) values(1,'test.sql','777','static/test.sql');
@@ -41,17 +50,37 @@ insert into auth_role_group (role_id,group_id) values(1,1);
 insert into auth_role_perm (role_id,perm_id) values(1,1);
 insert into auth_role_perm (role_id,perm_id) values(1,2);
 insert into auth_role_perm (role_id,perm_id) values(1,3);
+insert into auth_role_perm (role_id,perm_id) values(1,4);
+insert into auth_role_perm (role_id,perm_id) values(1,5);
+insert into auth_role_perm (role_id,perm_id) values(1,6);
+insert into auth_role_perm (role_id,perm_id) values(1,7);
+insert into auth_role_perm (role_id,perm_id) values(1,8);
+insert into auth_role_perm (role_id,perm_id) values(1,9);
+insert into auth_role_perm (role_id,perm_id) values(1,10);
+insert into auth_role_perm (role_id,perm_id) values(1,11);
 
+insert into auth_role_perm (role_id,perm_id) values(2,1);
+insert into auth_role_perm (role_id,perm_id) values(2,2);
+insert into auth_role_perm (role_id,perm_id) values(2,3);
+insert into auth_role_perm (role_id,perm_id) values(2,6);
+insert into auth_role_perm (role_id,perm_id) values(2,7);
+insert into auth_role_perm (role_id,perm_id) values(2,8);
+insert into auth_role_perm (role_id,perm_id) values(2,9);
+insert into auth_role_perm (role_id,perm_id) values(2,11);
+
+-- 权限表与菜单表一对一关联
 insert into auth_perm_menu (perm_id,menu_id) values(1,1);
-insert into auth_perm_menu (perm_id,menu_id) values(1,2);
-insert into auth_perm_menu (perm_id,menu_id) values(1,3);
-insert into auth_perm_menu (perm_id,menu_id) values(1,4);
-insert into auth_perm_menu (perm_id,menu_id) values(1,5);
-insert into auth_perm_menu (perm_id,menu_id) values(1,6);
-insert into auth_perm_menu (perm_id,menu_id) values(1,7);
-insert into auth_perm_menu (perm_id,menu_id) values(1,8);
+insert into auth_perm_menu (perm_id,menu_id) values(2,2);
+insert into auth_perm_menu (perm_id,menu_id) values(3,3);
+insert into auth_perm_menu (perm_id,menu_id) values(4,4);
+insert into auth_perm_menu (perm_id,menu_id) values(5,5);
+insert into auth_perm_menu (perm_id,menu_id) values(6,6);
+insert into auth_perm_menu (perm_id,menu_id) values(7,7);
+insert into auth_perm_menu (perm_id,menu_id) values(8,8);
 
-insert into auth_perm_file (perm_id,file_id) values(2,1);
+-- 权限表与文件表一对一关联
+insert into auth_perm_file (perm_id,file_id) values(9,1);
 
-insert into auth_perm_oper (perm_id,oper_id) values(3,1);
-insert into auth_perm_oper (perm_id,oper_id) values(3,2);
+-- 权限表与操作表一对一关联
+insert into auth_perm_oper (perm_id,oper_id) values(10,1);
+insert into auth_perm_oper (perm_id,oper_id) values(11,2);

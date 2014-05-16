@@ -38,7 +38,7 @@ public class DashboardController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("menuList", this.userService.getMenuTree());
+        model.addAttribute("menuList", this.userService.getMenu());
         return "index";
     }
 }

@@ -19,9 +19,10 @@
 <link rel="stylesheet" href="${ctx}/static/css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="${ctx}/static/css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="${ctx}/static/css/invalid.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="${ctx}/static/zTree_v3/css/zTreeStyle.css" type="text/css" media="screen"/>
 
 <script src="${ctx}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-<!--<script type="text/javascript" src="${ctx}/static/scripts/jquery-1.3.2.min.js"></script>-->
+<script type="text/javascript" src="${ctx}/static/zTree_v3/js/jquery.ztree.all-3.5.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/scripts/facebox.js"></script>
 <!--[if IE]><script type="text/javascript" src="${ctx}/static/scripts/jquery.bgiframe.js"></script><![endif]-->
 <!-- Internet Explorer .png-fix -->
@@ -44,7 +45,57 @@
             e.preventDefault();
             $("#user").trigger("click");
         });
+
+        $.get("${ctx}/menu/current",function(data){
+           initMenu(data,data.length-1,0);
+           $("#main-nav").append(menuHtml);
+           $("#main-nav li ul").hide();
+           //设定当前选中菜单
+           $("#main-nav li a.nav-top-item").removeClass("current");
+           $("#user").addClass("current");
+           $("#user").parent().parent().parent().find("a.nav-top-item").addClass("current");
+           $("#user").parent().parent().toggle();
+
+           $("#main-nav li a.nav-top-item").on("click",function () {
+                $(this).parent().siblings().find("a").removeClass('current');
+                $(this).addClass("current");
+                $(this).next().removeClass("current");
+                $(this).parent().siblings().find("ul").slideUp("normal"); // Slide up all sub menus except the one clicked
+                $(this).next().slideToggle("normal"); // Slide down the clicked sub menu
+                return false;
+            }
+        );
+        $("#main-nav li .nav-top-item").hover(
+                    function () {
+                        $(this).stop().animate({ paddingRight: "25px" }, 200);
+                    },
+                    function () {
+                        $(this).stop().animate({ paddingRight: "15px" });
+                    }
+        );
+        });
     });
+    var menuHtml = "";
+    //初始化菜单
+    function initMenu(nodes,length,pid){
+        //递归终止
+        if(length == -1){
+            return false;
+        }
+        if(nodes[length]["pId"] == pid){
+            if(nodes[length]["hasChild"]){
+                //判断是否有子节点,有则进入递归,退出循环
+                menuHtml = menuHtml + "<li><a class='nav-top-item' href='#'>" + nodes[length]["name"] + "</a>";
+                menuHtml = menuHtml + "<ul>";
+                initMenu(nodes,nodes.length-1,nodes[length]["id"]);
+                menuHtml = menuHtml + "</ul>";
+            }else{
+                menuHtml = menuHtml + "<li><a href='${ctx}/"+ nodes[length]["url"] +"' id="+ nodes[length]["url"] +">" + nodes[length]["name"] + "</a>";
+            }
+            menuHtml = menuHtml + "</li>";
+        }
+        initMenu(nodes,length-1,pid);
+    }
 </script>
 <sitemesh:head/>
 </head>
@@ -63,5 +114,8 @@
         <%@ include file="/WEB-INF/layouts/footer.jsp"%>
     </div>
 </div>
+<div id="messages" style="display: none">
+            <h3>3 Messages</h3>
+        </div> <!-- End #messages -->
 </body>
 </html>

@@ -53,6 +53,6 @@ public class UserServiceTest {
 
     @Test
     public void testGetMenu() throws Exception {
-        this.userService.getMenuTree(this.userService.findUserByUsername("admin"));
+        this.userService.getMenu(this.userService.findUserByUsername("admin"));
     }
 }

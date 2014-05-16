@@ -1,6 +1,7 @@
 package com.oakhole.auth.service;
 
 import com.google.common.base.Objects;
+import com.oakhole.auth.entity.Operation;
 import com.oakhole.auth.entity.Role;
 import com.oakhole.auth.entity.User;
 import com.oakhole.core.uitls.Encodes;
@@ -48,11 +49,15 @@ public class ShiroDbRealm extends AuthorizingRealm {
         User user = userService.findUserByUsername(shiroUser.loginName);
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
         for (Role role : user.getRoles()) {
             // 基于Role的权限信息
             info.addRole(role.getName());
+        }
+
+        for (Operation operation : user.getOpers()) {
             // 基于Permission的权限信息
-            info.addStringPermissions(role.getPermissions());
+            info.addStringPermission(operation.getCode());
         }
         return info;
     }

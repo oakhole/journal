@@ -3,6 +3,7 @@ package com.oakhole.auth.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.oakhole.core.uitls.Collections3;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -39,11 +40,16 @@ public class User extends IdEntity {
     private String salt;
     private String status;
 
+    //用户与角色关联，组与角色关联
     private List<Role> roleList = Lists.newArrayList();
     private List<Group> groupList = Lists.newArrayList();
 
-    //shiro needs
-    private Set<Role> roles = new HashSet<Role>();
+    //Base info
+    private Set<Role> roles = Sets.newHashSet();    // 组与用户所有角色之和
+
+    private Set<Menu> menus = Sets.newHashSet();
+    private Set<File> files = Sets.newHashSet();
+    private Set<Operation> opers = Sets.newHashSet();
 
     public String getName() {
         return name;
@@ -127,7 +133,7 @@ public class User extends IdEntity {
     @JsonIgnore
     public Set<Role> getRoles() {
         this.roles.addAll(this.roleList);
-        for(Group group : this.groupList) {
+        for (Group group : this.groupList) {
             this.roles.addAll(group.getRoleList());
         }
         return roles;
@@ -138,6 +144,41 @@ public class User extends IdEntity {
     @JsonIgnore
     public String getRoleNames() {
         return Collections3.extractToString(getRoles(), "name", ",");
+    }
+
+    /**
+     * 获取用户基础信息
+     *
+     * @return
+     */
+    @Transient
+    @XmlTransient
+    @JsonIgnore
+    public Set<Menu> getMenus() {
+        for (Role role : getRoles()) {
+            this.menus.addAll(role.getMenuPermissions());
+        }
+        return this.menus;
+    }
+
+    @Transient
+    @XmlTransient
+    @JsonIgnore
+    public Set<File> getFiles() {
+        for (Role role : getRoles()) {
+            this.files.addAll(role.getFilePermissions());
+        }
+        return this.files;
+    }
+
+    @Transient
+    @XmlTransient
+    @JsonIgnore
+    public Set<Operation> getOpers() {
+        for (Role role : getRoles()) {
+            this.opers.addAll(role.getOperPermissions());
+        }
+        return this.opers;
     }
 
     public String getStatus() {

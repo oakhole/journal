@@ -17,12 +17,14 @@
 package com.oakhole.auth.entity;
 
 import com.google.common.collect.Lists;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -38,9 +40,9 @@ public class Perm extends IdEntity{
     private String type;
 
     //具体权限
-    private List<Menu> menuList = Lists.newArrayList();
-    private List<File> fileList = Lists.newArrayList();
-    private List<Operation> operationList = Lists.newArrayList();
+    private Menu menu;
+    private File file;
+    private Operation operation;
 
     public String getType() {
         return type;
@@ -50,42 +52,33 @@ public class Perm extends IdEntity{
         this.type = type;
     }
 
-    @ManyToMany
-    @JoinTable(name = "auth_perm_menu", joinColumns = {@JoinColumn(name = "perm_id")}, inverseJoinColumns = {@JoinColumn(name = "menu_id")})
-    @Fetch(FetchMode.SUBSELECT)
-    @OrderBy("id asc")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    public List<Menu> getMenuList() {
-        return menuList;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "auth_perm_menu",joinColumns = {@JoinColumn(name = "perm_id")},inverseJoinColumns = {@JoinColumn(name = "menu_id")})
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
-    @ManyToMany
-    @JoinTable(name = "auth_perm_file", joinColumns = {@JoinColumn(name = "perm_id")}, inverseJoinColumns = {@JoinColumn(name = "file_id")})
-    @Fetch(FetchMode.SUBSELECT)
-    @OrderBy("id asc")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    public List<File> getFileList() {
-        return fileList;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "auth_perm_file",joinColumns = {@JoinColumn(name = "perm_id")},inverseJoinColumns = {@JoinColumn(name = "file_id")})
+    public File getFile() {
+        return file;
     }
 
-    public void setFileList(List<File> fileList) {
-        this.fileList = fileList;
+    public void setFile(File file) {
+        this.file = file;
     }
 
-    @ManyToMany
-    @JoinTable(name = "auth_perm_oper", joinColumns = {@JoinColumn(name = "perm_id")}, inverseJoinColumns = {@JoinColumn(name = "oper_id")})
-    @Fetch(FetchMode.SUBSELECT)
-    @OrderBy("id asc")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    public List<Operation> getOperationList() {
-        return operationList;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "auth_perm_oper",joinColumns = {@JoinColumn(name = "perm_id")},inverseJoinColumns = {@JoinColumn(name = "oper_id")})
+    public Operation getOperation() {
+        return operation;
     }
 
-    public void setOperationList(List<Operation> operationList) {
-        this.operationList = operationList;
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 }

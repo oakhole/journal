@@ -8,32 +8,69 @@
 	<script>
 	    $(function(){
 	        $("#btn_delete").click(function(){
-	        //遍历checkbox读取user.id
-	       var ids = "";
-	       $("input[type='checkbox'][name='user_id']:checked").each(function(){
-	            ids = ids + $(this).val() + ",";
-	       });
-	       if(ids != ""){
-	            location.href="${ctx}/user/delete?ids="+ids;
-	       }
-	           return false;
+                //遍历checkbox读取user.id
+               var ids = "";
+               $("input[type='checkbox'][name='user_id']:checked").each(function(){
+                    ids = ids + $(this).val() + ",";
+               });
+               if(ids != ""){
+                    location.href="${ctx}/user/delete?ids="+ids;
+               }
+                   return false;
 	        });
+
+	        //初始化菜单树
+            function initTree(){
+                 var setting = {
+                            check: {
+                                enable: true
+                            },
+                            data: {
+                                simpleData: {
+                                    enable: true
+                                }
+                            },
+                            callback:{
+                                onCheck:onCheck
+                            }
+                        };
+                        var zNodes;
+                        $.get("${ctx}/menu",{"id":"2"},function(data){
+                            zNodes = data;
+                        });
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            }
+            function onCheck(e,treeId,treeNode){
+                if(treeNode.checked){
+                    alert(treeNode.id + " checked");
+                }else{
+                    alert(treeNode.id + " uncheck");
+                }
+            }
+            initTree();
 	    });
 	</script>
 </head>
 <body>
 	<div class="content-box">
                 <div class="content-box-header">
-                    <h3>User List</h3>
+                    <h3>用户管理</h3>
+                    <ul class="content-box-tabs">
+                        <li><a href="#tab1" class="default-tab">列表</a></li> <!-- href must be unique and match the id of target div -->
+                        <li><a href="#tab2">添加</a></li>
+                    </ul>
                     <div class="clear"></div>
                 </div>
-                <div class="content-box-content">
+<div class="content-box-content">
+
     <c:if test="${not empty message}">
 	    <div class="notification ${returnStatus} png_bg">
             <a href="#" class="close"><img src="${ctx}/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
             <div>${message}</div>
         </div>
     </c:if>
+
+    <div class="tab-content default-tab" id="tab1">
 		<div class="content-box-search">
 			<form action="#">
 			 	登录名：<input type="text" class="text-input normal-input" name="search_LIKE_username" value="${param.search_LIKE_username}">
@@ -81,7 +118,7 @@
 					<shiro:hasPermission name="user:edit">
 						<a href="#updateUser" rel="modal" title="Edit"><img src="${ctx}/static/images/icons/pencil.png" alt="Edit" /></a>
                         <a href="${ctx}/user/delete?ids=${user.id}," title="Delete"><img src="${ctx}/static/images/icons/cross.png" alt="Delete" /></a>
-                        <a href="#messages" rel="modal" title="Edit Meta"><img src="${ctx}/static/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+                        <a href="${ctx}/user" rel="modal" title="Edit Meta"><img src="${ctx}/static/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
 					</shiro:hasPermission>
 				</td>
 			</tr>
@@ -89,19 +126,43 @@
 		</tbody>		
 	</table>
 	</div>
+	<div class="tab-content" id="tab2">
+        <form id="inputForm" action="${ctx}/register" method="post" class="form-horizontal">
+        	<p>
+                <label for="loginName">登录名:</label>
+                <input type="text" id="loginName" name="username" class="text-input small-input required" minlength="3"/>
+            </p>
+            <p>
+                <label for="name">用户名:</label>
+                <input type="text" id="name" name="name" class="text-input small-input required"/>
+            </p>
+            <p>
+                <label for="email">邮箱:</label>
+                <input type="text" id="email" name="email" class="text-input small-input email required"/>
+            </p>
+            <p>
+                <label for="plainPassword">密码:</label>
+                <input type="password" id="plainPassword" name="plainPassword" class="text-input small-input required"/>
+            </p>
+            <p>
+                <label for="confirmPassword">确认密码:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="text-input small-input required" equalTo="#plainPassword"/>
+            </p>
+            <p>
+                <input id="submit_btn" class="button" type="submit" value="提交"/>&nbsp;
+                <input id="cancel_btn" class="btn" type="button" value="返回" onclick="history.back()"/>
+            </p>
+        	</form>
+	</div>
 </div>
-<div id="messages" style="display:none">
+</div>
+<div id="permission" style="display:none">
     <h3>Permission</h3>
-    <form action="" method="post">
-        edit permission
-    </form>
+    <ul id="treeDemo" class="ztree"></ul>
 </div>
 
 <div id="updateUser" style="display:none">
     <h3>updateUser</h3>
-        <form action="${ctx}/user/update" method="post">
-            update User
-        </form>
 </div>
 </body>
 </html>

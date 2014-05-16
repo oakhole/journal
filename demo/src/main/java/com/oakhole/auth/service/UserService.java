@@ -1,9 +1,11 @@
 package com.oakhole.auth.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.oakhole.auth.entity.Menu;
 import com.oakhole.auth.entity.Role;
 import com.oakhole.auth.entity.User;
+import com.oakhole.auth.repository.MenuDao;
 import com.oakhole.auth.repository.RoleDao;
 import com.oakhole.auth.repository.UserDao;
 import com.oakhole.core.jms.NotifyMessageProducer;
@@ -17,9 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Administrator
@@ -45,6 +45,8 @@ public class UserService {
     private UserDao userDao;
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    private MenuDao menuDao;
 
     public void saveUser(User user) {
         if (StringUtils.isNotBlank(user.getPlainPassword())) {
@@ -190,34 +192,35 @@ public class UserService {
         return findUserByUsername(shiroUser.loginName);
     }
 
+    public List<Menu> getAllMenu() {
+        return (List<Menu>) this.menuDao.findAll();
+    }
+
     /**
      * 获取菜单
      *
      * @return
      */
-    public List<Menu> getMenuTree(User user) {
-        List<Menu> menuList = Lists.newArrayList();
-        List<Menu> sourceList = Lists.newArrayList();
-        for (Role role : user.getRoleList()) {
-            sourceList.addAll(role.getMenuPermissions());
-        }
-        sortMenu(menuList, sourceList, null);
-        return menuList;
-    }
-
-    public List<Menu> getMenuTree() {
-        return getMenuTree(getCurrentUser());
+    public Set<Menu> getMenu(User user) {
+        return user.getMenus();
     }
 
     /**
-     * 遍历菜单树
+     * 默认获取当前用户的菜单
+     * @return
+     */
+    public Set<Menu> getMenu() {
+        return getMenu(getCurrentUser());
+    }
+
+    /**
+     * 递归添加孩子节点
      *
      * @param menuList
      * @param sourceMenus
      * @param parent
      */
     private void sortMenu(List<Menu> menuList, List<Menu> sourceMenus, Menu parent) {
-
         for (Menu menu : sourceMenus) {
             if (menu.getParent() == parent) {
                 menuList.add(menu);

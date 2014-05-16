@@ -17,13 +17,16 @@
 package com.oakhole.auth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Lists;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
@@ -36,6 +39,7 @@ import java.util.List;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "auth_menu")
+@JsonIgnoreProperties(value = {"parent"})
 public class Menu extends IdEntity {
 
     private String name;
@@ -62,6 +66,7 @@ public class Menu extends IdEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
+    @JsonIgnore
     public Menu getParent() {
         return parent;
     }
@@ -74,8 +79,6 @@ public class Menu extends IdEntity {
     @Fetch(FetchMode.SUBSELECT)
     @OrderBy("id asc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnore
-    @XmlTransient
     public List<Menu> getChildList() {
         return childList;
     }
