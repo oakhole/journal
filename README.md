@@ -1,6 +1,6 @@
 Journal
-
-=======
+==
+[![Build Status](https://travis-ci.org/oakhole/journal.svg?branch=master)](https://travis-ci.org/oakhole/journal)
 
 **Why named journal ?**
 
