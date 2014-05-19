@@ -16,15 +16,12 @@
 
 package com.oakhole.auth.web;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.oakhole.auth.dto.MenuDTO;
 import com.oakhole.auth.entity.Menu;
 import com.oakhole.auth.entity.User;
 import com.oakhole.auth.service.UserService;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.authz.annotation.RequiresUser;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +29,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -48,19 +44,32 @@ public class MenuController {
     private UserService userService;
 
     /**
-     * 读取当前用户的菜单，用于首页菜单刷新
+     * 分配权限
+     * @param id
+     * @param model
      * @return
      */
-    @RequestMapping(value = "/current",method = RequestMethod.GET)
+    @RequestMapping(value = "assign/{id}", method = RequestMethod.GET)
+    public String assign(@PathVariable String id, Model model) {
+        model.addAttribute("id", id);
+        return "auth/assign";
+    }
+
+    /**
+     * 读取当前用户的菜单，用于首页菜单刷新
+     *
+     * @return
+     */
+    @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
     public Set<MenuDTO> getMenus() {
         DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
         Set<MenuDTO> menus = Sets.newTreeSet();
         MenuDTO dto = null;
         for (Menu menu : this.userService.getMenu()) {
-            dto = dozerBeanMapper.map(menu,MenuDTO.class);
+            dto = dozerBeanMapper.map(menu, MenuDTO.class);
             dto.setpId(menu.getParent() == null ? 0 : menu.getParent().getId());
-            dto.setHasChild(menu.getChildList().size()>0);
+            dto.setHasChild(menu.getChildList().size() > 0);
             dto.setChecked(false);
             dto.setOpen(false);
             menus.add(dto);
@@ -70,13 +79,14 @@ public class MenuController {
 
     /**
      * 按用户查找，用于权限分配
+     *
      * @param user
      * @return
      */
     @RequiresRoles("Admin")
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Set<MenuDTO> getMenus(@Valid @ModelAttribute("user")User user) {
+    public Set<MenuDTO> getMenus(@Valid @ModelAttribute("user") User user) {
         Set<Menu> sourceMenus = this.userService.getMenu(user);
         List<Menu> allMenus = this.userService.getAllMenu();
         Set<MenuDTO> menus = Sets.newTreeSet();
@@ -95,7 +105,7 @@ public class MenuController {
     }
 
     @ModelAttribute
-    public void getUser(@RequestParam(value = "id",defaultValue = "-1")long id,Model model) {
+    public void getUser(@RequestParam(value = "id", defaultValue = "-1") long id, Model model) {
         if (id != -1) {
             model.addAttribute("user", this.userService.getUser(id));
         }

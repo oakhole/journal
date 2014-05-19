@@ -49,10 +49,6 @@
                         </select>
                     </p>
                     <p>
-                        <label>Textarea with WYSIWYG</label>
-                        <textarea class="text-input textarea wysiwyg" id="textarea" name="textfield" cols="79" rows="15"></textarea>
-                    </p>
-                    <p>
                         <input class="button" type="submit" value="Submit" />
                     </p>
                 </fieldset>

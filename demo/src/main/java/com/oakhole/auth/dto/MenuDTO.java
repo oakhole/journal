@@ -16,10 +16,7 @@
 
 package com.oakhole.auth.dto;
 
-import com.oakhole.auth.entity.Menu;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.util.Comparator;
 
 /**
  * 用于ztree插件

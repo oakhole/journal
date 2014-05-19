@@ -21,7 +21,6 @@
     <script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
     <script type="text/javascript" src="${ctx}/static/scripts/simpla.jquery.configuration.js"></script>
     <script type="text/javascript" src="${ctx}/static/scripts/facebox.js"></script>
-    <script type="text/javascript" src="${ctx}/static/scripts/jquery.wysiwyg.js"></script>
     <!--[if IE 6]>
         <script type="text/javascript" src="${ctx}/static/scripts/DD_belatedPNG_0.0.7a.js"></script>
         <script type="text/javascript">

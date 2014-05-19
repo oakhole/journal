@@ -7,6 +7,7 @@
 	<title>用户列表</title>
 	<script>
 	    $(function(){
+	    //删除按钮监听
 	        $("#btn_delete").click(function(){
                 //遍历checkbox读取user.id
                var ids = "";
@@ -15,39 +16,25 @@
                });
                if(ids != ""){
                     location.href="${ctx}/user/delete?ids="+ids;
+               }else{
+                    alert("请先选中一项再进行删除操作.");
                }
                    return false;
 	        });
 
-	        //初始化菜单树
-            function initTree(){
-                 var setting = {
-                            check: {
-                                enable: true
-                            },
-                            data: {
-                                simpleData: {
-                                    enable: true
-                                }
-                            },
-                            callback:{
-                                onCheck:onCheck
-                            }
-                        };
-                        var zNodes;
-                        $.get("${ctx}/menu",{"id":"2"},function(data){
-                            zNodes = data;
-                        });
-                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-            }
-            function onCheck(e,treeId,treeNode){
-                if(treeNode.checked){
-                    alert(treeNode.id + " checked");
-                }else{
-                    alert(treeNode.id + " uncheck");
+            //为inputForm注册validate函数
+            $("#inputForm").validate({
+                rules: {
+                    username: {
+                        remote: "${ctx}/register/checkUsername"
+                    }
+                },
+                messages: {
+                    username: {
+                        remote: "用户登录名已存在"
+                    }
                 }
-            }
-            initTree();
+            });
 	    });
 	</script>
 </head>
@@ -75,7 +62,7 @@
 			<form action="#">
 			 	登录名：<input type="text" class="text-input normal-input" name="search_LIKE_username" value="${param.search_LIKE_username}">
 			   &nbsp; 邮件名：<input type="text" class="text-input normal-input" name="search_EQ_email" value="${param.search_EQ_email}">
-			   &nbsp; <input type="submit" class="button" value="查询"/> &nbsp;<input id="btn_delete" type="button" class="button" value="删除"/>
+			   &nbsp; <input type="submit" class="button" value="查询"/> &nbsp;<input id="btn_delete" type="button" class="btn" value="删除"/>
 		    </form>
 	    </div>
     <table>
@@ -116,9 +103,9 @@
 				<td>${allStatus[user.status]}</td>
 				<td>
 					<shiro:hasPermission name="user:edit">
-						<a href="#updateUser" rel="modal" title="Edit"><img src="${ctx}/static/images/icons/pencil.png" alt="Edit" /></a>
+						<a href="${ctx}/user/update/${user.id}" title="Edit"><img src="${ctx}/static/images/icons/pencil.png" alt="Edit" /></a>
                         <a href="${ctx}/user/delete?ids=${user.id}," title="Delete"><img src="${ctx}/static/images/icons/cross.png" alt="Delete" /></a>
-                        <a href="${ctx}/user" rel="modal" title="Edit Meta"><img src="${ctx}/static/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+                        <a href="${ctx}/menu/assign/${user.id}" title="Edit Meta"><img src="${ctx}/static/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
 					</shiro:hasPermission>
 				</td>
 			</tr>
@@ -155,14 +142,6 @@
         	</form>
 	</div>
 </div>
-</div>
-<div id="permission" style="display:none">
-    <h3>Permission</h3>
-    <ul id="treeDemo" class="ztree"></ul>
-</div>
-
-<div id="updateUser" style="display:none">
-    <h3>updateUser</h3>
 </div>
 </body>
 </html>

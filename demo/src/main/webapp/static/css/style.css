@@ -68,7 +68,7 @@ p {
                 }
 
 /************ Button ************/
-.button {
+input.button {
 				font-family: Verdana, Arial, sans-serif;
                 display: inline-block;
                 background: #459300 url('../images/bg-button-green.gif') top left repeat-x !important;
@@ -79,11 +79,11 @@ p {
                 cursor: pointer;
                 }
                 
-.button:hover {
+input.button:hover {
                 text-decoration: underline;
                 }
                 
-.button:active {
+input.button:active {
                 padding: 5px 7px 3px 7px !important;
                 }
 				
@@ -253,31 +253,6 @@ a.remove-link:hover {
 				bottom: 0;
 				font-size: 12px;
                 }
-/************ Lists ************/
-
-#main-content ul,
-#main-content ol {
-                padding: 10px 0;
-                }
-
-/* Unordered List */
-
-#main-content ul li {
-                background: url('../images/icons/bullet_black.png') center left no-repeat;
-                padding: 4px 0 4px 20px;
-                }
-
-/* Ordered List */
-
-#main-content ol {
-                padding: 0 0 0 24px;
-                }
-
-#main-content ol li {
-                list-style: decimal;
-                padding: 4px 0;
-                }
-
 /*************** Content Box ***************/
 
 .content-box {
