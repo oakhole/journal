@@ -19,23 +19,14 @@ Of course , still leave alone original author's name .
 
 **What's including for this repo ?**
 
-- [ ] Web & UI
+- [x] Web & UI
 
-- [ ] Database & Persistendence
+- [x] Database & Persistendence
 
-- [ ] Cache
+- [x] Cache
 
-- [ ] Extension
+- [x] Extension
 
-- [ ] Log
+- [x] Log
 
-- [ ] Test
-
-- [ ] Figure out wormholes
-  - [ ] Call @arfon
-  - [ ] Research ([docs](http://en.wikipedia.org/wiki/Wormhole#Time_travel))
-  - [ ] Build prototype #15
-  - [ ] Test run #43 @world-domination/time-travel
-- [ ] ...?
-- [ ] Profit!
-
+- [x] Test
