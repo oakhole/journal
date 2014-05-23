@@ -14,11 +14,11 @@
 
 目前采用`maven`进行构建，日后更改为`gradle`，敬请期待
 
-1. `Modules`目录包含示例所需功能模块和jar包依赖等
+1. [modules][]目录包含示例所需功能模块和jar包依赖等
 
-2. `demo`为该项目实例演示且唯一，实现shiro权限管理和基础文档管理，界面部分为网络模版,逐步以JQuery+Bootstrap替代
+2. [demo][]为该项目实例演示且唯一，实现shiro权限管理和基础文档管理，界面部分为网络模版,逐步以[JQuery][]+[Bootstrap][]替代
 
-3. 均在`idea`下开发，若出现`eclipse`等不兼容，请及时告知，或直接`pull request`作出调整
+3. 均在`idea`下开发，若出现`eclipse`等不兼容，请及时告知，或直接[pull request][]作出调整
 
 >Announce:部分代码为引用他人，因遗漏或未知作者信息或涉及侵权行为请及时告知予以处理
 
@@ -51,9 +51,13 @@ The journal is released under version 2.0 of the [Apache License][].
 
 
 [Journal]:http://oakhole.com/journal
+[demo]:https://github.com/oakhole/journal/tree/master/demo
+[modules]:https://github.com/oakhole/journal/tree/master/modules
 [issue]:https://github.com/oakhole/journal/issues
 [pull request]:https://github.com/oakhole/journal/pulls
 [release]:https://github.com/oakhole/journal/releases
 [fixflow]:https://github.com/fixteam/fixflow
+[JQuery]:https://github.com/jquery/jquery
+[Bootstrap]:https://github.com/twbs/bootstrap
 [Spring Framework Code Style]:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Code-Style
 [Apache License]:http://www.apache.org/licenses/LICENSE-2.0
