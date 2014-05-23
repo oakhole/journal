@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.oakhole</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>parent</name>
     <packaging>pom</packaging>
@@ -15,6 +15,11 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- modules version -->
+        <core.version>1.0</core.version>
+        <extension.version>1.0</extension.version>
+        <support.version>1.0</support.version>
 
         <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
@@ -100,6 +105,20 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- Modules Start -->
+            <dependency>
+                <groupId>com.oakhole</groupId>
+                <artifactId>core</artifactId>
+                <version>${core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oakhole</groupId>
+                <artifactId>extension</artifactId>
+                <version>${extension.version}</version>
+            </dependency>
+            <!-- Modules End -->
+
             <!-- Utilies Start -->
             <dependency>
                 <groupId>org.apache.commons</groupId>

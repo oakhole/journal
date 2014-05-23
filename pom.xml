@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.oakhole</groupId>
     <artifactId>journal</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>journal</name>
     <packaging>pom</packaging>
     <description>union permission manage system</description>
