@@ -34,7 +34,7 @@
 
 - [ ] 集成[fixflow][]，`CMS`
 
->Announce:如有好的建议请提交`issue`
+>Announce:如有好的建议请提交[issue][]
 
 ##Join
 
