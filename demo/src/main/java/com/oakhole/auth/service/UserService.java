@@ -1,7 +1,5 @@
 package com.oakhole.auth.service;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.oakhole.auth.entity.Menu;
 import com.oakhole.auth.entity.Role;
 import com.oakhole.auth.entity.User;
@@ -19,11 +17,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * @author Administrator
- * @since 14-3-7
+ * @author oakhole
+ * @since 1.0
  */
 @SuppressWarnings("ALL")
 @Service
@@ -75,7 +76,6 @@ public class UserService {
         user.getRoleList().add(role);
         user.setStatus("enabled");
         this.userDao.save(user);
-
         //jms 发送消息到邮件
         sendJmsMessage(user);
     }
@@ -87,7 +87,11 @@ public class UserService {
      */
     private void sendJmsMessage(User user) {
         try {
-            notifyMessageProducer.sendQueue(user);
+            Map<Object, Object> dataMap = new HashMap<Object, Object>();
+            dataMap.put("username", user.getUsername());
+            dataMap.put("name",user.getName());
+            dataMap.put("email", user.getEmail());
+            notifyMessageProducer.sendQueue(dataMap);
         } catch (Exception e) {
             logger.error("发送jms消息错误", e);
         }

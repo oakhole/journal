@@ -5,19 +5,14 @@ import com.oakhole.auth.repository.UserDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * @author Administrator
- * @since 14-3-18
+ * @author oakhole
+ * @since 1.0
  */
 public class UserServiceTest {
 

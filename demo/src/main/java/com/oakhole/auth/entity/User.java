@@ -1,7 +1,6 @@
 package com.oakhole.auth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.oakhole.core.uitls.Collections3;
@@ -13,18 +12,15 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
  * 系统用户，用户鉴权操作和权限分配
  *
- * @author Administrator
- * @since 14-3-6
+ * @author oakhole
+ * @since 1.0
  */
 @SuppressWarnings("ALL")
 @Entity

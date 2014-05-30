@@ -29,6 +29,7 @@
     <modules>
         <module>modules</module>
         <module>demo</module>
+        <module>voa</module>
     </modules>
 
     <issueManagement>
