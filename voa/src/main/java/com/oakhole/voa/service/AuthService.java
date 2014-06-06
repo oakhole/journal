@@ -17,17 +17,23 @@
 package com.oakhole.voa.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.oakhole.core.uitls.Digests;
 import com.oakhole.core.uitls.Encodes;
+import com.oakhole.core.uitls.JsonMapper;
 import com.oakhole.core.uitls.StringUtils;
 import com.oakhole.voa.entity.AccessToken;
 import com.oakhole.voa.entity.Authentication;
+import com.oakhole.voa.utils.HttpClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 所有来自微信的请求需要Authentication验证，所有https post请求需要AccessToken
@@ -40,6 +46,14 @@ import java.util.List;
 public class AuthService {
 
     private static Logger logger = LoggerFactory.getLogger(AuthService.class);
+
+    private static final String access_token_url = "https://api.weixin.qq.com/cgi-bin/token";
+
+    @Value("${wechat.token}")
+    private String token;
+
+    @Autowired
+    private AccessToken accessToken;
 
     /**
      * 所有的GET请求先做验证
@@ -74,11 +88,9 @@ public class AuthService {
      * @return
      */
     private String generateSignature(Authentication authentication) {
-        //todo:从memcached中读取注册开发者认证时的token
-        String token = "oakhole";   //默认值，用于test验证
         if (!StringUtils.isEmpty(authentication.getTimestamp()) && !StringUtils.isEmpty(authentication.getNonce())) {
             List<String> source = Lists.newArrayList();
-            source.add(token);
+            source.add(this.token);
             source.add(authentication.getTimestamp());
             source.add(authentication.getNonce());
             //1.字典顺序排序
@@ -99,11 +111,27 @@ public class AuthService {
      *
      * @return
      */
-    public String generateAccessToken() {
-        //todo:通过读取数据库或memcache实例化AccessToken
-        AccessToken accessToken = new AccessToken();
-        //todo:通过httpclient发送get请求获取响应,验证后存入新的token
-        return "";
-    }
+    public void generateAccessToken() {
+        //如未超时，直接退出
+        if (!accessToken.isTimeout()) {
+            return;
+        }
+        String grant_type = accessToken.getGrant_type();
+        String appId = accessToken.getAppid();
+        String secret = accessToken.getSecret();
+        //发送Get请求获取
+        Map<String, String> params = Maps.newHashMap();
+        params.put("grant_type", grant_type);
+        params.put("appId", appId);
+        params.put("secret", secret);
+        String jsonMenu = HttpClientUtils.getString(access_token_url, params);
 
+        //解析json数据
+        JsonMapper jsonMapper = new JsonMapper();
+        AccessToken token = jsonMapper.fromJson(jsonMenu, AccessToken.class);
+        accessToken.setAccess_token(token.getAccess_token());
+        accessToken.setExpires_in(token.getExpires_in());
+        accessToken.setCreateTime(String.valueOf(System.currentTimeMillis()));
+        logger.info("生成新的Access_token:{}", token.getAccess_token());
+    }
 }

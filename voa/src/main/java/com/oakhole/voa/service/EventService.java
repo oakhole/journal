@@ -34,7 +34,7 @@ public class EventService {
     private static final String event = "EVENT";
 
     @Autowired
-    private static BusinessLogger logger;
+    private BusinessLogger logger;
 
     /**
      * 根据接口提供的各类事件作出处理
@@ -44,7 +44,7 @@ public class EventService {
      */
     public String processEvent(Map<String, String> map) {
 
-        String fromUserName = map.get("fromUserName");  //用户对应公众号的openId
+        String fromUserName = map.get("FromUserName");  //用户对应公众号的openId
 
         String event = map.get(EventType.EVENT_TYPE);
         //判断event类型非空

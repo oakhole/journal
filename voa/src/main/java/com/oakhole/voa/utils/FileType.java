@@ -16,11 +16,15 @@
 
 package com.oakhole.voa.utils;
 
-import junit.framework.TestCase;
+/**
+ * @author oakhole
+ * @since 1.0
+ */
+public class FileType {
 
-public class MessageUtilsTest extends TestCase {
-
-    public void testTextMessageToXml() throws Exception {
-    }
+    public static final String IMAGE = "image";
+    public static final String VOICE = "voice";
+    public static final String VIDEO = "video";
+    public static final String THUMB = "thumb";
 
 }

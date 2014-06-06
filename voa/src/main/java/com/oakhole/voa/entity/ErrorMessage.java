@@ -14,13 +14,29 @@
  * limitations under the License.
  */
 
-package com.oakhole.voa.utils;
+package com.oakhole.voa.entity;
 
-import junit.framework.TestCase;
+/**
+ * @author oakhole
+ * @since 1.0
+ */
+public abstract class ErrorMessage {
+    private String errcode = "0";
+    private String errmsg = "";
 
-public class MessageUtilsTest extends TestCase {
-
-    public void testTextMessageToXml() throws Exception {
+    public String getErrcode() {
+        return errcode;
     }
 
+    public void setErrcode(String errcode) {
+        this.errcode = errcode;
+    }
+
+    public String getErrmsg() {
+        return errmsg;
+    }
+
+    public void setErrmsg(String errmsg) {
+        this.errmsg = errmsg;
+    }
 }

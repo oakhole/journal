@@ -88,5 +88,4 @@
 
     <!-- 定义aspectj -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
-
 </beans>

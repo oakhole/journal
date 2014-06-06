@@ -16,14 +16,17 @@
 
 package com.oakhole.voa.entity;
 
+import com.oakhole.core.uitls.StringUtils;
+
 /**
  * 该功能只有认证后的服务账号才能获取,用于高级接口功能发送https post请求
  * <p>appid和secret做开发者认证后提供</p>
  * <p>token考虑到时效采用memcached存储</p>
+ *
  * @author oakhole
  * @since 1.0
  */
-public class AccessToken {
+public class AccessToken extends ErrorMessage {
     private String grant_type = "client_credential";  //默认为client_credential
     private String appid;   //认证后的服务号开通开发者自动获取
     private String secret;
@@ -77,5 +80,25 @@ public class AccessToken {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    /**
+     * 判断token时效
+     *
+     * @return true 则超时，反之有效
+     */
+    public boolean isTimeout() {
+
+        if (StringUtils.isEmpty(access_token)) {
+            return true;
+        }
+
+        if (!StringUtils.isEmpty(createTime) && !StringUtils.isEmpty(expires_in)) {
+            long now = System.currentTimeMillis();
+            if (now - Long.valueOf(createTime) > Long.valueOf(expires_in)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

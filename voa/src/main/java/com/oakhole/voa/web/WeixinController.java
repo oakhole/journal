@@ -80,16 +80,18 @@ public class WeixinController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String process(ServletRequest request) {
+        Map<String, String> map = null;
         try {
-            Map<String, String> map = XMLMapper.parseXml(request.getInputStream());
-            if (!map.isEmpty()) {
-                if (MessageType.EVENT_MESSAGE.equals(map.get(MessageType.MESSAGE_TYPE))) {
-                    return this.eventService.processEvent(map);
-                }
-                return this.messageService.processCommander(map);
-            }
+            map = XMLMapper.parseXml(request.getInputStream());
         } catch (Exception e) {
-            logger.error("消息映射错误: {}", e.getMessage());
+            e.printStackTrace();
+        }
+        logger.info("map:{}", map.toString());
+        if (!map.isEmpty()) {
+            if (MessageType.EVENT_MESSAGE.equals(map.get(MessageType.MESSAGE_TYPE))) {
+                return this.eventService.processEvent(map);
+            }
+            return this.messageService.processCommander(map);
         }
         return "";
     }
