@@ -18,6 +18,9 @@
         <module>core</module>
         <module>extension</module>
         <module>parent</module>
+        <module>test</module>
+        <module>utils</module>
+        <module>log</module>
     </modules>
 
 </project>
