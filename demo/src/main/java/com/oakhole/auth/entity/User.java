@@ -34,7 +34,6 @@ public class User extends IdEntity {
     private String plainPassword;
     private String email;
     private String salt;
-    private String status;
 
     //用户与角色关联，组与角色关联
     private List<Role> roleList = Lists.newArrayList();
@@ -175,13 +174,5 @@ public class User extends IdEntity {
             this.opers.addAll(role.getOperPermissions());
         }
         return this.opers;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

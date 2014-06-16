@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-lazy-init="true">
+
+    <description>Email配置</description>
+
+    <!-- 文本邮件服务类 -->
+    <bean id="simpleMailService" class="com.oakhole.core.email.SimpleMailService">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="textTemplate">
+            <value><![CDATA[
+			用戶%s在%tF被修改.
+					System Administrator.
+			]]></value>
+        </property>
+    </bean>
+
+    <!-- MIME邮件服务类 -->
+    <bean id="mimeMailService" class="com.oakhole.core.email.MimeMailService">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="templateEngine" ref="mailTemplateEngine"/>
+        <property name="from" value="${mail.username}"/>
+    </bean>
+
+    <!-- 构造thymeleaf邮件模版引擎-->
+    <bean id="mailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+        <property name="prefix" value="email/"/>
+        <property name="templateMode" value="HTML5"/>
+        <property name="order" value="1"/>
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="cacheable" value="true"/>
+    </bean>
+
+    <bean id="mailTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolvers">
+            <set>
+                <ref bean="mailTemplateResolver"/>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 构造视图 -->
+    <bean id="mailViewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="mailTemplateEngine"></property>
+        <property name="characterEncoding" value="UTF-8"></property>
+    </bean>
+
+    <!-- 邮件发送器 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"/>
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <!-- 使用gmail smtp server的必须参数 -->
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

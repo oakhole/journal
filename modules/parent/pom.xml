@@ -82,6 +82,8 @@
         <spymemcached.version>2.10.5</spymemcached.version>
         <jms.version>1.1.1</jms.version>
         <activemq.version>5.7.0</activemq.version>
+        <mybatis.version>3.2.7</mybatis.version>
+        <jxl.veresion>2.6</jxl.veresion>
 
         <!-- maven plugin -->
         <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
@@ -365,6 +367,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
             <!-- Database -->
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -383,6 +390,24 @@
                 <version>${tomcat-jdbc.version}</version>
             </dependency>
             <!-- Persistence End -->
+
+            <!-- Struts Start -->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-core</artifactId>
+                <version>${struts2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-spring-plugin</artifactId>
+                <version>${struts2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-convention-plugin</artifactId>
+                <version>${struts2.version}</version>
+            </dependency>
+            <!-- Struts End -->
 
             <!-- Spring Start -->
             <dependency>
@@ -654,6 +679,22 @@
                 </exclusions>
             </dependency>
             <!-- Http client End -->
+
+            <!-- Office tools Start -->
+            <dependency>
+                <groupId>jexcelapi</groupId>
+                <artifactId>jxl</artifactId>
+                <version>${jxl.veresion}</version>
+            </dependency>
+            <!-- Office tools End -->
+
+            <!-- Quartz Start -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+            <!-- Quartz End -->
         </dependencies>
     </dependencyManagement>
 

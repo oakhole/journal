@@ -104,11 +104,7 @@ public class UserService {
      */
     public void deleteUser(Long id) {
         User user = this.userDao.findOne(id);
-        if ("enabled".equals(user.getStatus())) {
-            user.setStatus("disabled");
-        } else {
-            user.setStatus("enabled");
-        }
+        user.setDeleted(true);
         this.userDao.save(user);
     }
 

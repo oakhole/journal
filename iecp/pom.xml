@@ -31,6 +31,8 @@
     <modules>
         <module>ums</module>
         <module>simulator</module>
+        <module>sms</module>
+        <module>sms_demo</module>
     </modules>
 
     <dependencies>
