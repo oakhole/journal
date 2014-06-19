@@ -29,7 +29,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = userService.findUserByUsername(token.getUsername());
         if (user != null) {
-            if ("disabled".equals(user.getStatus())) {
+            if (user.isDeleted()) {
                 throw new DisabledAccountException();
             }
             byte[] salt = Encodes.decodeHex(user.getSalt());

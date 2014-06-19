@@ -57,6 +57,7 @@ public class SmsTask extends IdEntity {
     private ChannelGroup channelGroup;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "phone_attachment")
     public File getPhone_attachment() {
         return phone_attachment;
     }
@@ -100,7 +101,7 @@ public class SmsTask extends IdEntity {
         this.sendStatus = sendStatus;
     }
 
-    @OneToMany(targetEntity = Sms.class, cascade = CascadeType.ALL, mappedBy = "task")
+    @OneToMany(targetEntity = Sms.class, cascade = CascadeType.ALL, mappedBy = "smsTask")
     @Fetch(FetchMode.SUBSELECT)
     @OrderBy("id asc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -115,7 +116,7 @@ public class SmsTask extends IdEntity {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner")
     public User getOwner() {
         return owner;
     }

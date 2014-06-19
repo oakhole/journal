@@ -1,96 +1,114 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
-<%@ page import="org.apache.shiro.authc.ExcessiveAttemptsException"%>
-<%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Login</title>
-    <link type="image/x-icon" href="${ctx}/static/images/favicon.ico" rel="shortcut icon">
-    <link rel="stylesheet" href="${ctx}/static/css/reset.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="${ctx}/static/css/style.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="${ctx}/static/css/invalid.css" type="text/css" media="screen"/>
-    <link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>短信综合信息管理系统</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-image: url();
+	background-color: #39609B;
+}
 
-    <script src="${ctx}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="${ctx}/static/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
-    <script type="text/javascript" src="${ctx}/static/scripts/simpla.jquery.configuration.js"></script>
-    <script type="text/javascript" src="${ctx}/static/scripts/facebox.js"></script>
-    <!--[if IE 6]>
-        <script type="text/javascript" src="${ctx}/static/scripts/DD_belatedPNG_0.0.7a.js"></script>
-        <script type="text/javascript">
-            DD_belatedPNG.fix('.png_bg, img, li');
-        </script>
-    <![endif]-->
+.STYLE1 {
+	font-family: "宋体";
+	font-size: 12px;
+	color: #666666;
+}
+-->
+</style>
+<link href="static/images/style.css" rel="stylesheet" type="text/css" />
+<link href="static/css/style.css" rel="stylesheet" type="text/css" />
+<script src="static/js/jquery-1.js" type="text/javascript"></script>
+<script>
+	function changeCode() {
+		now = new Date();
+		$("#yzmimg").attr("src",
+				"system-manage/login-manage!validateCode?" + now);
+	}
+</script>
 </head>
 
-<body id="login">
-
-<div id="login-wrapper" class="png_bg">
-    <div id="login-top">
-
-        <h1>Union Admin</h1>
-        <!-- Logo (221px width) -->
-        <img id="logo" src="${ctx}/static/images/logo.png" alt="Simpla Admin logo"/>
-    </div>
-    <!-- End #logn-top -->
-
-    <div id="login-content">
-
-        <form id="loginForm" action="${ctx}/login" method="post">
-
-            <%
-            String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-            if(error != null){
-            %>
-            <div class="notification error png_bg">
-                <div>
-                    Incorrect username or password .
-                </div>
-            </div>
-            <%
-            }
-            %>
-            <p>
-                <label>Username</label>
-                <input name="username" class="text-input input-medium required" type="text" value="${username}"/>
-            </p>
-
-            <div class="clear"></div>
-            <p>
-                <label>Password</label>
-                <input name="password" class="text-input input-medium required" type="password"/>
-            </p>
-
-            <div class="clear"></div>
-            <p id="remember-password">
-                <input name="rememberMe" type="checkbox"/>Remember me
-            </p>
-
-            <div class="clear"></div>
-            <p>
-                <input class="button" type="submit" value="Sign In"/>
-            </p>
-
-        </form>
-    </div>
-    <!-- End #login-content -->
-
-</div>
-<!-- End #login-wrapper -->
-
-<!-- script -->
-<script>
-		$(document).ready(function() {
-			$("#loginForm").validate();
-		});
-</script>
-
+<body leftmargin="0" topmargin="0">
+	<form width="100%" height="100%" border="0" align="center"
+		cellpadding="0" cellspacing="0"
+		action="system-manage/login-manage!login" method="post" id="form"
+		name="form">
+		<tr>
+			<td align="center" valign="middle"><table width="100%"
+					height="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td height="345" background="images/1_01.jpg"><table
+								width="1015" height="260" border="0" align="center"
+								cellpadding="0" cellspacing="0" bgcolor="#CBDDF3">
+								<tr>
+									<td height="229" colspan="3" align="center" valign="middle"
+										background="images/1_02.jpg">&nbsp;</td>
+								</tr>
+								<tr>
+									<td width="592" align="center" valign="middle"
+										background="images/1_031.jpg" bgcolor="#CADCF2">&nbsp;</td>
+									<td width="279" align="center" valign="middle"
+										background="images/2.jpg" bgcolor="#CBDDF3"><table
+											width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td width="5%" height="95" rowspan="3">&nbsp;</td>
+												<td width="21%"><span class="STYLE1">用户名：</span>
+												</td>
+												<td height="32" colspan="2"><label> <input
+														name="account" type="text" class="form" /> </label>
+												</td>
+											</tr>
+											<tr>
+												<td width="21%" class="STYLE1">密&nbsp;&nbsp;码：</td>
+												<td height="32" colspan="2"><label><input
+														name="password" type="password" class="form" /> </label>
+												</td>
+											</tr>
+											<tr>
+												<td width="21%" class="STYLE1">验证码：</td>
+												<td width="21%" height="36"><input type="text" value=""
+													name="code" maxlength="4" class="" style="width:60px;">
+												</td>
+												<td width="48%" class="STYLE1"><img id="yzmimg"
+													src="system-manage/login-manage!validateCode"
+													align="absmiddle" /><a href="#" title="刷新验证码"
+													onclick="changeCode();">换一组</a></td>
+											</tr>
+										</table> <a href="#" onclick="document.form.submit();"><img
+											src="images/3.jpg" width="70" height="30" border="0" /> </a>
+									</td>
+									<td width="149" align="center" valign="middle"><img
+										src="images/1_05.jpg" width="149" height="140" />
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" align="center" valign="middle"><img
+										src="images/1_06.jpg" width="1020" height="231" />
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</form>
+	<c:if test="${loginErrMsg!=null}">
+		<script language="javascript">alert("${loginErrMsg}");</script>
+</c:if>
 </body>
-
 </html>
+

@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.oakhole.auth.entity.User;
 import com.oakhole.auth.service.UserService;
 import com.oakhole.core.uitls.Servlets;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,11 +28,6 @@ public class UserController {
 
     private static Map<String, String> allStatus = Maps.newHashMap();
 
-    static {
-        allStatus.put("enabled", "有效");
-        allStatus.put("disabled", "无效");
-    }
-
     @Autowired
     private UserService userService;
 
@@ -57,10 +51,8 @@ public class UserController {
     @RequestMapping(value = "")
     public String list(Model model, ServletRequest request) {
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        searchParams.put("EQ_status","enabled");
         List<User> users = this.userService.searchUser(searchParams);
         model.addAttribute("users", users);
-        model.addAttribute("allStatus", allStatus);
         return "auth/user/list";
     }
 

@@ -35,6 +35,15 @@ public class File extends IdEntity{
     private String code;
     private String url;
 
+    public File() {
+    }
+
+    public File(String name, String code, String url) {
+        this.name = name;
+        this.code = code;
+        this.url = url;
+    }
+
     public String getName() {
         return name;
     }

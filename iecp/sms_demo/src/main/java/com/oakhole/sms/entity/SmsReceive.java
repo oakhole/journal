@@ -42,6 +42,7 @@ public class SmsReceive extends IdEntity {
     private String receiveTime;
     private User toUser;
 
+    @Column(name = "from_phone_number")
     public String getFromPhoneNo() {
         return fromPhoneNo;
     }
@@ -50,6 +51,7 @@ public class SmsReceive extends IdEntity {
         this.fromPhoneNo = fromPhoneNo;
     }
 
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -58,6 +60,7 @@ public class SmsReceive extends IdEntity {
         this.content = content;
     }
 
+    @Column(name = "receive_time")
     public String getReceiveTime() {
         return receiveTime;
     }

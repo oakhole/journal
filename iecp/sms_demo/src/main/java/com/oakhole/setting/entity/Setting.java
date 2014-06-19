@@ -24,10 +24,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 绑定用户一些系统设定参数
@@ -51,6 +48,8 @@ public class Setting extends IdEntity {
 
     private User user;              //用户信息，一对一绑定
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "whitelist")
     public File getWhiteList() {
         return whiteList;
     }
@@ -59,6 +58,8 @@ public class Setting extends IdEntity {
         this.whiteList = whiteList;
     }
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "blacklist")
     public File getBlackList() {
         return blackList;
     }
@@ -67,6 +68,7 @@ public class Setting extends IdEntity {
         this.blackList = blackList;
     }
 
+    @Column(name = "audit_condition")
     public int getAuditCondition() {
         return auditCondition;
     }
@@ -75,6 +77,7 @@ public class Setting extends IdEntity {
         this.auditCondition = auditCondition;
     }
 
+    @Column(name = "cut_condition")
     public int getCutCondition() {
         return cutCondition;
     }
@@ -83,6 +86,7 @@ public class Setting extends IdEntity {
         this.cutCondition = cutCondition;
     }
 
+    @Column(name = "cut_percent")
     public int getCutPercent() {
         return cutPercent;
     }
@@ -92,6 +96,7 @@ public class Setting extends IdEntity {
     }
 
     @OneToOne(mappedBy = "setting", cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
     }

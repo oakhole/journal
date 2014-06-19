@@ -100,7 +100,7 @@
 				<td>${user.name}</td>
 				<td>${user.email}</td>
 				<td>${user.roleNames}</td>
-				<td>${allStatus[user.status]}</td>
+				<td>${user.deleted}</td>
 				<td>
 					<shiro:hasPermission name="user:edit">
 						<a href="${ctx}/user/update/${user.id}" title="Edit"><img src="${ctx}/static/images/icons/pencil.png" alt="Edit" /></a>

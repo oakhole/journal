@@ -48,6 +48,7 @@ public class Sms extends IdEntity {
 
     private SmsTask smsTask;
 
+    @Column(name = "sequence_id")
     public String getSequenceId() {
         return sequenceId;
     }
@@ -56,6 +57,7 @@ public class Sms extends IdEntity {
         this.sequenceId = sequenceId;
     }
 
+    @Column(name = "phone_number")
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -64,6 +66,7 @@ public class Sms extends IdEntity {
         this.phoneNo = phoneNo;
     }
 
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -72,6 +75,7 @@ public class Sms extends IdEntity {
         this.content = content;
     }
 
+    @Column(name = "push_time")
     public String getPushTime() {
         return pushTime;
     }
@@ -80,6 +84,7 @@ public class Sms extends IdEntity {
         this.pushTime = pushTime;
     }
 
+    @Column(name = "push_status")
     public String getPushStatus() {
         return pushStatus;
     }
@@ -88,6 +93,7 @@ public class Sms extends IdEntity {
         this.pushStatus = pushStatus;
     }
 
+    @Column(name = "receipt_time")
     public String getReceiptTime() {
         return receiptTime;
     }
@@ -96,6 +102,7 @@ public class Sms extends IdEntity {
         this.receiptTime = receiptTime;
     }
 
+    @Column(name = "receipt_status")
     public String getReceiptStatus() {
         return receiptStatus;
     }

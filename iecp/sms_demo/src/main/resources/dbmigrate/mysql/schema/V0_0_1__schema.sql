@@ -87,3 +87,83 @@ create table auth_perm_oper(
     oper_id bigint,
     primary key(perm_id,oper_id)
 );
+
+-- SMS Platform
+
+create table advice(
+    id bigint primary key auto_increment,
+    title varchar(50),
+    content varchar(140),
+    read_times bigint,
+    user_id bigint,
+    deleted tinyint default 0
+);
+
+create table channel(
+    id bigint primary key auto_increment,
+    name varchar(50),
+    operator varchar(50),
+    deleted tinyint default 0
+);
+
+create table channel_group(
+    id bigint primary key auto_increment,
+    name varchar(50),
+    ctcc_id bigint,
+    cmcc_id bigint,
+    cucc_id bigint,
+    deleted tinyint default 0
+);
+
+create table financial(
+    id bigint primary key auto_increment,
+    actCount bigint,
+    actTime varchar(50),
+    actType varchar(50),
+    user_id bigint,
+    deleted tinyint default 0
+);
+
+create table setting(
+    id bigint primary key auto_increment,
+    audit_condition int,
+    cut_condition int,
+    cut_percent int,
+    whitelist bigint,
+    blacklist bigint,
+    user_id bigint,
+    deleted tinyint default 0
+);
+
+create table sms(
+    id bigint primary key auto_increment,
+    sequence_id varchar(64),
+    phone_number varchar(11),
+    content varchar(500),
+    push_time varchar(50),
+    push_status varchar(50),
+    receipt_time varchar(50),
+    receipt_status varchar(50),
+    deleted tinyint default 0
+);
+
+create table sms_receive(
+    id bigint primary key auto_increment,
+    from_phone_number varchar(11),
+    content varchar(500),
+    receive_time varchar(50),
+    user_id bigint,
+    deleted tinyint default 0
+);
+
+create table sms_task(
+    id bigint primary key auto_increment,
+    content varchar(500),
+    plan_time varchar(50),
+    send_time varchar(50),
+    send_status varchar(50),
+    phone_attachment bigint,
+    owner bigint,
+    channel_group_id bigint,
+    deleted tinyint default 0
+);

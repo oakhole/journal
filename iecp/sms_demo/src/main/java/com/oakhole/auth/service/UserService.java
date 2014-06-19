@@ -74,7 +74,6 @@ public class UserService {
         //注册用户时，默认为user，即id=2L的role
         Role role = this.roleDao.findOne(2L);
         user.getRoleList().add(role);
-        user.setStatus("enabled");
         this.userDao.save(user);
         //jms 发送消息到邮件
         sendJmsMessage(user);
