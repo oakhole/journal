@@ -18,8 +18,8 @@ package com.oakhole.sms.service;
 
 import com.oakhole.core.uitls.DynamicSpecifications;
 import com.oakhole.core.uitls.SearchFilter;
-import com.oakhole.sms.dao.SmsDao;
-import com.oakhole.sms.entity.Sms;
+import com.oakhole.sms.dao.SmsTaskDao;
+import com.oakhole.sms.entity.SmsTask;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,52 +36,32 @@ import java.util.Map;
 @Service
 @Transactional
 @Monitored
-public class SmsService {
+public class SmsTaskService {
 
     @Autowired
-    private SmsDao smsDao;
+    private SmsTaskDao smsTaskDao;
 
-    /**
-     * 批量更新或新增
-     *
-     * @param smsList
-     */
-    public void batchCreateOrUpdate(List<Sms> smsList) {
-        this.smsDao.save(smsList);
+
+    public void create(SmsTask smsTask) {
+        this.smsTaskDao.save(smsTask);
     }
 
-    /**
-     * 批量删除
-     *
-     * @param smsList
-     */
-    public void batchDelete(List<Sms> smsList) {
-        for (Sms sms : smsList) {
-            sms.setDeleted(true);
-        }
-        this.smsDao.save(smsList);
+    public SmsTask get(Long id) {
+        return this.smsTaskDao.findOne(id);
     }
 
-    public void create(Sms sms) {
-        this.smsDao.save(sms);
+    public void update(SmsTask smsTask) {
+        this.smsTaskDao.save(smsTask);
     }
 
-    public void update(Sms sms) {
-        this.smsDao.save(sms);
+    public void delete(SmsTask smsTask) {
+        smsTask.setDeleted(true);
+        this.smsTaskDao.save(smsTask);
     }
 
-    public Sms get(Long id) {
-        return this.smsDao.findOne(id);
-    }
-
-    public void delete(Sms sms) {
-        sms.setDeleted(true);
-        this.smsDao.save(sms);
-    }
-
-    public List<Sms> findAll(Map<String, Object> searchParams) {
+    public List<SmsTask> findAll(Map<String, Object> searchParams) {
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Sms> spec = DynamicSpecifications.bySearchFilter(filters.values(), Sms.class);
-        return this.smsDao.findAll(spec);
+        Specification<SmsTask> spec = DynamicSpecifications.bySearchFilter(filters.values(), SmsTask.class);
+        return this.smsTaskDao.findAll(spec);
     }
 }

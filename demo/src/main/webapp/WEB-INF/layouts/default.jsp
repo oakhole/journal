@@ -24,6 +24,7 @@
 <script src="${ctx}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ctx}/static/zTree_v3/js/jquery.ztree.all-3.5.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/scripts/facebox.js"></script>
+<script type="text/javascript" src="${ctx}/static/scripts/jquery.cookie.min.js"></script>
 <script src="${ctx}/static/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
 <script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
 <link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
@@ -49,15 +50,22 @@
             $("#user").trigger("click");
         });
 
+        // 获取当前用户的菜单权限
         $.get("${ctx}/menu/current",function(data){
            initMenu(data,data.length-1,0);
            $("#main-nav").append(menuHtml);
            $("#main-nav li ul").hide();
            //设定当前选中菜单
            $("#main-nav li a.nav-top-item").removeClass("current");
-           $("#user").addClass("current");
-           $("#user").parent().parent().parent().find("a.nav-top-item").addClass("current");
-           $("#user").parent().parent().toggle();
+           var current_menu = $.cookie(CURRENT_MENU);
+           if(current_menu == "" || isNaN(current_menu)){
+                //设置默认选中
+                current_menu = $("#user");
+                $.cookie(CURRENT_MENU,current_menu);
+           }
+           current_menu.addClass("current");
+           current_menu.parent().parent().parent().find("a.nav-top-item").addClass("current");
+           current_menu.parent().parent().toggle();
 
            $("#main-nav li a.nav-top-item").on("click",function () {
                 $(this).parent().siblings().find("a").removeClass('current');
@@ -66,7 +74,11 @@
                 $(this).parent().siblings().find("ul").slideUp("normal"); // Slide up all sub menus except the one clicked
                 $(this).next().slideToggle("normal"); // Slide down the clicked sub menu
                 return false;
-            }
+            });
+            $("#main-nav li a.nav-top-item li").on("click",function () {
+                $.cookie(CURRENT_MENU,this);
+                window.location = this.attr("href");
+            });
         );
         $("#main-nav li .nav-top-item").hover(
                     function () {
@@ -76,8 +88,9 @@
                         $(this).stop().animate({ paddingRight: "15px" });
                     }
         );
-        });
     });
+    // cookie的键值
+    var CURRENT_MENU = "current_menu";
     var menuHtml = "";
     //初始化菜单
     function initMenu(nodes,length,pid){

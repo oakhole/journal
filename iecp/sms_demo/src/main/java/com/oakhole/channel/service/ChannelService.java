@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.oakhole.sms.service;
+package com.oakhole.channel.service;
 
+import com.oakhole.channel.dao.ChannelDao;
+import com.oakhole.channel.entity.Channel;
 import com.oakhole.core.uitls.DynamicSpecifications;
 import com.oakhole.core.uitls.SearchFilter;
-import com.oakhole.sms.dao.SmsDao;
-import com.oakhole.sms.entity.Sms;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,52 +36,31 @@ import java.util.Map;
 @Service
 @Transactional
 @Monitored
-public class SmsService {
+public class ChannelService {
 
     @Autowired
-    private SmsDao smsDao;
+    private ChannelDao channelDao;
 
-    /**
-     * 批量更新或新增
-     *
-     * @param smsList
-     */
-    public void batchCreateOrUpdate(List<Sms> smsList) {
-        this.smsDao.save(smsList);
+    public void create(Channel channel) {
+        this.channelDao.save(channel);
     }
 
-    /**
-     * 批量删除
-     *
-     * @param smsList
-     */
-    public void batchDelete(List<Sms> smsList) {
-        for (Sms sms : smsList) {
-            sms.setDeleted(true);
-        }
-        this.smsDao.save(smsList);
+    public Channel get(Long id) {
+        return this.channelDao.findOne(id);
     }
 
-    public void create(Sms sms) {
-        this.smsDao.save(sms);
+    public void update(Channel channel) {
+        this.channelDao.save(channel);
     }
 
-    public void update(Sms sms) {
-        this.smsDao.save(sms);
+    public void delete(Channel channel) {
+        channel.setDeleted(true);
+        update(channel);
     }
 
-    public Sms get(Long id) {
-        return this.smsDao.findOne(id);
-    }
-
-    public void delete(Sms sms) {
-        sms.setDeleted(true);
-        this.smsDao.save(sms);
-    }
-
-    public List<Sms> findAll(Map<String, Object> searchParams) {
+    public List<Channel> findAll(Map<String, Object> searchParams) {
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Sms> spec = DynamicSpecifications.bySearchFilter(filters.values(), Sms.class);
-        return this.smsDao.findAll(spec);
+        Specification<Channel> spec = DynamicSpecifications.bySearchFilter(filters.values(), Channel.class);
+        return this.channelDao.findAll(spec);
     }
 }

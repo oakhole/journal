@@ -95,7 +95,7 @@ public class Setting extends IdEntity {
         this.cutPercent = cutPercent;
     }
 
-    @OneToOne(mappedBy = "setting", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     public User getUser() {
         return user;

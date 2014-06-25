@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.oakhole.sms.service;
+package com.oakhole.financial.service;
 
 import com.oakhole.core.uitls.DynamicSpecifications;
 import com.oakhole.core.uitls.SearchFilter;
-import com.oakhole.sms.dao.SmsDao;
-import com.oakhole.sms.entity.Sms;
+import com.oakhole.financial.dao.FinancialDao;
+import com.oakhole.financial.entity.Financial;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,52 +36,31 @@ import java.util.Map;
 @Service
 @Transactional
 @Monitored
-public class SmsService {
+public class FinancialService {
 
     @Autowired
-    private SmsDao smsDao;
+    private FinancialDao financialDao;
 
-    /**
-     * 批量更新或新增
-     *
-     * @param smsList
-     */
-    public void batchCreateOrUpdate(List<Sms> smsList) {
-        this.smsDao.save(smsList);
+    public void create(Financial financial) {
+        this.financialDao.save(financial);
     }
 
-    /**
-     * 批量删除
-     *
-     * @param smsList
-     */
-    public void batchDelete(List<Sms> smsList) {
-        for (Sms sms : smsList) {
-            sms.setDeleted(true);
-        }
-        this.smsDao.save(smsList);
+    public Financial get(Long id) {
+        return this.financialDao.findOne(id);
     }
 
-    public void create(Sms sms) {
-        this.smsDao.save(sms);
+    public void update(Financial financial) {
+        this.financialDao.save(financial);
     }
 
-    public void update(Sms sms) {
-        this.smsDao.save(sms);
+    public void delete(Financial financial) {
+        financial.setDeleted(true);
+        this.financialDao.save(financial);
     }
 
-    public Sms get(Long id) {
-        return this.smsDao.findOne(id);
-    }
-
-    public void delete(Sms sms) {
-        sms.setDeleted(true);
-        this.smsDao.save(sms);
-    }
-
-    public List<Sms> findAll(Map<String, Object> searchParams) {
+    public List<Financial> findAll(Map<String, Object> searchParams) {
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Sms> spec = DynamicSpecifications.bySearchFilter(filters.values(), Sms.class);
-        return this.smsDao.findAll(spec);
+        Specification<Financial> spec = DynamicSpecifications.bySearchFilter(filters.values(), Financial.class);
+        return this.financialDao.findAll(spec);
     }
 }

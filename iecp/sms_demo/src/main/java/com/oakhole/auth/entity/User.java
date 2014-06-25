@@ -184,7 +184,12 @@ public class User extends IdEntity {
         return this.opers;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
+    /**
+     * 单向一对一
+     *
+     * @return
+     */
+    @OneToOne(mappedBy = "user")
     public Setting getSetting() {
         return setting;
     }

@@ -16,8 +16,6 @@
 
 package com.oakhole.auth.web;
 
-import com.oakhole.auth.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,12 +31,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("menuList")
 public class DashboardController {
 
-    @Autowired
-    private UserService userService;
-
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("menuList", this.userService.getMenu());
-        return "index";
+        return "home";
     }
 }
