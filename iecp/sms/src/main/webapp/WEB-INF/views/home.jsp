@@ -1,16 +1,13 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
 <title>home</title>
-<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
-<link rel="stylesheet" href="css/invalid.css" type="text/css" media="screen">	
+<link rel="stylesheet" href="${ctx}/static/css/style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="${ctx}/static/css/invalid.css" type="text/css" media="screen">
 <style>
 .kjmenu{BORDER:#c0dcf2 1px solid; PADDING-BOTTOM:9px; MARGIN:0px 5px 2px 0px; PADDING-LEFT:11%; PADDING-RIGHT:0px; HEIGHT:373px !important;PADDING-TOP: 9px}
 .newtitle{BORDER:#c0dcf2 1px solid;PADDING-BOTTOM:4px; background:url(images/maintitle.jpg); MARGIN:0px 5px 2px 0px; PADDING-LEFT:15px; PADDING-RIGHT:0px; HEIGHT:20px !important;PADDING-TOP: 4px;font-size:14px;line-height:20px;}
@@ -26,7 +23,7 @@ body {
 </head>
 <body>
 <div style="margin:0 auto; width:97%;">
-  <img src="images/welecom.jpg">
+  <img src="${ctx}/static/images/welecom.jpg">
 </div>
 <script language="javascript">
     function callmsg(id) {

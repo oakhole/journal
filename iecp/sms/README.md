@@ -1,4 +1,4 @@
-SMS
+sms_demo
 ==
 
-- Short message system
+For this case use to be sample sms platform .

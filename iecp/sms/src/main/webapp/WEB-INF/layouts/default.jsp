@@ -16,7 +16,9 @@
 <meta http-equiv="Expires" content="0" />
 
 <link type="image/x-icon" href="${ctx}/static/images/favicon.ico" rel="shortcut icon">
-<link rel="stylesheet" href="${ctx}/static/zTree_v3/css/zTreeStyle.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="${ctx}/static/plugins/zTree_v3/css/zTreeStyle.css" type="text/css" media="screen"/>
+<link href="${ctx}/static/images/style.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/static/css/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="${ctx}/static/css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="${ctx}/static/css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="${ctx}/static/css/invalid.css" type="text/css" media="screen" />

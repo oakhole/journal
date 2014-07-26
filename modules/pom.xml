@@ -21,6 +21,7 @@
         <module>test</module>
         <module>utils</module>
         <module>log</module>
+        <module>generate</module>
     </modules>
 
 </project>

@@ -27,7 +27,6 @@ import java.util.Map;
 public class UserController {
 
     private static Map<String, String> allStatus = Maps.newHashMap();
-
     @Autowired
     private UserService userService;
 

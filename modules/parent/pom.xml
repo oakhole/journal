@@ -41,6 +41,7 @@
         <sitemesh.version>2.4.2</sitemesh.version>
         <jstl.version>1.2</jstl.version>
         <thymeleaf.version>2.0.20</thymeleaf.version>
+        <freemarker.version>2.3.9</freemarker.version>
         <shiro.version>1.2.2</shiro.version>
         <spring-data-jpa.version>1.4.2.RELEASE</spring-data-jpa.version>
         <struts2.version>2.3.16</struts2.version>
@@ -324,6 +325,11 @@
                 <groupId>org.thymeleaf</groupId>
                 <artifactId>thymeleaf-spring4</artifactId>
                 <version>${thymeleaf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
             </dependency>
             <!-- Web End -->
 

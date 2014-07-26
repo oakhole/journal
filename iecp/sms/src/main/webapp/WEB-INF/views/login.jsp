@@ -1,11 +1,10 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
+<%@ page import="org.apache.shiro.authc.ExcessiveAttemptsException"%>
+<%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,9 +28,9 @@ body {
 }
 -->
 </style>
-<link href="static/images/style.css" rel="stylesheet" type="text/css" />
-<link href="static/css/style.css" rel="stylesheet" type="text/css" />
-<script src="static/js/jquery-1.js" type="text/javascript"></script>
+<link href="${ctx}/static/images/style.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/static/css/style.css" rel="stylesheet" type="text/css" />
+<script src="${ctx}/static/js/jquery-1.js" type="text/javascript"></script>
 <script>
 	function changeCode() {
 		now = new Date();
@@ -42,33 +41,36 @@ body {
 </head>
 
 <body leftmargin="0" topmargin="0">
+    <%
+        String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+    %>
 	<form width="100%" height="100%" border="0" align="center"
 		cellpadding="0" cellspacing="0"
-		action="system-manage/login-manage!login" method="post" id="form"
+		action="${ctx}/login" method="post" id="form"
 		name="form">
 		<tr>
 			<td align="center" valign="middle"><table width="100%"
 					height="100%" border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td height="345" background="images/1_01.jpg"><table
+						<td height="345" background="${ctx}/static/images/1_01.jpg"><table
 								width="1015" height="260" border="0" align="center"
 								cellpadding="0" cellspacing="0" bgcolor="#CBDDF3">
 								<tr>
 									<td height="229" colspan="3" align="center" valign="middle"
-										background="images/1_02.jpg">&nbsp;</td>
+										background="${ctx}/static/images/1_02.jpg">&nbsp;</td>
 								</tr>
 								<tr>
 									<td width="592" align="center" valign="middle"
-										background="images/1_031.jpg" bgcolor="#CADCF2">&nbsp;</td>
+										background="${ctx}/static/images/1_031.jpg" bgcolor="#CADCF2">&nbsp;</td>
 									<td width="279" align="center" valign="middle"
-										background="images/2.jpg" bgcolor="#CBDDF3"><table
+										background="${ctx}/static/images/2.jpg" bgcolor="#CBDDF3"><table
 											width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tr>
 												<td width="5%" height="95" rowspan="3">&nbsp;</td>
 												<td width="21%"><span class="STYLE1">用户名：</span>
 												</td>
 												<td height="32" colspan="2"><label> <input
-														name="account" type="text" class="form" /> </label>
+														name="username" type="text" class="form" /> </label>
 												</td>
 											</tr>
 											<tr>
@@ -77,26 +79,16 @@ body {
 														name="password" type="password" class="form" /> </label>
 												</td>
 											</tr>
-											<tr>
-												<td width="21%" class="STYLE1">验证码：</td>
-												<td width="21%" height="36"><input type="text" value=""
-													name="code" maxlength="4" class="" style="width:60px;">
-												</td>
-												<td width="48%" class="STYLE1"><img id="yzmimg"
-													src="system-manage/login-manage!validateCode"
-													align="absmiddle" /><a href="#" title="刷新验证码"
-													onclick="changeCode();">换一组</a></td>
-											</tr>
 										</table> <a href="#" onclick="document.form.submit();"><img
-											src="images/3.jpg" width="70" height="30" border="0" /> </a>
+											src="${ctx}/static/images/3.jpg" width="70" height="30" border="0" /> </a>
 									</td>
 									<td width="149" align="center" valign="middle"><img
-										src="images/1_05.jpg" width="149" height="140" />
+										src="${ctx}/static/images/1_05.jpg" width="149" height="140" />
 									</td>
 								</tr>
 								<tr>
 									<td colspan="3" align="center" valign="middle"><img
-										src="images/1_06.jpg" width="1020" height="231" />
+										src="${ctx}/static/images/1_06.jpg" width="1020" height="231" />
 									</td>
 								</tr>
 							</table>

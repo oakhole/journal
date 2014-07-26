@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * @author Administrator
+ * @author Oakhole
  * @since 14-3-6
  */
 public interface UserDao extends PagingAndSortingRepository<User,Long>,JpaSpecificationExecutor<User>{
