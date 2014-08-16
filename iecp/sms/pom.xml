@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sms_demo</artifactId>
+    <artifactId>sms</artifactId>
     <packaging>war</packaging>
 
     <dependencies>

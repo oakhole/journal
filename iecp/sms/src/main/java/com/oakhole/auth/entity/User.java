@@ -3,7 +3,6 @@ package com.oakhole.auth.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.oakhole.core.uitls.Collections3;
 import com.oakhole.setting.entity.Setting;
 import com.oakhole.sms.entity.SmsReceive;
 import com.oakhole.sms.entity.SmsTask;
@@ -140,13 +139,6 @@ public class User extends IdEntity {
             this.roles.addAll(group.getRoleList());
         }
         return roles;
-    }
-
-    @Transient
-    @XmlTransient
-    @JsonIgnore
-    public String getRoleNames() {
-        return Collections3.extractToString(getRoles(), "name", ",");
     }
 
     /**

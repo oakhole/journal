@@ -18,7 +18,10 @@ package com.oakhole.channel.web;
 
 import com.oakhole.channel.entity.ChannelGroup;
 import com.oakhole.channel.service.ChannelGroupService;
-import com.oakhole.core.uitls.Servlets;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,69 +33,68 @@ import javax.validation.Valid;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Controller
-@RequestMapping("/channel/group")
+@RequestMapping("/channelGroup")
 public class ChannelGroupController {
+
+    private static Logger logger = LoggerFactory.getLogger(ChannelGroupService.class);
 
     @Autowired
     private ChannelGroupService channelGroupService;
 
-    @RequestMapping("")
+    @RequestMapping(value = {"", "list"})
     public String index(HttpServletRequest request, Model model) {
+
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
         model.addAttribute("channelGroups", this.channelGroupService.findAll(searchParams));
-        return "channel/group/index";
+        return "channelGroup/index";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
-        return "channel/group/create";
+        return "channelGroup/create";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@RequestParam ChannelGroup channelGroup, RedirectAttributes redirectAttributes) {
-        this.channelGroupService.create(channelGroup);
-        redirectAttributes.addAttribute("message", "新增成功");
-        return "redirect:/channel/group";
+        this.channelGroupService.save(channelGroup);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
+        return "redirect:/channelGroup";
     }
 
-    @RequestMapping(value = "show/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable Long id, @Valid @ModelAttribute(value = "channelGroup") ChannelGroup channelGroup,
-                       Model model) {
-        model.addAttribute(this.channelGroupService.get(id));
-        return "channel/group/show";
+    @RequestMapping(value = "show/{id}")
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("channelGroup", channelGroupService.get(id));
+        return "channelGroup/show";
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable Long id, @Valid @ModelAttribute(value = "channelGroup") ChannelGroup channelGroup,
-                         Model model) {
-        model.addAttribute("channelGroup", channelGroup);
-        return "channel/group/update";
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("channelGroup", channelGroupService.get(id));
+        return "channelGroup/update";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute(value = "channelGroup") ChannelGroup channelGroup, RedirectAttributes redirectAttributes) {
-        this.channelGroupService.update(channelGroup);
-        redirectAttributes.addAttribute("message", "更改成功");
-        return "redirect:/channel/group";
+        this.channelGroupService.save(channelGroup);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
+        return "redirect:/channelGroup";
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable Long id, @Valid @ModelAttribute(value = "channelGroup") ChannelGroup channelGroup,
-                         RedirectAttributes redirectAttributes) {
-        this.channelGroupService.delete(channelGroup);
-        redirectAttributes.addAttribute("message", "删除成功");
-        return "redirect:/channel/group/";
+    @RequestMapping(value = "delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        this.channelGroupService.remove(channelGroupService.get(id));
+        redirectAttributes.addFlashAttribute("message", "删除成功");
+        return "redirect:/channelGroup";
     }
 
     @ModelAttribute
     public void getChannelGroup(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {
-            model.addAttribute("channelGroup", this.channelGroupService.get(id
-            ));
+            model.addAttribute("channelGroup", this.channelGroupService.get(id));
         }
     }
 }

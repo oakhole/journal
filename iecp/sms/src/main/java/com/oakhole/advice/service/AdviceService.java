@@ -18,8 +18,10 @@ package com.oakhole.advice.service;
 
 import com.oakhole.advice.dao.AdviceDao;
 import com.oakhole.advice.entity.Advice;
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,10 +40,12 @@ import java.util.Map;
 @Monitored
 public class AdviceService {
 
+    private static Logger logger = LoggerFactory.getLogger(AdviceService.class);
+
     @Autowired
     private AdviceDao adviceDao;
 
-    public void create(Advice advice) {
+    public void save(Advice advice) {
         this.adviceDao.save(advice);
     }
 
@@ -49,9 +53,6 @@ public class AdviceService {
         return this.adviceDao.findOne(id);
     }
 
-    public void update(Advice advice) {
-        this.adviceDao.save(advice);
-    }
 
     public void remove(Advice advice) {
         advice.setDeleted(true);

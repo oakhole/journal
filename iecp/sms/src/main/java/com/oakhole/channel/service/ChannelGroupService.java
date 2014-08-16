@@ -18,26 +18,34 @@ package com.oakhole.channel.service;
 
 import com.oakhole.channel.dao.ChannelGroupDao;
 import com.oakhole.channel.entity.ChannelGroup;
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
+@Transactional
+@Monitored
 public class ChannelGroupService {
+
+    private static Logger logger = LoggerFactory.getLogger(ChannelGroupService.class);
 
     @Autowired
     private ChannelGroupDao channelGroupDao;
 
-    public void create(ChannelGroup channelGroup) {
+    public void save(ChannelGroup channelGroup) {
         this.channelGroupDao.save(channelGroup);
     }
 
@@ -45,11 +53,8 @@ public class ChannelGroupService {
         return this.channelGroupDao.findOne(id);
     }
 
-    public void update(ChannelGroup channelGroup) {
-        this.channelGroupDao.save(channelGroup);
-    }
 
-    public void delete(ChannelGroup channelGroup) {
+    public void remove(ChannelGroup channelGroup) {
         channelGroup.setDeleted(true);
         this.channelGroupDao.save(channelGroup);
     }

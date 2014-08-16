@@ -16,10 +16,12 @@
 
 package com.oakhole.sms.service;
 
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
 import com.oakhole.sms.dao.SmsReceiveDao;
 import com.oakhole.sms.entity.SmsReceive;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,10 +40,12 @@ import java.util.Map;
 @Monitored
 public class SmsReceiveService {
 
+    private static Logger logger = LoggerFactory.getLogger(SmsReceiveService.class);
+
     @Autowired
     private SmsReceiveDao smsReceiveDao;
 
-    public void create(SmsReceive smsReceive) {
+    public void save(SmsReceive smsReceive) {
         this.smsReceiveDao.save(smsReceive);
     }
 
@@ -49,11 +53,8 @@ public class SmsReceiveService {
         return this.smsReceiveDao.findOne(id);
     }
 
-    public void update(SmsReceive smsReceive) {
-        this.smsReceiveDao.save(smsReceive);
-    }
 
-    public void delete(SmsReceive smsReceive) {
+    public void remove(SmsReceive smsReceive) {
         smsReceive.setDeleted(true);
         this.smsReceiveDao.save(smsReceive);
     }
@@ -63,5 +64,4 @@ public class SmsReceiveService {
         Specification<SmsReceive> spec = DynamicSpecifications.bySearchFilter(filters.values(), SmsReceive.class);
         return this.smsReceiveDao.findAll(spec);
     }
-
 }

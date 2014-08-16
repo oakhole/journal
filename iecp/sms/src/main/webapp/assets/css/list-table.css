@@ -1,0 +1,49 @@
+/****** List Page ******/
+.left-nav{
+	position: relative;
+	width: 215px;
+	height: auto;
+	overflow-x: auto;
+	min-height: 400px;
+}
+
+.left-nav .tab-content{
+	margin: 15px 10px;
+	/*overflow: scroll;*/
+	min-height: 400px;
+}
+
+.right-info{
+	width: 740px;
+	padding: 15px;
+	overflow: hidden;
+	border-left: 1px solid #d2d2d2;
+}
+
+.list-table{
+	overflow: hidden;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.list-table .toolkit{
+	display: none;
+}
+
+.list-table tr:hover{
+	cursor: pointer;
+}
+
+.list-table td{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.list-table span{
+	margin:auto 5px;
+}
+
+.list-table a:hover{
+	text-decoration: none;
+}

@@ -1,6 +1,9 @@
-insert into auth_user (id,username, name,email, password, salt,status) values(1,'admin','管理员','aa@aa.com','691b14d79bf0fa2215f155235df5e670b64394cc','7efbd59d9741d34f','enabled');
-insert into auth_user (id,username, name,email, password, salt,status) values(2,'user','普通用户','bb@bb.com','2488aa0c31c624687bd9928e0a5d29e7d1ed520b','6d65d24122c30500','enabled');
-insert into auth_user (id,username, name,email, password, salt,status) values(3,'guest','来宾用户','cc@cc.com','7308c9fc069595af791e55bbc29db809cb627f79','fcfc26e15a99d7ad','enabled');
+insert into auth_user (id,username, name,email, password, salt,status) values(1,'admin','系统管理员','admin@oakhole.com',
+'691b14d79bf0fa2215f155235df5e670b64394cc','7efbd59d9741d34f','enabled');
+insert into auth_user (id,username, name,email, password, salt,status) values(2,'agent','代理商','agent@oakhole.com',
+'2488aa0c31c624687bd9928e0a5d29e7d1ed520b','6d65d24122c30500','enabled');
+insert into auth_user (id,username, name,email, password, salt,status) values(3,'user','普通用户','user@oakhole.com',
+'7308c9fc069595af791e55bbc29db809cb627f79','fcfc26e15a99d7ad','enabled');
 
 insert into auth_role (id, name) values(1,'Admin');
 insert into auth_role (id, name) values(2,'User');

@@ -21,8 +21,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
-public interface ChannelDao extends PagingAndSortingRepository<Channel, Long>, JpaSpecificationExecutor<Channel> {
+public interface ChannelDao extends PagingAndSortingRepository<Channel,Long>,JpaSpecificationExecutor<Channel> {
+
 }

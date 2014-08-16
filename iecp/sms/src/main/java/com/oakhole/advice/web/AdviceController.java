@@ -18,7 +18,9 @@ package com.oakhole.advice.web;
 
 import com.oakhole.advice.entity.Advice;
 import com.oakhole.advice.service.AdviceService;
-import com.oakhole.core.uitls.Servlets;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,17 +33,18 @@ import javax.validation.Valid;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Controller
 @RequestMapping("/advice")
 public class AdviceController {
 
+    private static Logger logger = LoggerFactory.getLogger(AdviceService.class);
+
     @Autowired
     private AdviceService adviceService;
 
-    @RequiresPermissions("advice:view")
     @RequestMapping(value = {"", "list"})
     public String index(HttpServletRequest request, Model model) {
 
@@ -50,47 +53,41 @@ public class AdviceController {
         return "advice/index";
     }
 
-    @RequiresPermissions("advice:edit")
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
         return "advice/create";
     }
 
-    @RequiresPermissions("advice:edit")
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@RequestParam Advice advice, RedirectAttributes redirectAttributes) {
-        this.adviceService.create(advice);
-        redirectAttributes.addAttribute("message", "添加成功");
+        this.adviceService.save(advice);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
         return "redirect:/advice";
     }
 
-    @RequiresPermissions("advice:view")
     @RequestMapping(value = "show/{id}")
-    public String show(@PathVariable Long id, @Valid @ModelAttribute("advice") Advice advice, Model model) {
-        model.addAttribute("advice", advice);
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("advice", adviceService.get(id));
         return "advice/show";
     }
 
-    @RequiresPermissions("advice:edit")
-    @RequestMapping(value = "update", method = RequestMethod.GET)
-    public String update(@PathVariable Long id, @Valid @ModelAttribute(value = "advice") Advice advice, Model model) {
-        model.addAttribute("advice", advice);
+    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("advice", adviceService.get(id));
         return "advice/update";
     }
 
-    @RequiresPermissions("advice:edit")
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute(value = "advice") Advice advice, RedirectAttributes redirectAttributes) {
-        this.adviceService.update(advice);
-        redirectAttributes.addAttribute("message", "更新成功");
+        this.adviceService.save(advice);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
         return "redirect:/advice";
     }
 
-    @RequiresPermissions("advice:edit")
     @RequestMapping(value = "delete/{id}")
-    public String delete(@PathVariable Long id, @Valid @ModelAttribute(value = "advice") Advice advice, RedirectAttributes redirectAttributes) {
-        this.adviceService.remove(advice);
-        redirectAttributes.addAttribute("message", "删除成功");
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        this.adviceService.remove(adviceService.get(id));
+        redirectAttributes.addFlashAttribute("message", "删除成功");
         return "redirect:/advice";
     }
 

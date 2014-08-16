@@ -16,10 +16,12 @@
 
 package com.oakhole.financial.service;
 
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
 import com.oakhole.financial.dao.FinancialDao;
 import com.oakhole.financial.entity.Financial;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,10 +40,12 @@ import java.util.Map;
 @Monitored
 public class FinancialService {
 
+    private static Logger logger = LoggerFactory.getLogger(FinancialService.class);
+
     @Autowired
     private FinancialDao financialDao;
 
-    public void create(Financial financial) {
+    public void save(Financial financial) {
         this.financialDao.save(financial);
     }
 
@@ -49,11 +53,8 @@ public class FinancialService {
         return this.financialDao.findOne(id);
     }
 
-    public void update(Financial financial) {
-        this.financialDao.save(financial);
-    }
 
-    public void delete(Financial financial) {
+    public void remove(Financial financial) {
         financial.setDeleted(true);
         this.financialDao.save(financial);
     }

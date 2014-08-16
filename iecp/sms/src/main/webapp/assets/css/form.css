@@ -1,0 +1,15 @@
+form{
+	margin: 15px;
+}
+
+fieldset{
+	margin-top: 20px;
+}
+
+legend{
+	font-size: 13px;
+}
+
+#moreInfo{
+	display: none;
+}

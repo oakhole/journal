@@ -16,8 +16,6 @@
 
 package com.oakhole.auth.dto;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 /**
  * 用于ztree插件
  * @author Oakhole
@@ -89,11 +87,6 @@ public class MenuDTO implements Comparable<MenuDTO>{
 
     public void setChecked(boolean checked) {
         this.checked = checked;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

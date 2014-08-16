@@ -1,10 +1,26 @@
+/*
+ * Copyright (c) 2013-2014. Powered by http://oakhole.com .
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ */
+
 package com.oakhole.auth.service;
 
 import com.google.common.base.Objects;
 import com.oakhole.auth.entity.Operation;
 import com.oakhole.auth.entity.Role;
 import com.oakhole.auth.entity.User;
-import com.oakhole.core.uitls.Encodes;
+import com.oakhole.utils.Encodes;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -33,7 +49,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
                 throw new DisabledAccountException();
             }
             byte[] salt = Encodes.decodeHex(user.getSalt());
-            return new SimpleAuthenticationInfo(new ShiroUser(user.getUsername(), user.getName()), user.getPassword(),
+            return new SimpleAuthenticationInfo(new ShiroUser(user.getId(), user.getUsername(), user.getName()),
+                    user.getPassword(),
                     ByteSource.Util.bytes(salt), getName());
         } else {
             return null;
@@ -78,12 +95,22 @@ public class ShiroDbRealm extends AuthorizingRealm {
      */
     public static class ShiroUser implements Serializable {
         private static final long serialVersionUID = -1373760761780840081L;
+        public long id;
         public String loginName;
         public String name;
 
-        public ShiroUser(String loginName, String name) {
+        public ShiroUser(long id, String loginName, String name) {
+            this.id = id;
             this.loginName = loginName;
             this.name = name;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public String getLoginName() {
+            return loginName;
         }
 
         public String getName() {

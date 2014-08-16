@@ -16,10 +16,12 @@
 
 package com.oakhole.setting.service;
 
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
 import com.oakhole.setting.dao.SettingDao;
 import com.oakhole.setting.entity.Setting;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,10 +40,12 @@ import java.util.Map;
 @Monitored
 public class SettingService {
 
+    private static Logger logger = LoggerFactory.getLogger(SettingService.class);
+
     @Autowired
     private SettingDao settingDao;
 
-    public void create(Setting setting) {
+    public void save(Setting setting) {
         this.settingDao.save(setting);
     }
 
@@ -49,11 +53,8 @@ public class SettingService {
         return this.settingDao.findOne(id);
     }
 
-    public void update(Setting setting) {
-        this.settingDao.save(setting);
-    }
 
-    public void delete(Setting setting) {
+    public void remove(Setting setting) {
         setting.setDeleted(true);
         this.settingDao.save(setting);
     }

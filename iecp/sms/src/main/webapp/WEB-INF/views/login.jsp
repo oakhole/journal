@@ -5,102 +5,59 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>短信综合信息管理系统</title>
-<style type="text/css">
-<!--
-body {
-	margin-left: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	background-image: url();
-	background-color: #39609B;
-}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>User Login</title>
+		<meata charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="${ctx}/assets/css/main.css"/>
+		<link rel="stylesheet" href="${ctx}/assets/css/login.css">
+		<!--[if IE]>
+		    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<header class="wd">
+			<div class="logo left">
+				<img src="${ctx}/assets/img/logo.png" class="img-responsive">
+			</div>
+		</header>
+		<div class="wd">
+			<form role="form" id="login_form" class="form-horziontal login-form" method="post" action="/login">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-user">
+						</div>
+						<input id="username" name="username" type="text" class="form-control required " placeholder="Username"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						<input id="password" name="password" type="password" class="form-control" placeholder="Password" required/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block">Login</button>
+				</div>
+			</form>
+		</div>
+		<div class="clearfix"></div>
+		<footer class="text-center">
+			<p><a href="#">用户手册</a> | <a href="#">帮助文档</a> | <a href="#">客服中心</a> | <a href="#">意见反馈</a></p>
+			<p class="text-muted">&copy; 2012 - 2014 Oakhole Inc. All Rights Reserved</p>
+		</footer>
 
-.STYLE1 {
-	font-family: "宋体";
-	font-size: 12px;
-	color: #666666;
-}
--->
-</style>
-<link href="${ctx}/static/images/style.css" rel="stylesheet" type="text/css" />
-<link href="${ctx}/static/css/style.css" rel="stylesheet" type="text/css" />
-<script src="${ctx}/static/js/jquery-1.js" type="text/javascript"></script>
-<script>
-	function changeCode() {
-		now = new Date();
-		$("#yzmimg").attr("src",
-				"system-manage/login-manage!validateCode?" + now);
-	}
-</script>
-</head>
-
-<body leftmargin="0" topmargin="0">
-    <%
-        String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-    %>
-	<form width="100%" height="100%" border="0" align="center"
-		cellpadding="0" cellspacing="0"
-		action="${ctx}/login" method="post" id="form"
-		name="form">
-		<tr>
-			<td align="center" valign="middle"><table width="100%"
-					height="100%" border="0" cellpadding="0" cellspacing="0">
-					<tr>
-						<td height="345" background="${ctx}/static/images/1_01.jpg"><table
-								width="1015" height="260" border="0" align="center"
-								cellpadding="0" cellspacing="0" bgcolor="#CBDDF3">
-								<tr>
-									<td height="229" colspan="3" align="center" valign="middle"
-										background="${ctx}/static/images/1_02.jpg">&nbsp;</td>
-								</tr>
-								<tr>
-									<td width="592" align="center" valign="middle"
-										background="${ctx}/static/images/1_031.jpg" bgcolor="#CADCF2">&nbsp;</td>
-									<td width="279" align="center" valign="middle"
-										background="${ctx}/static/images/2.jpg" bgcolor="#CBDDF3"><table
-											width="100%" border="0" cellspacing="0" cellpadding="0">
-											<tr>
-												<td width="5%" height="95" rowspan="3">&nbsp;</td>
-												<td width="21%"><span class="STYLE1">用户名：</span>
-												</td>
-												<td height="32" colspan="2"><label> <input
-														name="username" type="text" class="form" /> </label>
-												</td>
-											</tr>
-											<tr>
-												<td width="21%" class="STYLE1">密&nbsp;&nbsp;码：</td>
-												<td height="32" colspan="2"><label><input
-														name="password" type="password" class="form" /> </label>
-												</td>
-											</tr>
-										</table> <a href="#" onclick="document.form.submit();"><img
-											src="${ctx}/static/images/3.jpg" width="70" height="30" border="0" /> </a>
-									</td>
-									<td width="149" align="center" valign="middle"><img
-										src="${ctx}/static/images/1_05.jpg" width="149" height="140" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3" align="center" valign="middle"><img
-										src="${ctx}/static/images/1_06.jpg" width="1020" height="231" />
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</form>
-	<c:if test="${loginErrMsg!=null}">
-		<script language="javascript">alert("${loginErrMsg}");</script>
-</c:if>
-</body>
+		<!--Scripts Reference -->
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.js"></script>
+		<script src="${ctx}/assets/scripts/messages_cn.js"></script>
+		<script src="${ctx}/assets/scripts/login.js"></script>
+	</body>
 </html>
 

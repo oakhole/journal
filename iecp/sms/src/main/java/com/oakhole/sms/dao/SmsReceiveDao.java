@@ -21,8 +21,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
-public interface SmsReceiveDao extends PagingAndSortingRepository<SmsReceive, Long>, JpaSpecificationExecutor<SmsReceive> {
+public interface SmsReceiveDao extends PagingAndSortingRepository<SmsReceive,Long>,JpaSpecificationExecutor<SmsReceive> {
+
 }

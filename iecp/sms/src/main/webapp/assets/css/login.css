@@ -1,0 +1,14 @@
+/****** Login page ******/
+
+html,body{
+	background: #fff;
+}
+
+header{
+	border-bottom: 1px solid #efefef;
+}
+
+.login-form{
+	margin: 50px auto;
+	width: 240px;
+}

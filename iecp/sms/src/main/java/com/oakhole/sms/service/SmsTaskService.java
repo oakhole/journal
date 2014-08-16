@@ -16,10 +16,12 @@
 
 package com.oakhole.sms.service;
 
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
 import com.oakhole.sms.dao.SmsTaskDao;
 import com.oakhole.sms.entity.SmsTask;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,11 +40,12 @@ import java.util.Map;
 @Monitored
 public class SmsTaskService {
 
+    private static Logger logger = LoggerFactory.getLogger(SmsTaskService.class);
+
     @Autowired
     private SmsTaskDao smsTaskDao;
 
-
-    public void create(SmsTask smsTask) {
+    public void save(SmsTask smsTask) {
         this.smsTaskDao.save(smsTask);
     }
 
@@ -50,11 +53,8 @@ public class SmsTaskService {
         return this.smsTaskDao.findOne(id);
     }
 
-    public void update(SmsTask smsTask) {
-        this.smsTaskDao.save(smsTask);
-    }
 
-    public void delete(SmsTask smsTask) {
+    public void remove(SmsTask smsTask) {
         smsTask.setDeleted(true);
         this.smsTaskDao.save(smsTask);
     }

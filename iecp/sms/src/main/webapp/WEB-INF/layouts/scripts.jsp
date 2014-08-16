@@ -1,0 +1,31 @@
+<%@ page contentType="text/html;charset=UTF-8"%>
+
+<%@ include file="taglibs.jsp"%>
+
+ <!-- Logout Modal -->
+<div id="logoutModal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">✗</button>
+                <h4>确认退出</h4>
+            </div>
+            <div class="modal-body">
+                ....
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="${ctx}/logout" class="btn btn-primary">Yeap</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Scripts Reference -->
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.js"></script>
+<script src="${ctx}/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="${ctx}/assets/plugins/zTree/jquery.ztree.all-3.5.min.js"></script>
+<script src="${ctx}/assets/scripts/left_nav_tree.js"></script>
+<script src="${ctx}/assets/scripts/messages_cn.js"></script>
+<script src="${ctx}/assets/scripts/list_table.js"></script>
+<script src="${ctx}/assets/scripts/form.js"></script>

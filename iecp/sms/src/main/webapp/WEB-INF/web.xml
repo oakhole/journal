@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
-    <display-name>demo</display-name>
+    <display-name>sms</display-name>
 
     <!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
     <context-param>
@@ -46,18 +46,6 @@
     <servlet-mapping>
         <servlet-name>SimonConsoleServlet</servlet-name>
         <url-pattern>/javasimon/*</url-pattern>
-    </servlet-mapping>
-
-    <!-- JMX JSON Agent Servlet-->
-    <servlet>
-        <servlet-name>jolokia-agent</servlet-name>
-        <servlet-class>org.jolokia.http.AgentServlet</servlet-class>
-        <load-on-startup>3</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>jolokia-agent</servlet-name>
-        <url-pattern>/jolokia/*</url-pattern>
     </servlet-mapping>
 
     <!-- Filter 定义 -->

@@ -21,8 +21,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
-public interface AdviceDao extends PagingAndSortingRepository<Advice, Long>, JpaSpecificationExecutor<Advice> {
+public interface AdviceDao extends PagingAndSortingRepository<Advice,Long>,JpaSpecificationExecutor<Advice> {
+
 }

@@ -16,26 +16,23 @@
 
 package com.oakhole.auth.service;
 
+import com.oakhole.auth.dao.FileDao;
 import com.oakhole.auth.entity.File;
-import com.oakhole.auth.repository.FileDao;
-import org.apache.commons.io.FileUtils;
-import org.javasimon.aop.Monitored;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 资源的管理
- *
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -43,100 +40,28 @@ import java.util.List;
 @Monitored
 public class FileService {
 
-    //设置资源默认权限
-    public static final String DEFAULT_FILE_CODE = "644";
-
-    Logger logger = LoggerFactory.getLogger(FileService.class);
+    private static Logger logger = LoggerFactory.getLogger(FileService.class);
 
     @Autowired
     private FileDao fileDao;
 
-
-    /**
-     * 按资源ID查找
-     *
-     * @param id
-     * @return
-     */
-    public File getFile(long id) {
-        return this.fileDao.findOne(id);
-    }
-
-    /**
-     * 资源存储
-     *
-     * @param dir
-     * @param name
-     * @param inputStream
-     */
-    public void createFile(String dir, String name, InputStream inputStream) {
-        File file = copyFile(dir, name, inputStream);
+    public void save(File file) {
         this.fileDao.save(file);
     }
 
+    public File get(Long id) {
+        return this.fileDao.findOne(id);
+    }
 
-    /**
-     * 按资源ID删除资源
-     *
-     * @param file
-     */
-    public void removeFile(File file) {
+
+    public void remove(File file) {
         file.setDeleted(true);
         this.fileDao.save(file);
     }
 
-
-    /**
-     * 查询所有资源
-     *
-     * @return
-     */
-    public List<File> findAllFiles() {
-        return (List<File>) this.fileDao.findAll();
-    }
-
-    /**
-     * copy上传的资源文件到本地目录
-     *
-     * @param dir
-     * @param inputStream
-     * @return
-     */
-    private File copyFile(String dir, String name, InputStream inputStream) {
-
-        File file = null;
-        String fileUrl = generateFileUrl();
-        java.io.File newFile = new java.io.File(dir + fileUrl);
-        if (!newFile.exists()) {
-            if (newFile.getParentFile().exists()) {
-                newFile.getParentFile().mkdirs();
-            }
-            try {
-                newFile.createNewFile();
-            } catch (IOException e) {
-                logger.error("创建文件失败:{}", e.getMessage());
-                return null;
-            }
-        }
-        try {
-            FileUtils.copyInputStreamToFile(inputStream, newFile);
-        } catch (IOException e) {
-            logger.error("拷贝文件失败:{}", e.getMessage());
-            return null;
-        }
-        //默认设置资源权限为644
-        file = new File(name, DEFAULT_FILE_CODE, fileUrl);
-        return file;
-    }
-
-    /**
-     * 生成fileUrl
-     *
-     * @return
-     */
-    private String generateFileUrl() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String fileName = String.valueOf(System.currentTimeMillis());
-        return "upload/" + simpleDateFormat.format(new Date()) + "/" + fileName;
+    public List<File> findAll(Map<String, Object> searchParams) {
+        Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+        Specification<File> spec = DynamicSpecifications.bySearchFilter(filters.values(), File.class);
+        return this.fileDao.findAll(spec);
     }
 }

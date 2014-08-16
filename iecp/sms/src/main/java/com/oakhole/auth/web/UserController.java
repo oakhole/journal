@@ -1,87 +1,114 @@
+/*
+ * Copyright (c) 2013-2014. Powered by http://oakhole.com .
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.oakhole.auth.web;
 
-import com.google.common.collect.Maps;
 import com.oakhole.auth.entity.User;
 import com.oakhole.auth.service.UserService;
-import com.oakhole.core.uitls.Servlets;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 /**
- * @author Administrator
- * @since 14-3-7
+ * @author Oakhole
+ * @since 1.0
  */
-@SuppressWarnings("ALL")
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    private static Map<String, String> allStatus = Maps.newHashMap();
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", this.userService.getUser(id));
-        model.addAttribute("allStatus", allStatus);
-        model.addAttribute("allRoles", this.userService.getAllRole());
+    @RequestMapping(value = {"", "list"})
+    public String index(HttpServletRequest request, Model model) {
 
-        return "auth/user/update";
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        model.addAttribute("users", this.userService.findAll(searchParams));
+        return "user/index";
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String create() {
+        return "user/create";
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public String create(@Valid User user, RedirectAttributes redirectAttributes) {
+        this.userService.save(user);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
+        return "redirect:/user";
+    }
+
+    @RequestMapping(value = "show/{id}")
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.get(id));
+        return "user/show";
+    }
+
+    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.get(id));
+        return "user/update";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute(value = "user") User user, RedirectAttributes redirectAttributes) {
-        this.userService.updateUser(user);
-        redirectAttributes.addFlashAttribute("message", "更新用户" + user.getUsername() + "成功");
+        this.userService.save(user);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
         return "redirect:/user";
     }
 
-    @RequiresRoles(value = {"Admin"})
-    @RequestMapping(value = "")
-    public String list(Model model, ServletRequest request) {
-        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        List<User> users = this.userService.searchUser(searchParams);
-        model.addAttribute("users", users);
-        return "auth/user/list";
-    }
-
-    /**
-     * toggle所选用户的状态
-     * @param ids
-     * @param redirectAttributes
-     * @return
-     */
-    @RequiresRoles(value = {"Admin"})
     @RequestMapping(value = "delete")
-    public String delete(@RequestParam("ids") String ids,RedirectAttributes redirectAttributes) {
+    public String delete(@RequestParam String ids, RedirectAttributes redirectAttributes) {
         for (String id : ids.split(",")) {
-            this.userService.deleteUser(Long.valueOf(id));
+            Assert.isTrue(id.matches("\\d+"));
+            this.userService.remove(userService.get(Long.valueOf(id)));
         }
-        redirectAttributes.addFlashAttribute("returnStatus", "attention");
-        redirectAttributes.addFlashAttribute("message","删除成功，注：本系统不删除任何数据，仅作状态更改");
+        redirectAttributes.addFlashAttribute("message", "删除成功");
         return "redirect:/user";
     }
 
     @ModelAttribute
     public void getUser(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {
-            model.addAttribute("user", this.userService.getUser(id));
+            model.addAttribute("user", this.userService.get(id));
         }
     }
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("roleList");
+    @ResponseBody
+    @RequestMapping("checkUsername")
+    public String checkUsername(@RequestParam("username") String username) {
+        User user = this.userService.findUserByUsername(username);
+        if (user == null) {
+            return "true";
+        }
+        return "false";
     }
 }

@@ -18,7 +18,10 @@ package com.oakhole.channel.web;
 
 import com.oakhole.channel.entity.Channel;
 import com.oakhole.channel.service.ChannelService;
-import com.oakhole.core.uitls.Servlets;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,53 +33,61 @@ import javax.validation.Valid;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Controller
 @RequestMapping("/channel")
 public class ChannelController {
 
+    private static Logger logger = LoggerFactory.getLogger(ChannelService.class);
+
     @Autowired
     private ChannelService channelService;
 
+    @RequestMapping(value = {"", "list"})
     public String index(HttpServletRequest request, Model model) {
-        Map<String, Object> searchParmas = Servlets.getParametersStartingWith(request, "search_");
-        model.addAttribute("channels", this.channelService.findAll(searchParmas));
+
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        model.addAttribute("channels", this.channelService.findAll(searchParams));
         return "channel/index";
     }
 
+    @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
         return "channel/create";
     }
 
-    public String create(@RequestParam Channel channel) {
-        this.channelService.create(channel);
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public String create(@RequestParam Channel channel, RedirectAttributes redirectAttributes) {
+        this.channelService.save(channel);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
         return "redirect:/channel";
     }
 
-    @RequestMapping(value = "show/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable Long id, @Valid @ModelAttribute(value = "channel") Channel channel, Model model) {
-        model.addAttribute("channel", channel);
+    @RequestMapping(value = "show/{id}")
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("channel", channelService.get(id));
         return "channel/show";
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable Long id, @Valid @ModelAttribute(value = "channel") Channel channel, Model model) {
-        model.addAttribute(channel);
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("channel", channelService.get(id));
         return "channel/update";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute(value = "channel") Channel channel, RedirectAttributes redirectAttributes) {
-        this.channelService.update(channel);
-        redirectAttributes.addAttribute("message", "更新成功");
-        return "channel/update";
+        this.channelService.save(channel);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
+        return "redirect:/channel";
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable Long id, @Valid @ModelAttribute(value = "channel") Channel channel, RedirectAttributes redirectAttributes) {
-        this.channelService.delete(channel);
+    @RequestMapping(value = "delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        this.channelService.remove(channelService.get(id));
+        redirectAttributes.addFlashAttribute("message", "删除成功");
         return "redirect:/channel";
     }
 

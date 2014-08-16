@@ -16,9 +16,12 @@
 
 package com.oakhole.financial.web;
 
-import com.oakhole.core.uitls.Servlets;
 import com.oakhole.financial.entity.Financial;
 import com.oakhole.financial.service.FinancialService;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,18 +33,21 @@ import javax.validation.Valid;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Controller
 @RequestMapping("/financial")
 public class FinancialController {
 
+    private static Logger logger = LoggerFactory.getLogger(FinancialService.class);
+
     @Autowired
     private FinancialService financialService;
 
-    @RequestMapping("")
+    @RequestMapping(value = {"", "list"})
     public String index(HttpServletRequest request, Model model) {
+
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
         model.addAttribute("financials", this.financialService.findAll(searchParams));
         return "financial/index";
@@ -54,34 +60,34 @@ public class FinancialController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@RequestParam Financial financial, RedirectAttributes redirectAttributes) {
-        this.financialService.create(financial);
-        redirectAttributes.addAttribute("message", "新增成功");
+        this.financialService.save(financial);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
         return "redirect:/financial";
     }
 
-    @RequestMapping(value = "show/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable Long id, @Valid @ModelAttribute(value = "financial") Financial financial, Model model) {
-        model.addAttribute("financial", financial);
+    @RequestMapping(value = "show/{id}")
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("financial", financialService.get(id));
         return "financial/show";
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable Long id, @Valid @ModelAttribute(value = "financial") Financial financial, Model model) {
-        model.addAttribute("financial", financial);
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("financial", financialService.get(id));
         return "financial/update";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute(value = "financial") Financial financial, RedirectAttributes redirectAttributes) {
-        this.financialService.update(financial);
-        redirectAttributes.addAttribute("message", "更新成功");
+        this.financialService.save(financial);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
         return "redirect:/financial";
     }
 
     @RequestMapping(value = "delete/{id}")
-    public String delete(@PathVariable Long id, @Valid @ModelAttribute(value = "financial") Financial financial, RedirectAttributes redirectAttributes) {
-        this.financialService.delete(financial);
-        redirectAttributes.addAttribute("message", "删除成功");
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        this.financialService.remove(financialService.get(id));
+        redirectAttributes.addFlashAttribute("message", "删除成功");
         return "redirect:/financial";
     }
 

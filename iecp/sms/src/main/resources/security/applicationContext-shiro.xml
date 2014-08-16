@@ -25,7 +25,6 @@
 			<value>
                 /login = authc
                 /logout = logout
-                /static/** = anon
                 /assets/** = anon
                 /javasimon/** = roles[Admin]
                 /jolokia/** = roles[Admin]

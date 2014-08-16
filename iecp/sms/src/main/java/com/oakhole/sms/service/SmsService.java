@@ -16,10 +16,12 @@
 
 package com.oakhole.sms.service;
 
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
 import com.oakhole.sms.dao.SmsDao;
 import com.oakhole.sms.entity.Sms;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,35 +40,12 @@ import java.util.Map;
 @Monitored
 public class SmsService {
 
+    private static Logger logger = LoggerFactory.getLogger(SmsService.class);
+
     @Autowired
     private SmsDao smsDao;
 
-    /**
-     * 批量更新或新增
-     *
-     * @param smsList
-     */
-    public void batchCreateOrUpdate(List<Sms> smsList) {
-        this.smsDao.save(smsList);
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param smsList
-     */
-    public void batchDelete(List<Sms> smsList) {
-        for (Sms sms : smsList) {
-            sms.setDeleted(true);
-        }
-        this.smsDao.save(smsList);
-    }
-
-    public void create(Sms sms) {
-        this.smsDao.save(sms);
-    }
-
-    public void update(Sms sms) {
+    public void save(Sms sms) {
         this.smsDao.save(sms);
     }
 
@@ -74,7 +53,8 @@ public class SmsService {
         return this.smsDao.findOne(id);
     }
 
-    public void delete(Sms sms) {
+
+    public void remove(Sms sms) {
         sms.setDeleted(true);
         this.smsDao.save(sms);
     }

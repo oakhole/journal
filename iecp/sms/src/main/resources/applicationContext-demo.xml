@@ -13,5 +13,4 @@
     <import resource="email/applicationContext-email.xml"/>
     <import resource="jms/applicationContext-jms.xml"/>
     <import resource="monitor/applicationContext-javasimon.xml"/>
-    <import resource="jmx/applicationContext-jmx.xml"/>
 </beans>

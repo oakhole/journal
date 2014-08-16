@@ -16,9 +16,12 @@
 
 package com.oakhole.sms.web;
 
-import com.oakhole.core.uitls.Servlets;
 import com.oakhole.sms.entity.Sms;
 import com.oakhole.sms.service.SmsService;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,56 +33,61 @@ import javax.validation.Valid;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Controller
 @RequestMapping("/sms")
 public class SmsController {
 
+    private static Logger logger = LoggerFactory.getLogger(SmsService.class);
+
     @Autowired
     private SmsService smsService;
 
-    @RequestMapping("")
+    @RequestMapping(value = {"", "list"})
     public String index(HttpServletRequest request, Model model) {
+
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        model.addAttribute("smsList", this.smsService.findAll(searchParams));
+        model.addAttribute("smss", this.smsService.findAll(searchParams));
         return "sms/index";
     }
 
+    @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
         return "sms/create";
     }
 
+    @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@RequestParam Sms sms, RedirectAttributes redirectAttributes) {
-        this.smsService.create(sms);
-        redirectAttributes.addAttribute("message", "新建成功");
+        this.smsService.save(sms);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
         return "redirect:/sms";
     }
 
-    @RequestMapping(value = "show/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable Long id, @Valid @ModelAttribute Sms sms, Model model) {
-        model.addAttribute("sms", sms);
+    @RequestMapping(value = "show/{id}")
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("sms", smsService.get(id));
         return "sms/show";
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable Long id, @Valid @ModelAttribute Sms sms, Model model) {
-        model.addAttribute("sms", sms);
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("sms", smsService.get(id));
         return "sms/update";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String update(@Valid @ModelAttribute Sms sms, RedirectAttributes redirectAttributes) {
-        this.smsService.update(sms);
-        redirectAttributes.addAttribute("message", "更新成功");
+    public String update(@Valid @ModelAttribute(value = "sms") Sms sms, RedirectAttributes redirectAttributes) {
+        this.smsService.save(sms);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
         return "redirect:/sms";
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable Long id, @Valid @ModelAttribute Sms sms, RedirectAttributes redirectAttributes) {
-        this.smsService.delete(sms);
-        redirectAttributes.addAttribute("message", "删除成功");
+    @RequestMapping(value = "delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        this.smsService.remove(smsService.get(id));
+        redirectAttributes.addFlashAttribute("message", "删除成功");
         return "redirect:/sms";
     }
 

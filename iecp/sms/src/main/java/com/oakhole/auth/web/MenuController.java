@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014. Power by http://oakhole.com .
+ * Copyright (c) 2013-2014. Powered by http://oakhole.com .
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,21 @@
 
 package com.oakhole.auth.web;
 
-import com.google.common.collect.Sets;
-import com.oakhole.auth.dto.MenuDTO;
 import com.oakhole.auth.entity.Menu;
-import com.oakhole.auth.entity.User;
-import com.oakhole.auth.service.UserService;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.dozer.DozerBeanMapper;
+import com.oakhole.auth.service.MenuService;
+import com.oakhole.utils.Servlets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author Oakhole
@@ -40,74 +40,61 @@ import java.util.Set;
 @RequestMapping("/menu")
 public class MenuController {
 
+    private static Logger logger = LoggerFactory.getLogger(MenuService.class);
+
     @Autowired
-    private UserService userService;
+    private MenuService menuService;
 
-    /**
-     * 分配权限
-     * @param id
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "assign/{id}", method = RequestMethod.GET)
-    public String assign(@PathVariable String id, Model model) {
-        model.addAttribute("id", id);
-        return "auth/assign";
+    @RequestMapping(value = {"", "list"})
+    public String index(HttpServletRequest request, Model model) {
+
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        model.addAttribute("menus", this.menuService.findAll(searchParams));
+        return "menu/index";
     }
 
-    /**
-     * 读取当前用户的菜单，用于首页菜单刷新
-     *
-     * @return
-     */
-    @RequestMapping(value = "/current", method = RequestMethod.GET)
-    @ResponseBody
-    public Set<MenuDTO> getMenus() {
-        DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
-        Set<MenuDTO> menus = Sets.newTreeSet();
-        MenuDTO dto = null;
-        for (Menu menu : this.userService.getMenu()) {
-            dto = dozerBeanMapper.map(menu, MenuDTO.class);
-            dto.setpId(menu.getParent() == null ? 0 : menu.getParent().getId());
-            dto.setHasChild(menu.getChildList().size() > 0);
-            dto.setChecked(false);
-            dto.setOpen(false);
-            menus.add(dto);
-        }
-        return menus;
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String create() {
+        return "menu/create";
     }
 
-    /**
-     * 按用户查找，用于权限分配
-     *
-     * @param user
-     * @return
-     */
-    @RequiresRoles("Admin")
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
-    public Set<MenuDTO> getMenus(@Valid @ModelAttribute("user") User user) {
-        Set<Menu> sourceMenus = this.userService.getMenu(user);
-        List<Menu> allMenus = this.userService.getAllMenu();
-        Set<MenuDTO> menus = Sets.newTreeSet();
-        DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
-        MenuDTO dto = null;
-        for (Menu menu : allMenus) {
-            dto = dozerBeanMapper.map(menu, MenuDTO.class);
-            dto.setpId(menu.getParent() == null ? 0 : menu.getParent().getId());
-            // 得到所有的菜单列表，与当前用户菜单对比，有则checked
-            if (sourceMenus.contains(menu)) {
-                dto.setChecked(true);
-            }
-            menus.add(dto);
-        }
-        return menus;
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public String create(@RequestParam Menu menu, RedirectAttributes redirectAttributes) {
+        this.menuService.save(menu);
+        redirectAttributes.addFlashAttribute("message", "添加成功");
+        return "redirect:/menu";
+    }
+
+    @RequestMapping(value = "show/{id}")
+    public String show(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("menu", menuService.get(id));
+        return "menu/show";
+    }
+
+    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("menu", menuService.get(id));
+        return "menu/update";
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public String update(@Valid @ModelAttribute(value = "menu") Menu menu, RedirectAttributes redirectAttributes) {
+        this.menuService.save(menu);
+        redirectAttributes.addFlashAttribute("message", "更新成功");
+        return "redirect:/menu";
+    }
+
+    @RequestMapping(value = "delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        this.menuService.remove(menuService.get(id));
+        redirectAttributes.addFlashAttribute("message", "删除成功");
+        return "redirect:/menu";
     }
 
     @ModelAttribute
-    public void getUser(@RequestParam(value = "id", defaultValue = "-1") long id, Model model) {
+    public void getMenu(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {
-            model.addAttribute("user", this.userService.getUser(id));
+            model.addAttribute("menu", this.menuService.get(id));
         }
     }
 }

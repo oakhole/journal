@@ -1,0 +1,178 @@
+/****** Common Layouts ******/
+html,body{
+	margin:0;
+	padding:0;
+	font-size:12px;
+	font-family: "lucida Grande",Verdana;
+	background-color:#efefef;
+}
+
+ul,li{
+	list-style: none;
+}
+
+a{
+	cursor: pointer;
+}
+
+header{
+	height:60px;
+}
+
+.logo{
+	margin-top: 15px;
+}
+
+.setinfo{
+	margin-top: 35px;
+}
+
+footer{
+	margin-top: 20px;
+}
+
+nav{
+	background-color: #428bca;
+	height: 37px;
+	margin-bottom: 12px;
+	width: 100%;
+	min-width: 960px;
+}
+
+nav.affix{
+	top:0;
+}
+
+nav a{
+	font-size: 14px;
+	color: #fff;
+	height: 37px;
+	line-height: 37px;
+}
+
+nav a.on{
+	background-color: #1e4789;
+}
+
+nav a:hover{
+	color: #fff;
+	text-decoration: none;
+	background-color: #1e4789;
+}
+
+.left{
+	float: left;
+}
+
+.right{
+	float: right;
+}
+
+/****** Main Page ******/
+.wd{
+	margin: 0 auto;
+	width: 960px;
+	clear: both;
+}
+
+.main{
+	background: #fff;
+	border: 1px solid #d4d4d4;
+	min-height: 400px;
+	padding-top: 1px;
+}
+
+.main .content{
+	width: 890px;
+	margin: 30px 35px;
+	margin-top: 19px;
+	line-height: 1.7;
+	
+}
+
+.left-column{
+	width: 650px;
+	overflow: hidden;
+}
+
+.right-column{
+	width: 240px;
+	color: #666;
+	overflow: hidden;
+}
+
+.left-column .dash{
+	padding: 0 34px 20px 0;
+	margin-right: 25px;
+	background: url("../img/side.jpg") no-repeat right center;
+	overflow: hidden;
+}
+
+.dash h1{
+	font-family: '微软雅黑';
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+h1 .welcome{
+	margin:5px 0 15px 10px;
+}
+
+.dash .advice{
+	max-height: 120px;
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+}
+
+.advice-info{
+	font-size: 12px;
+	color: #a0a0a0;
+	margin: 0 10px;
+	line-height: 30px;
+	height: 30px;
+	border-bottom: 1px dashed #d5d5d5;
+}
+
+.dash .board{
+	margin: 0;
+	overflow: hidden;
+	padding-bottom: 5px;
+}
+
+.board a{
+	height: 70px;
+	border: 1px solid #e0dede;
+	margin: 20px 20px 0 0;
+	font: bold 16px/70px "微软雅黑","宋体";
+	color: #7d7d7d;
+	opacity: 0.9;
+	background: #FDFEFF 9;
+	border-radius: 5px;
+	box-shadow: 1px 1px 3px #DDDDDD;
+}
+
+.board a:hover{
+	text-decoration: none;
+	opacity: 1;
+	box-shadow: 1px 1px 6px #bbb;
+	background: #fff;
+	color: #666;
+	border: 1px solid #aaa;
+}
+
+.right-column h4{
+	width: 100%;
+	font-size: 12px;
+	font-weight: lighter;
+	text-align: center;
+	color: #a0a0a0;
+	margin: 5px 0;
+	background: url("../img/h_bg.jpg") no-repeat -15px center;
+}
+
+.right-column section{
+	margin-bottom: 22px;
+}
+

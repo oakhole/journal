@@ -18,8 +18,10 @@ package com.oakhole.channel.service;
 
 import com.oakhole.channel.dao.ChannelDao;
 import com.oakhole.channel.entity.Channel;
-import com.oakhole.core.uitls.DynamicSpecifications;
-import com.oakhole.core.uitls.SearchFilter;
+import com.oakhole.utils.DynamicSpecifications;
+import com.oakhole.utils.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author oakhole
+ * @author Oakhole
  * @since 1.0
  */
 @Service
@@ -38,10 +40,12 @@ import java.util.Map;
 @Monitored
 public class ChannelService {
 
+    private static Logger logger = LoggerFactory.getLogger(ChannelService.class);
+
     @Autowired
     private ChannelDao channelDao;
 
-    public void create(Channel channel) {
+    public void save(Channel channel) {
         this.channelDao.save(channel);
     }
 
@@ -49,13 +53,10 @@ public class ChannelService {
         return this.channelDao.findOne(id);
     }
 
-    public void update(Channel channel) {
-        this.channelDao.save(channel);
-    }
 
-    public void delete(Channel channel) {
+    public void remove(Channel channel) {
         channel.setDeleted(true);
-        update(channel);
+        this.channelDao.save(channel);
     }
 
     public List<Channel> findAll(Map<String, Object> searchParams) {

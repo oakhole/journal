@@ -11,7 +11,7 @@
 			<a href="#"><img id="logo" src="${ctx}/static/images/logo.png" alt="Simpla Admin logo" /></a>
 
 			<!-- Sidebar Profile links -->
-			<div id="profile-links">
+			<div id=":qprofile-links">
 				你好, <a href="#" title="个人信息" id="trigger_profile"><shiro:principal property="name"/></a>, 你有 <a href="#messages" rel="modal" title="${message} 条信息">3 条信息</a><br />
 				<br />
 				<a href="#" title="设置" id="trigger_setting">设置</a> | <a href="${ctx}/logout" title="退出">退出</a>
