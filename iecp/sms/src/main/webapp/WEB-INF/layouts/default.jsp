@@ -12,8 +12,6 @@
 
         <%@ include file="meta.jsp"%>
 
-        <link type="image/x-icon" href="${ctx}/assets/images/favicon.ico" rel="shortcut icon">
-
         <%@ include file="css.jsp"%>
 
         <!--[if IE]>

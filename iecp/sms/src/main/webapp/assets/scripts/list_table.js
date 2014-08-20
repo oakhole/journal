@@ -6,9 +6,19 @@ $(document).ready(function(){
 	});
 	
 	//当选中checkbox大于1时显示隐藏的toolkit
-	var checkedItems;
+	var checkedItems,allCheckboxes;
 	$(".list-table :checkbox").on("click",function(){
+
+	    allCheckboxes = $(".list-table td input[type='checkbox']");
+
 		checkedItems = $(".list-table td :checked");
+
+		if(allCheckboxes.length == checkedItems.length){
+		    $("#check-all").attr("checked",true);
+		}else{
+		    $("#check-all").attr("checked",false);
+		}
+
 		if(checkedItems.length > 0){
 			$(".toolkit").show();
 		}else{

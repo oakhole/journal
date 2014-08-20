@@ -29,3 +29,5 @@
 <script src="${ctx}/assets/scripts/messages_cn.js"></script>
 <script src="${ctx}/assets/scripts/list_table.js"></script>
 <script src="${ctx}/assets/scripts/form.js"></script>
+<script src="${ctx}/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="${ctx}/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>

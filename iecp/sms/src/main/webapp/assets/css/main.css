@@ -176,3 +176,167 @@ h1 .welcome{
 	margin-bottom: 22px;
 }
 
+/****** Search Page ******/
+aside .left-nav{
+	float: left;
+	width: 160px;
+	position: relative;
+}
+
+aside ul{
+	margin: 20px 0 0 0;
+}
+
+aside .nav>li>a{
+	color: #000;
+}
+
+aside .nav>li>a:hover{
+	background-color: #d9e3ec;
+}
+
+aside .nav>li>a.active{
+	background-color: #c7daeb;
+	position: relative;
+}
+
+.arrow_right{
+	display: block;
+	position: absolute;
+	width: 9px;
+	height: 19px;
+	top: 7px;
+	right: 0px;
+	background: url(../img/arrow_right.gif) no-repeat;
+}
+
+form.toolbar{
+	background: #f4f7fa;
+	border-top: 1px dashed #D4D4D4;
+	border-bottom: 1px dashed #D4D4D4;
+	font-size: 12px;
+	line-height: 26px;
+	overflow: hidden;
+	padding: 10px 15px;
+}
+
+/****** Tool Box ******/
+.path{
+	background-color: #f9f9f9;
+	background: url(../img/path_bg.gif) -8px repeat-x;
+	height: 31px;
+	border-bottom: 1px solid #d4d4d4;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radiue: 5px;
+}
+
+.b_size{
+	font-size:14px;
+}
+
+.path ul{
+	margin: 0;
+	padding: 0;
+}
+
+.path li{
+	margin: 0;
+	padding: 0;
+	line-height: 31px;
+	float: left;
+	list-style: none;
+	margin-left: -15px;
+	position: relative;
+}
+
+.path li a{
+	color: #000;
+	background: url(../img/path_right.gif) right no-repeat;
+	display: block;
+	line-height: 21px;
+	padding: 5px 26px 5px 34px;
+}
+
+.path li a:hover{
+	color: #4c4c4c;
+	text-decoration: none;
+	background: url(../img/path_hover.gif) right no-repeat;
+}
+
+.path li.home{
+	margin-left:0;
+}
+
+.path li.home a{
+	padding:5px 30px;
+}
+
+.path li.home a:hover{
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.toolbox{
+	overflow: hidden;
+}
+
+.toolbox li{
+	list-style: none;
+	width: 100%;
+	border-bottom: 1px solid #efefef;
+	position: relative;
+}
+
+.toolbox li a p{
+	margin: 0;
+}
+
+.toolbox li .item{
+	display: block;
+	padding: 12px 30px 17px;
+	overflow: hidden;
+	zoom: 1;
+	background: #fff;
+}
+
+.toolbox li .item:hover{
+	background: #f4f7fa;
+	text-decoration: none;
+}
+
+.toolbox li .last_child{
+	border-bottom:0 none;
+}
+
+.toolbox li .item .t_title{
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 28px;
+	color: #34599e;
+}
+
+.toolbox li .item .t_info{
+	line-height: 20px;
+	color: #a0a0a0;
+}
+
+.toolbox li .item .t_arrow{
+	display: block;
+	width: 25px;
+	height: 35px;
+	background: url(../img/ico_toolbox.png) no-repeat 0 0;
+	position: absolute;
+	top: 22px;
+	right: 40px;
+	display: none;
+}
+
+.toolbox li .item:hover .t_arrow{
+	display:block;
+	background-position:0 -39px;
+}

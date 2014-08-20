@@ -35,4 +35,19 @@ public class ToolboxController {
     public String index() {
         return "toolbox/index";
     }
+
+    @RequestMapping("blacklist")
+    public String blacklsit() {
+        return "toolbox/blacklist";
+    }
+
+    @RequestMapping("whitelist")
+    public String whitelist() {
+        return "toolbox/whitelist";
+    }
+
+    @RequestMapping("package")
+    public String pacakge() {
+        return "toolbox/package";
+    }
 }

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 1.0
  */
 @Controller
-@RequestMapping("statistics")
+@RequestMapping("/statistics")
 public class StatisticsController {
 
     /**

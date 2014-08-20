@@ -36,4 +36,20 @@ public class SyslogController {
     public String index() {
         return "syslog/index";
     }
+
+    @RequestMapping("withdraw")
+    public String log_withdraw() {
+        return "syslog/withdraw";
+    }
+
+    @RequestMapping("income")
+    public String log_income() {
+        return "syslog/income";
+    }
+
+    @RequestMapping("interface")
+    public String log_interface() {
+        return "syslog/interface";
+    }
 }
+

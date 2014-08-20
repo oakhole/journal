@@ -3,6 +3,12 @@
 <%@ include file="/WEB-INF/layouts/taglibs.jsp"%>
 
 <div class="main wd">
+    <div class="path b_size">
+        <ul>
+            <li class="home" style="z-index:100;"><a href="${ctx}/toolbox">工具箱</a></li>
+            <li><a href="${ctx}/user">用户管理</a></li>
+        </ul>
+    </div>
     <div class="left-nav left">
         <ul class="nav nav-tabs">
             <li class="active">
