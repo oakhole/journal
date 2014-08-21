@@ -8,14 +8,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">✗</button>
-                <h4>确认退出</h4>
             </div>
             <div class="modal-body">
-                ....
+                是否退出？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a href="${ctx}/logout" class="btn btn-primary">Yeap</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                    <a href="${ctx}/logout" class="btn btn-primary">是</a>
             </div>
         </div>
     </div>

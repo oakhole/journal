@@ -11,9 +11,12 @@
 	</head>
 	<body>
 		<div class="main wd">
-			<div class="page-header text-center text-muted">
-				<h2>网站功能正在建设中，请关注其他已开放功能 ：）</h2>
-			</div>
+			<div class="path b_size">
+                <ul>
+                    <li class="home" style="z-index:100;"><a href="${ctx}/">短信管理</a></li>
+                    <li><a href="${ctx}/smsReceive">收件箱</a></li>
+                </ul>
+            </div>
 		</div>
 	</body>
 </html>
