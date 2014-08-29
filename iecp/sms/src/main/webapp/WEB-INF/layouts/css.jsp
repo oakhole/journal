@@ -10,3 +10,4 @@
 <link href="${ctx}/assets/css/form.css" rel="stylesheet">
 <link href="${ctx}/assets/css/show.css" rel="stylesheet">
 <link href="${ctx}/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
