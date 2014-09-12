@@ -29,7 +29,7 @@ import java.util.*;
  * 
  * @author calvin
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings("UnusedDeclaration")
 public class Collections3 {
 
 	/**

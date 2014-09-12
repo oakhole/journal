@@ -18,15 +18,12 @@
                 <li>
                     <a href="${ctx}/syslog/withdraw"><span class="glyphicon glyphicon-tag"> 消费日志</a>
                 </li>
-                <li>
-                    <a href="${ctx}/syslog/interface"><span class="glyphicon glyphicon-tag"> 接口调用日志</a>
-                </li>
             </ul>
         </div>
     </aside>
     <div class="right-info left">
         <section>
-            <h4>登陆日志</h4>
+            <h4>充值日志</h4>
             <p>可查询登陆时间、ip地址等信息</p>
         </section>
 

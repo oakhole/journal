@@ -23,13 +23,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -47,10 +48,19 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = {"", "list"})
-    public String index(HttpServletRequest request, Model model) {
-
+    public String list(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                       @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+                       @RequestParam(value = "sortDirection", defaultValue = "DESC") String sortDirection,
+                       @RequestParam(value = "sortBy", defaultValue = "id") String sortBy, Model model,
+                       ServletRequest request) {
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        model.addAttribute("users", this.userService.findAll(searchParams));
+        Page<User> users = this.userService.findAll(searchParams, pageNumber, pageSize, sortDirection, sortBy);
+        model.addAttribute("users", users);
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
         return "user/index";
     }
 
@@ -63,6 +73,7 @@ public class UserController {
     public String create(@Valid User user, RedirectAttributes redirectAttributes) {
         this.userService.save(user);
         redirectAttributes.addFlashAttribute("message", "添加成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/user";
     }
 
@@ -82,6 +93,7 @@ public class UserController {
     public String update(@Valid @ModelAttribute(value = "user") User user, RedirectAttributes redirectAttributes) {
         this.userService.save(user);
         redirectAttributes.addFlashAttribute("message", "更新成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/user";
     }
 
@@ -92,6 +104,7 @@ public class UserController {
             this.userService.remove(userService.get(Long.valueOf(id)));
         }
         redirectAttributes.addFlashAttribute("message", "删除成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/user";
     }
 

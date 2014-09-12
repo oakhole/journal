@@ -23,12 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -45,13 +46,22 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @RequestMapping(value = {"", "list"})
-    public String index(HttpServletRequest request, Model model) {
-
-        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        model.addAttribute("files", this.fileService.findAll(searchParams));
-        return "file/index";
-    }
+     @RequestMapping(value = {"", "list"})
+        public String list(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                           @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+                           @RequestParam(value = "sortDirection", defaultValue = "DESC") String sortDirection,
+                           @RequestParam(value = "sortBy", defaultValue = "id") String sortBy, Model model,
+                           ServletRequest request) {
+            Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+            Page<File> files = this.fileService.findAll(searchParams, pageNumber, pageSize,sortDirection,sortBy);
+            model.addAttribute("files", files);
+            model.addAttribute("pageNumber", pageNumber);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("sortDirection", sortDirection);
+            model.addAttribute("sortBy", sortBy);
+            model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
+            return "file/index";
+        }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
@@ -59,9 +69,10 @@ public class FileController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create(@RequestParam File file, RedirectAttributes redirectAttributes) {
+    public String create(@Valid File file, RedirectAttributes redirectAttributes) {
         this.fileService.save(file);
         redirectAttributes.addFlashAttribute("message", "添加成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/file";
     }
 
@@ -81,6 +92,7 @@ public class FileController {
     public String update(@Valid @ModelAttribute(value = "file") File file, RedirectAttributes redirectAttributes) {
         this.fileService.save(file);
         redirectAttributes.addFlashAttribute("message", "更新成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/file";
     }
 
@@ -88,6 +100,7 @@ public class FileController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         this.fileService.remove(fileService.get(id));
         redirectAttributes.addFlashAttribute("message", "删除成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/file";
     }
 

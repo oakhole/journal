@@ -14,42 +14,26 @@
  *   limitations under the License.
  */
 
-package com.oakhole.syslog;
+package com.oakhole.utils;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @authro Oakhole
  * @since 1.0
  */
-@RequestMapping("/syslog")
-@Controller
-public class SyslogController {
+public class Calendars {
+
+    // 设定日期格式
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:MM:ss");
 
     /**
-     * 系统日志查询
+     * 获取当前时间字符串
      *
      * @return
      */
-    @RequestMapping("")
-    public String index() {
-        return "syslog/index";
-    }
-
-    @RequestMapping("withdraw")
-    public String log_withdraw() {
-        return "syslog/withdraw";
-    }
-
-    @RequestMapping("income")
-    public String log_income() {
-        return "syslog/income";
-    }
-
-    @RequestMapping("interface")
-    public String log_interface() {
-        return "syslog/interface";
+    public static String getNow() {
+        return simpleDateFormat.format(new Date());
     }
 }
-

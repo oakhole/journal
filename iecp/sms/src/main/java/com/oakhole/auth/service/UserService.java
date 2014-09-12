@@ -27,6 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -77,10 +80,14 @@ public class UserService {
         this.userDao.save(user);
     }
 
-    public List<User> findAll(Map<String, Object> searchParams) {
+    public Page<User> findAll(Map<String, Object> searchParams, int pageNumber, int pageSize, String sortDirection,
+                              String sortBy) {
         Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
         Specification<User> spec = DynamicSpecifications.bySearchFilter(filters.values(), User.class);
-        return this.userDao.findAll(spec);
+        Sort sort = new Sort("ASC".equals(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+        PageRequest pageRequest = new PageRequest(pageNumber, pageSize, sort);
+        Page<User> userList = userDao.findAll(spec, pageRequest);
+        return userList;
     }
 
     public User findUserByUsername(String username) {

@@ -23,12 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -45,13 +46,22 @@ public class SmsReceiveController {
     @Autowired
     private SmsReceiveService smsReceiveService;
 
-    @RequestMapping(value = {"", "list"})
-    public String index(HttpServletRequest request, Model model) {
-
-        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-        model.addAttribute("smsReceives", this.smsReceiveService.findAll(searchParams));
-        return "smsReceive/index";
-    }
+     @RequestMapping(value = {"", "list"})
+        public String list(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                           @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+                           @RequestParam(value = "sortDirection", defaultValue = "DESC") String sortDirection,
+                           @RequestParam(value = "sortBy", defaultValue = "id") String sortBy, Model model,
+                           ServletRequest request) {
+            Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+            Page<SmsReceive> smsReceives = this.smsReceiveService.findAll(searchParams, pageNumber, pageSize,sortDirection,sortBy);
+            model.addAttribute("smsReceives", smsReceives);
+            model.addAttribute("pageNumber", pageNumber);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("sortDirection", sortDirection);
+            model.addAttribute("sortBy", sortBy);
+            model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
+            return "smsReceive/index";
+        }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
@@ -59,9 +69,10 @@ public class SmsReceiveController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create(@RequestParam SmsReceive smsReceive, RedirectAttributes redirectAttributes) {
+    public String create(@Valid SmsReceive smsReceive, RedirectAttributes redirectAttributes) {
         this.smsReceiveService.save(smsReceive);
         redirectAttributes.addFlashAttribute("message", "添加成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/smsReceive";
     }
 
@@ -81,6 +92,7 @@ public class SmsReceiveController {
     public String update(@Valid @ModelAttribute(value = "smsReceive") SmsReceive smsReceive, RedirectAttributes redirectAttributes) {
         this.smsReceiveService.save(smsReceive);
         redirectAttributes.addFlashAttribute("message", "更新成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/smsReceive";
     }
 
@@ -88,6 +100,7 @@ public class SmsReceiveController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         this.smsReceiveService.remove(smsReceiveService.get(id));
         redirectAttributes.addFlashAttribute("message", "删除成功");
+        redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/smsReceive";
     }
 

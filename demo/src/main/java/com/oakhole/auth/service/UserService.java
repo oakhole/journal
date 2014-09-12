@@ -88,7 +88,7 @@ public class UserService {
         try {
             Map<Object, Object> dataMap = new HashMap<Object, Object>();
             dataMap.put("username", user.getUsername());
-            dataMap.put("name",user.getName());
+            dataMap.put("name", user.getName());
             dataMap.put("email", user.getEmail());
             notifyMessageProducer.sendQueue(dataMap);
         } catch (Exception e) {
@@ -206,6 +206,7 @@ public class UserService {
 
     /**
      * 默认获取当前用户的菜单
+     *
      * @return
      */
     public Set<Menu> getMenu() {

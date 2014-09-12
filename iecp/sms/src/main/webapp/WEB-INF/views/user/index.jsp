@@ -37,10 +37,10 @@
         <section>
             <h4>总经办</h4>
             <p><a href="#" data-toggle="modal" data-target="#renameGroups">修改名字</a> | <a href="#" data-toggle="modal" data-target="#newChildGroup">新建子部门</a> | <a href="#" data-toggle="modal" data-target="#assignRoles">角色分配</a></p>
-            <p class="text-muted">成员3个</p>
+            <p class="text-muted">成员${users.totalElements}个</p>
         </section>
-        <c:if test="${message != null}">
-            <div class="alert alert-warning alert-dismissible">
+        <c:if test="${not empty message}">
+            <div class="alert alert-${returnStatus} alert-dismissible">
                 <button class="close" data-dismiss="alert">✗</button>
                 ${message}
             </div>
@@ -74,9 +74,10 @@
             </thead>
             <tbody>
 
-                <c:forEach var="user" items="${users}">
+                <c:forEach var="user" items="${users.content}">
                     <tr>
-                        <td><input type="checkbox"/> <a href="${ctx}/user/show/${user.id}"><span class="glyphicon
+                        <td><input type="checkbox" value="${user.id}"/> <a href="${ctx}/user/show/${user.id}"><span
+                        class="glyphicon
                         glyphicon-user"></span> ${user.username}</a></td>
                         <td><a href="${ctx}/user/show/${user.id}">${user.email}</a></td>
                         <td>${user.name}</td>
@@ -84,21 +85,26 @@
                 </c:forEach>
 
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3">
-                        <ul class="pagination pagination-sm right">
-                            <li><a href="#">&laquo;</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            </tfoot>
+            <c:if test="${users.totalPages > 1}">
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <ul class="pager">
+                                <c:if test="${users.number > 0}">
+                                    <li><a href="${ctx}/user?pageNumber=${users
+                                    .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                    }&${searchParams}">上一页</a></li>
+                                </c:if>
+                                <c:if test="${users.number < users.totalPages-1}">
+                                    <li><a href="${ctx}/user?pageNumber=${users
+                                     .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                     }&${searchParams}">下一页</a></li>
+                                </c:if>
+                            </ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </c:if>
         </table>
     </div>
     <div class="clearfix"></div>

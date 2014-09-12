@@ -18,9 +18,6 @@
                 <li>
                     <a href="${ctx}/syslog/withdraw"><span class="glyphicon glyphicon-tag"> 消费日志</a>
                 </li>
-                <li>
-                    <a href="${ctx}/syslog/interface"><span class="glyphicon glyphicon-tag"> 接口调用日志</a>
-                </li>
             </ul>
         </div>
     </aside>
@@ -56,40 +53,38 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="checkbox"/> <a href="#"><span class="glyphicon glyphicon-user"></span>
-                    admin</a></td>
-                    <td>2014-08-08 10:10:10</td>
-                    <td>192.168.0.1</td>
-                    <td>网页</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"/> <a href="#"><span class="glyphicon glyphicon-user"></span>
-                    agent</a></td>
-                    <td>2014-08-08 10:10:10</td>
-                    <td>192.168.0.1</td>
-                    <td>网页</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"/> <a href="#"><span class="glyphicon glyphicon-user"></span>
-                    user</a></td>
-                    <td>2014-08-08 10:10:10</td>
-                    <td>192.168.0.1</td>
-                    <td>接口</td>
-                </tr>
+
+                <c:forEach items="${signLogs.content}" var="signLog">
+                    <tr>
+                        <td><input type="checkbox"/> <a href="#"><span class="glyphicon glyphicon-user"></span>
+                        ${signLog.username}</a></td>
+                        <td>${signLog.signTime}</td>
+                        <td>${signLog.signIp}</td>
+                        <td>${signTypes[signLog.signType]}</td>
+                    </tr>
+                </c:forEach>
+
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="4">
-                        <ul class="pagination pagination-sm right">
-                            <li><a href="#">&laquo;</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
+                        <c:if test="${signLogs.totalPages == 0}">
+                            没有查询到任何相关数据.
+                        </c:if>
+                        <c:if test="${signLogs.totalPages > 0}">
+                            <ul class="pager">
+                                <c:if test="${signLogs.number > 0}">
+                                    <li><a href="${ctx}/syslog?pageNumber=${signLogs
+                                    .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                    }&${searchParams}">上一页</a></li>
+                                </c:if>
+                                <c:if test="${signLogs.number < signLogs.totalPages-1}">
+                                    <li><a href="${ctx}/syslog?pageNumber=${signLogs
+                                     .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                     }&${searchParams}">下一页</a></li>
+                                </c:if>
+                            </ul>
+                        </c:if>
                     </td>
                 </tr>
             </tfoot>

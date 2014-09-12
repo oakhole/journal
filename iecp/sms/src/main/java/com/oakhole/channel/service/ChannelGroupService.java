@@ -24,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -59,9 +62,13 @@ public class ChannelGroupService {
         this.channelGroupDao.save(channelGroup);
     }
 
-    public List<ChannelGroup> findAll(Map<String, Object> searchParams) {
-        Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<ChannelGroup> spec = DynamicSpecifications.bySearchFilter(filters.values(), ChannelGroup.class);
-        return this.channelGroupDao.findAll(spec);
+    public Page<ChannelGroup> findAll(Map<String, Object> searchParams, int pageNumber, int pageSize, String
+    sortDirection, String sortBy) {
+            Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+            Specification<ChannelGroup> spec = DynamicSpecifications.bySearchFilter(filters.values(), ChannelGroup.class);
+            Sort sort = new Sort("ASC".equals(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+            PageRequest pageRequest = new PageRequest(pageNumber, pageSize, sort);
+            Page<ChannelGroup> channelGroupList = channelGroupDao.findAll(spec, pageRequest);
+            return channelGroupList;
     }
 }

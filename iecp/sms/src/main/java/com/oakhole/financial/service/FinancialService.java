@@ -24,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.javasimon.aop.Monitored;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -59,9 +62,13 @@ public class FinancialService {
         this.financialDao.save(financial);
     }
 
-    public List<Financial> findAll(Map<String, Object> searchParams) {
-        Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-        Specification<Financial> spec = DynamicSpecifications.bySearchFilter(filters.values(), Financial.class);
-        return this.financialDao.findAll(spec);
+    public Page<Financial> findAll(Map<String, Object> searchParams, int pageNumber, int pageSize, String
+    sortDirection, String sortBy) {
+            Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+            Specification<Financial> spec = DynamicSpecifications.bySearchFilter(filters.values(), Financial.class);
+            Sort sort = new Sort("ASC".equals(sortDirection) ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+            PageRequest pageRequest = new PageRequest(pageNumber, pageSize, sort);
+            Page<Financial> financialList = financialDao.findAll(spec, pageRequest);
+            return financialList;
     }
 }

@@ -67,7 +67,7 @@ public class Generate {
     public static void main(String[] args) {
 
         Generate generate = new Generate("/Users/Oakhole/Documents/Java/journal/iecp/sms/src/main/resources/template");
-        generate.generate("/Users/Oakhole/Documents/Java/journal/iecp/sms/src/main/java", "com.oakhole");
+        generate.generate("/Users/Oakhole/Desktop", "com.oakhole");
     }
 
     /**
@@ -101,20 +101,20 @@ public class Generate {
 //                daoTemplate.process(dataModel, new FileWriter(daoPath));
 //                logger.info("Dao.create: {}", daoPath);
 //
-//                // 处理 Service
-//                String servicePath = basicPath + file_separator
-//                        + (dataModel.get("packageName") + ".service." + dataModel.get("ClassName"))
-//                        .replace(".", file_separator) + "Service.java";
-//                File serviceFile = new File(servicePath);
-//                if (!serviceFile.exists()) {
-//                    if (!serviceFile.getParentFile().exists()) {
-//                        serviceFile.getParentFile().mkdirs();
-//                    }
-//                    serviceFile.createNewFile();
-//                }
-//                Template serviceTemplate = configuration.getTemplate("service.ftl");
-//                serviceTemplate.process(dataModel, new FileWriter(servicePath));
-//                logger.info("Service.create: {}", servicePath);
+                // 处理 Service
+                String servicePath = basicPath + file_separator
+                        + (dataModel.get("packageName") + ".service." + dataModel.get("ClassName"))
+                        .replace(".", file_separator) + "Service.java";
+                File serviceFile = new File(servicePath);
+                if (!serviceFile.exists()) {
+                    if (!serviceFile.getParentFile().exists()) {
+                        serviceFile.getParentFile().mkdirs();
+                    }
+                    serviceFile.createNewFile();
+                }
+                Template serviceTemplate = configuration.getTemplate("service.ftl");
+                serviceTemplate.process(dataModel, new FileWriter(servicePath));
+                logger.info("Service.create: {}", servicePath);
 
                 // 处理 Controller
                 String controllerPath = basicPath + file_separator

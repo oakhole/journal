@@ -14,9 +14,9 @@ $(document).ready(function(){
 		checkedItems = $(".list-table td :checked");
 
 		if(allCheckboxes.length == checkedItems.length){
-		    $("#check-all").attr("checked",true);
+		    $("#check-all").prop("checked",true);
 		}else{
-		    $("#check-all").attr("checked",false);
+		    $("#check-all").prop("checked",false);
 		}
 
 		if(checkedItems.length > 0){
