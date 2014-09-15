@@ -14,7 +14,7 @@
     <div class="content">
         <div class="left-column left">
             <div class="dash">
-                <form class="form-horizontal sms_form" role="form" method="post" action="${ctx}/smsTask/create">
+                <form class="form-horizontal sms_form" role="form" method="post" action="${ctx}/advice/create">
                     <legend></legend>
                     <div class="form-group">
                         <label class="control-label col-sm-2">公告标题</label>
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">公告内容</label>
                         <div class="col-sm-10">
-                            <textarea id="content" class="form-control" name="内容" rows="8"
+                            <textarea id="content" class="form-control" name="content" rows="8"
                             required></textarea>
                         </div>
                     </div>

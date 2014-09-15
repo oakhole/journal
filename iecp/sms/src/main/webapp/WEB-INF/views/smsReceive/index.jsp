@@ -8,7 +8,7 @@
     <div class="path b_size">
         <ul>
             <li class="home" style="z-index:100;"><a href="${ctx}/">短信管理</a></li>
-            <li><a href="${ctx}/smsReceive">已发送</a></li>
+            <li><a href="${ctx}/smsReceive">收件箱</a></li>
         </ul>
     </div>
     <div class="content">
@@ -24,30 +24,44 @@
         <table class="table table-hover list-table">
             <thead>
                 <tr>
-                    <th>状态</th>
+                    <th>编号</th>
+                    <th>号码</th>
                     <th>内容</th>
                     <th>时间</th>
                 </tr>
             </thead>
             <tbody style="table-layout:fixed; width:890px;">
                 <tr>
-                    <td><span class="label label-default">default</span></td>
-                    <td>公告内容</td>
-                    <td>2014-08-08 12:12:12</td>
+
+                    <c:forEach items="${smsReceivesContent}" var="smsReceive">
+                        <td>${smsReceive.id}</td>
+                        <td>>${smsReceive.fromPhoneNo}</td>
+                        <td>${smsReceive.content}</td>
+                        <td>${smsReceive.receiveTime}</td>
+                    </c:forEach>
+
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">
-                        <ul class="pagination pagination-sm right">
-                            <li><a href="#">&laquo;</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
+                    <td colspan="4">
+                        <c:if test="${smsReceives.totalPages == 0}">
+                            没有查询到任何相关数据.
+                        </c:if>
+                        <c:if test="${smsReceives.totalPages > 0}">
+                            <ul class="pager">
+                                <c:if test="${smsReceives.number > 0}">
+                                    <li><a href="${ctx}/smsReceive?pageNumber=${smsReceives
+                                    .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                    }&${searchParams}">上一页</a></li>
+                                </c:if>
+                                <c:if test="${smsReceives.number < smsReceives.totalPages-1}">
+                                    <li><a href="${ctx}/smsReceive?pageNumber=${smsReceives
+                                     .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                     }&${searchParams}">下一页</a></li>
+                                </c:if>
+                            </ul>
+                        </c:if>
                     </td>
                 </tr>
             </tfoot>

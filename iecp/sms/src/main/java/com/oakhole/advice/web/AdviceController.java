@@ -18,6 +18,7 @@ package com.oakhole.advice.web;
 
 import com.oakhole.advice.entity.Advice;
 import com.oakhole.advice.service.AdviceService;
+import com.oakhole.utils.Calendars;
 import com.oakhole.utils.Servlets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,22 +47,22 @@ public class AdviceController {
     @Autowired
     private AdviceService adviceService;
 
-     @RequestMapping(value = {"", "list"})
-        public String list(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
-                           @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-                           @RequestParam(value = "sortDirection", defaultValue = "DESC") String sortDirection,
-                           @RequestParam(value = "sortBy", defaultValue = "id") String sortBy, Model model,
-                           ServletRequest request) {
-            Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-            Page<Advice> advices = this.adviceService.findAll(searchParams, pageNumber, pageSize,sortDirection,sortBy);
-            model.addAttribute("advices", advices);
-            model.addAttribute("pageNumber", pageNumber);
-            model.addAttribute("pageSize", pageSize);
-            model.addAttribute("sortDirection", sortDirection);
-            model.addAttribute("sortBy", sortBy);
-            model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
-            return "advice/index";
-        }
+    @RequestMapping(value = {"", "list"})
+    public String list(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                       @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+                       @RequestParam(value = "sortDirection", defaultValue = "DESC") String sortDirection,
+                       @RequestParam(value = "sortBy", defaultValue = "id") String sortBy, Model model,
+                       ServletRequest request) {
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        Page<Advice> advices = this.adviceService.findAll(searchParams, pageNumber, pageSize, sortDirection, sortBy);
+        model.addAttribute("advices", advices);
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
+        return "advice/index";
+    }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String create() {
@@ -70,6 +71,7 @@ public class AdviceController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@Valid Advice advice, RedirectAttributes redirectAttributes) {
+        advice.setPublishTime(Calendars.getNow());
         this.adviceService.save(advice);
         redirectAttributes.addFlashAttribute("message", "添加成功");
         redirectAttributes.addFlashAttribute("returnStatus", "success");
@@ -78,7 +80,11 @@ public class AdviceController {
 
     @RequestMapping(value = "show/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("advice", adviceService.get(id));
+        // 统计读取次数
+        Advice advice = this.adviceService.get(id);
+        advice.setReadTimes(advice.getReadTimes() + 1);
+        this.adviceService.save(advice);
+        model.addAttribute("advice", advice);
         return "advice/show";
     }
 

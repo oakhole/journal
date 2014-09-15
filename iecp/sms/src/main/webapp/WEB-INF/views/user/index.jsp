@@ -89,18 +89,23 @@
                 <tfoot>
                     <tr>
                         <td colspan="3">
-                            <ul class="pager">
-                                <c:if test="${users.number > 0}">
-                                    <li><a href="${ctx}/user?pageNumber=${users
-                                    .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
-                                    }&${searchParams}">上一页</a></li>
-                                </c:if>
-                                <c:if test="${users.number < users.totalPages-1}">
-                                    <li><a href="${ctx}/user?pageNumber=${users
-                                     .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
-                                     }&${searchParams}">下一页</a></li>
-                                </c:if>
-                            </ul>
+                            <c:if test="${users.totalPages == 0}">
+                                没有查询到任何相关数据.
+                            </c:if>
+                            <c:if test="${users.totalPages > 0}">
+                                <ul class="pager">
+                                    <c:if test="${users.number > 0}">
+                                        <li><a href="${ctx}/user?pageNumber=${users
+                                        .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                        }&${searchParams}">上一页</a></li>
+                                    </c:if>
+                                    <c:if test="${users.number < users.totalPages-1}">
+                                        <li><a href="${ctx}/user?pageNumber=${users
+                                         .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                         }&${searchParams}">下一页</a></li>
+                                    </c:if>
+                                </ul>
+                            </c:if>
                         </td>
                     </tr>
                 </tfoot>

@@ -17,6 +17,8 @@
                     <li><a href="${ctx}/advice">公告管理</a></li>
                 </ul>
             </div>
+            <h2>${advice.title}</h2>
+            <span>${advice.content}</span>
 		</div>
 	</body>
 </html>

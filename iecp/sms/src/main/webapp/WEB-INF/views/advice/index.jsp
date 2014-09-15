@@ -20,35 +20,67 @@
                 <input type="text" class="form-control input-sm" value="" readonly placeholder="结束日期" name="end">
             </div>
             <button class="btn btn-default btn-sm" type="submit">查询</button>
+            <a href="${ctx}/advice/create" class="right btn btn-default btn-sm"><span class="glyphicon glyphicon-plus text-muted"></span> 发布公告</a>
         </form>
         <table class="table table-hover list-table">
             <thead>
                 <tr>
-
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody style="table-layout:fixed; width:890px;">
                 <tr>
-                    <td><span class="label label-default">default</span></td>
-                    <td>公告内容</td>
-                    <td>2014-08-08 12:12:12</td>
+
+                    <c:forEach items="${advices.content}" var="advice">
+                        <tr id="${advice.id}">
+                            <td colspan=3><span class="h5">
+                                <span class="toolbar"><span class="glyphicon glyphicon-share-alt"></span></span>
+                                <span class="h5">${advice.title} <span class="h6 text-muted">${advice.content}</span></span>
+                            </td>
+                            <td class="text-center">
+                                <span>${advice.publishTime}</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-default">${advice.readTimes}</span>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">
-                        <ul class="pagination pagination-sm right">
-                            <li><a href="#">&laquo;</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
+                    <td colspan="5">
+                        <c:if test="${advices.totalPages == 0}">
+                            没有查询到任何相关数据.
+                        </c:if>
+                        <c:if test="${advices.totalPages > 0}">
+                            <ul class="pager">
+                                <c:if test="${advices.number > 0}">
+                                    <li><a href="${ctx}/advice?pageNumber=${advices
+                                    .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                    }&${searchParams}">上一页</a></li>
+                                </c:if>
+                                <c:if test="${advices.number < advices.totalPages-1}">
+                                    <li><a href="${ctx}/advice?pageNumber=${advices
+                                     .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                     }&${searchParams}">下一页</a></li>
+                                </c:if>
+                            </ul>
+                        </c:if>
                     </td>
                 </tr>
             </tfoot>
         </table>
     </div>
 </div>
+
+<script>
+    $("tbody tr").on("click",function(){
+        location.href = "${ctx}/advice/show/" + this.id;
+    });
+</script>

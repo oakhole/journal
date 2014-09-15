@@ -26,7 +26,7 @@ import java.util.Date;
 public class Calendars {
 
     // 设定日期格式
-    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:MM:ss");
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     /**
      * 获取当前时间字符串

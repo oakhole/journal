@@ -92,13 +92,3 @@
     <div class="clearfix"></div>
 </div>
     <div class="clearfix"></div>
-
-<script type="text/javascript">
-    $('.input-daterange').datepicker({
-        language: "zh-CN",
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        todayBtn: "linked",
-        todayHighLight: true
-    });
-</script>

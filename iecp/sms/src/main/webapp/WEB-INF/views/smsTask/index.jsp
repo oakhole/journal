@@ -36,37 +36,40 @@
                 </tr>
             </thead>
             <tbody style="table-layout:fixed; width:890px;">
-                <c:if test="${not empty smsTasks}">
-                    <c:forEach var="smsTask" items="${smsTasks.content}">
-                        <tr>
-                            <td><input type="checkbox" value="smsTask.id"/> <span class="label
-                            label-default">default</span></td>
-                            <td><a href="${ctx}/smsTask/update/${smsTask.id}">${smsTask.content}</a></td>
-                            <td>${smsTask.sendTime}</td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${empty smsTasks}">
-                    <tr><td colspan="3">没有查询到相关数据。</td></tr>
-                </c:if>
-            </tbody>
-            <c:if test="${smsTasks.totalPages > 1}">
-                <tfoot>
+
+                <c:forEach var="smsTask" items="${smsTasks.content}">
                     <tr>
-                        <td colspan="3">
-                            <ul class="pagination pagination-sm right">
-                                <li><a href="#">&laquo;</a></li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">&raquo;</a></li>
-                            </ul>
-                        </td>
+                        <td><input type="checkbox" value="smsTask.id"/> <span class="label
+                        label-default">default</span></td>
+                        <td><a href="${ctx}/smsTask/update/${smsTask.id}">${smsTask.content}</a></td>
+                        <td>${smsTask.sendTime}</td>
                     </tr>
-                </tfoot>
-            </c:if>
+                </c:forEach>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <c:if test="${smsTasks.totalPages == 0}">
+                            没有查询到任何相关数据.
+                        </c:if>
+                        <c:if test="${smsTasks.totalPages > 0}">
+                            <ul class="pager">
+                                <c:if test="${smsTasks.number > 0}">
+                                    <li><a href="${ctx}/smsTask?pageNumber=${smsTasks
+                                    .number-1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                    }&${searchParams}">上一页</a></li>
+                                </c:if>
+                                <c:if test="${smsTasks.number < smsTasks.totalPages-1}">
+                                    <li><a href="${ctx}/syslog?pageNumber=${smsTasks
+                                     .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
+                                     }&${searchParams}">下一页</a></li>
+                                </c:if>
+                            </ul>
+                        </c:if>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

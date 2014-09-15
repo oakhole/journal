@@ -56,7 +56,7 @@
 
                 <c:forEach items="${signLogs.content}" var="signLog">
                     <tr>
-                        <td><input type="checkbox"/> <a href="#"><span class="glyphicon glyphicon-user"></span>
+                        <td><a href="#"><span class="glyphicon glyphicon-user"></span>
                         ${signLog.username}</a></td>
                         <td>${signLog.signTime}</td>
                         <td>${signLog.signIp}</td>

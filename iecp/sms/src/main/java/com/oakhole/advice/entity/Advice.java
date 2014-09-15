@@ -38,6 +38,7 @@ public class Advice extends IdEntity {
 
     private String title;
     private String content;
+    private String publishTime;
     private int readTimes;
 
     private User author;
@@ -56,6 +57,15 @@ public class Advice extends IdEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Column(name = "publish_time")
+    public String getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(String publishTime) {
+        this.publishTime = publishTime;
     }
 
     @Column(name = "read_times")

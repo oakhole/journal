@@ -29,5 +29,12 @@ $(document).ready(function(){
 	$("*[data-dismiss|='modal']").on("click",function(e){
 		$("*[data-toggle|='modal']").prop("focus",null);
 	});
-	
+
+    $('.input-daterange').datepicker({
+        language: "zh-CN",
+        autoclose: true,
+        format: "yyyy-mm-dd",
+        todayBtn: "linked",
+        todayHighLight: true
+    });
 });

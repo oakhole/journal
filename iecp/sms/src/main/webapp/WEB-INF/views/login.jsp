@@ -26,7 +26,21 @@
 			</div>
 		</header>
 		<div class="wd">
+
 			<form role="form" id="login_form" class="form-horziontal login-form" method="post" action="/login">
+
+			    <%
+                    String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+                    if(error != null){
+                %>
+                        <div class="alert alert-danger alert-dismissible">
+                            <button class="close" data-dismiss="alert">✗</button>
+                            登陆失败，请重试。
+                        </div>
+                <%
+                    }
+                %>
+
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">
