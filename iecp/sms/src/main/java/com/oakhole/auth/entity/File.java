@@ -24,7 +24,7 @@ import javax.persistence.Table;
 
 /**
  * @author oakhole
- * @version 4/30/14
+ * @since 1.0
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

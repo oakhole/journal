@@ -14,15 +14,18 @@
     <div class="content">
         <div class="left-column left">
             <div class="dash">
-                <form class="form-horizontal sms_form" role="form" method="post" action="${ctx}/smsTask/create">
+                <form id="inputForm" class="form-horizontal sms_form" role="form" method="post" action="${ctx}/smsTask/create">
                     <legend></legend>
                     <div class="form-group">
                         <label class="control-label col-sm-2">短信内容</label>
                         <div class="col-sm-10">
-                            <textarea id="content" class="form-control" name="content" rows="4" required></textarea>
+                            <textarea id="content" class="form-control" name="content" rows="4" required maxlength="500"></textarea>
                             <span class="pull-right">共<span id="badge_content" class="badge">0</span>字</span>
                         </div>
                     </div>
+
+                    <input type="hidden" id="content_count" name="content_count" value=""/>
+
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <a href="#" class="btn btn-default btn-sm" data-toggle="modal"
@@ -39,6 +42,9 @@
                             <span class="pull-right">共<span id="badge_phone" class="badge">0</span>个有效号码
                         </div>
                     </div>
+
+                    <input type="hidden" id="phone_count" name="phone_count" value="" required/>
+
                     <div class="form-group">
                         <label class="control-label col-sm-2">发送时间</label>
                         <div class="col-sm-5">
@@ -115,23 +121,18 @@
         $('.form-datetime').val("");
     });
 
-    // 检查屏蔽词
-    function checkBadwords(){
-        var content = $("#content").val();
-        if(content && content.length > 0){
-            console.log(content);
-        }
-    }
-
     // 字数统计及内容校验
     $("#content").focus();
 
     function calculate_content(){
         len = $("#content").val().length;
         $("#badge_content").html(len);
-    }
+        $("#content_count").val(len);
 
-    $("#content").on("change",checkBadwords);
+        // 检查屏蔽词
+        if(len > 350){
+        }
+    }
 
     $("#content").keyup(calculate_content);
     $("#content").mousemove(calculate_content);
@@ -155,9 +156,31 @@
         }
 
         $("#badge_phone").html(len);
+        $("#phone_count").val(len);
     }
 
     $("#phoneNumbers").keyup(calculate_phoneNumbers);
     $("#phoneNumbers").mousemove(calculate_phoneNumbers);
 
+    $("#inputForm").on("submit",function(){
+        phone_count = $("#phone_count").val();
+        content_count = $("#content_count").val();
+        if(phone_count < 1){
+            alert("有效号码个数为0");
+            return false;
+        }
+
+        if(content_count > 350){
+            alert("当前短信内容字数为：" + content_count + " ,字数最大为：350");
+            return false;
+        }
+
+        charge_count = Math.ceil(content_count / 70)  * phone_count;
+
+        if(window.confirm("计费条数为：" + charge_count + " , 确认提交？")){
+            return true;
+        }else{
+            return false;
+        }
+    });
 </script>

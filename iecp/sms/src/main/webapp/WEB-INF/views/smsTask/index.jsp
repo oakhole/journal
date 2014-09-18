@@ -40,7 +40,7 @@
                 <c:forEach var="smsTask" items="${smsTasks.content}">
                     <tr>
                         <td><input type="checkbox" value="smsTask.id"/> <span class="label
-                        label-default">default</span></td>
+                        label-${allSendStatusLabel[smsTask.sendStatus]}">${allSendStatus[smsTask.sendStatus]}</span></td>
                         <td><a href="${ctx}/smsTask/update/${smsTask.id}">${smsTask.content}</a></td>
                         <td>${smsTask.sendTime}</td>
                     </tr>
@@ -61,7 +61,7 @@
                                     }&${searchParams}">上一页</a></li>
                                 </c:if>
                                 <c:if test="${smsTasks.number < smsTasks.totalPages-1}">
-                                    <li><a href="${ctx}/syslog?pageNumber=${smsTasks
+                                    <li><a href="${ctx}/smsTask?pageNumber=${smsTasks
                                      .number+1}&pageSize=${pageSize}&sortDirection=${sortDirection}&sortBy=${sortBy
                                      }&${searchParams}">下一页</a></li>
                                 </c:if>

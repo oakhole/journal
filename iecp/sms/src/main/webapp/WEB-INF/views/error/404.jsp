@@ -8,7 +8,7 @@
 	<body>
 		<div class="main wd">
 			<div class="page-header text-center text-muted">
-				<h2>网站功能正在建设中，请关注其他已开放功能 ：）</h2>
+				<h2>您所找的页面没有找到，是否尝试刷新或<a href="javascript:history.back();">返回</a>试下？</h2>
 			</div>
 		</div>
 	</body>
