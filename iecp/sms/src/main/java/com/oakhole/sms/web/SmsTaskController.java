@@ -35,11 +35,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.UUID;
 
@@ -54,7 +58,7 @@ public class SmsTaskController {
     private static Logger logger = LoggerFactory.getLogger(SmsTaskService.class);
 
     private static Map<String, String> allSendStatus = Maps.newHashMap();
-    private static Map<String,String> allSendStatusLabel = Maps.newHashMap();
+    private static Map<String, String> allSendStatusLabel = Maps.newHashMap();
 
     static {
         allSendStatus.put("0", "待发送");
@@ -112,9 +116,9 @@ public class SmsTaskController {
         java.io.File readFile = new java.io.File(fileUrl);
 
         try {
-            FileUtils.writeStringToFile(readFile,phoneNumbers);
+            FileUtils.writeStringToFile(readFile, phoneNumbers);
         } catch (IOException e) {
-            logger.error("号码文件写入错误,{}",e.getMessage());
+            logger.error("号码文件写入错误,{}", e.getMessage());
         }
 
         File phone_attachment = new File();
@@ -164,6 +168,28 @@ public class SmsTaskController {
         redirectAttributes.addFlashAttribute("message", "删除成功");
         redirectAttributes.addFlashAttribute("returnStatus", "success");
         return "redirect:/smsTask";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "uploadPhoneFile")
+    public String uploadPhoneFile(@RequestParam(value = "fileupload", required = false) MultipartFile fileupload) {
+//        // todo: 读取文件内容返回json数据
+//        try {
+//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileupload.getInputStream()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "fail: " + e.getMessage();
+//        }
+
+        String phoneNumbers = "";
+
+        try {
+            phoneNumbers = String.valueOf(fileupload.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "fail: " + e.getMessage();
+        }
+        return "success: " + phoneNumbers;
     }
 
     @ModelAttribute

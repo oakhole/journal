@@ -79,28 +79,32 @@
                 <button class="close" data-dismiss="modal">✗</button>
             </div>
             <div class="modal-body">
-                xxxxxxxx
+                <form id="import-txt" class="form" enctype="multipart/form-data">
+                    <input type="file" name="fileupload"/>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <a href="${ctx}/" class="btn btn-primary">确认</a>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+                <button id="btn-submit-txt" type="button" class="btn btn-primary btn-sm" data-dismiss="modal">确认</button>
             </div>
         </div>
     </div>
 </div>
 
 <div id="excel_import" class="modal fade">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal">✗</button>
+               <button class="close" data-dismiss="modal">✗</button>
             </div>
             <div class="modal-body">
-                xxxxxxxx
+                <form id="import-excel" class="form" enctype="multipart/form-data">
+                    <input type="file" name="fileupload"/>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <a href="${ctx}/" class="btn btn-primary">确认</a>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+                <button id="btn-submit-excel" type="button" class="btn btn-primary btn-sm" data-dismiss="modal">确认</button>
             </div>
         </div>
     </div>
@@ -182,5 +186,16 @@
         }else{
             return false;
         }
+    });
+
+
+    // 文件上传
+    $("#btn-submit-txt").on("click",function(){
+        $.get("${ctx}/smsTask/uploadPhoneFile","",function(data){
+        });
+    });
+
+    $("#btn-submit-excel").on("click",function(){
+        alert("btn-submit-txt");
     });
 </script>
