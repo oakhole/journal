@@ -28,7 +28,6 @@
 
     <modules>
         <module>modules</module>
-        <module>demo</module>
         <module>voa</module>
         <module>iecp</module>
     </modules>
