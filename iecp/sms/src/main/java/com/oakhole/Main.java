@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         String contextPath = "/";
-        int port = Integer.getInteger("port", 80);
+        int port = Integer.getInteger("port", 8080);
 
         Server server = createServer(contextPath, port);
 

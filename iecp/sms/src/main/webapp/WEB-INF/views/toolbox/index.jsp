@@ -2,8 +2,6 @@
 
 <%@ include file="/WEB-INF/layouts/taglibs.jsp"%>
 
-<%@ page contentType="text/html;charset=UTF-8"%>
-
 <div class="main wd">
     <div class="path b_size">
         <ul>

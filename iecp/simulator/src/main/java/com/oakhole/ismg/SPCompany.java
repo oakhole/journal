@@ -223,7 +223,6 @@ public class SPCompany implements Runnable {
 		}
 	}
 
-	@Override
 	public void run() {
 		try {
 			this.isRunning = true;
@@ -233,7 +232,6 @@ public class SPCompany implements Runnable {
 
 			} else {
 				Thread active_test = new Thread(new Runnable() {
-					@Override
 					public void run() {
 						logger.info("process_active_test thread start");
 						synchronized (this) {
@@ -244,7 +242,6 @@ public class SPCompany implements Runnable {
 					}
 				});
 				Thread reader = new Thread(new Runnable() {
-					@Override
 					public void run() {
 						logger.info("process_reader thread start");
 						synchronized (this) {
@@ -259,7 +256,6 @@ public class SPCompany implements Runnable {
 					}
 				});
 				Thread writer = new Thread(new Runnable() {
-					@Override
 					public void run() {
 						logger.info("process_writer thread start");
 						synchronized (this) {

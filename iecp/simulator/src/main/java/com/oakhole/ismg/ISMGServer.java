@@ -50,7 +50,6 @@ public class ISMGServer implements Runnable {
 		}
 	}
 
-	@Override
 	public void run() {
 		try {
 			if (serverSocket != null && !serverSocket.isClosed()) {
@@ -62,7 +61,6 @@ public class ISMGServer implements Runnable {
 			}
 
 			Thread processSubmit = new Thread(new Runnable() {
-				@Override
 				public void run() {
 					logger.info("process_submit thread start");
 					while (true) {
@@ -72,7 +70,6 @@ public class ISMGServer implements Runnable {
 			});
 
 			Thread processDeliver = new Thread(new Runnable() {
-				@Override
 				public void run() {
 					logger.info("process_deliver thread start");
 					while (true) {

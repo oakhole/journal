@@ -102,7 +102,6 @@ public class SPServer extends Thread {
 				this.isRunning = true;
 
 				Thread submit = new Thread(new Runnable() {
-					@Override
 					public void run() {
 						try {
 							while (isRunning) {
@@ -121,7 +120,6 @@ public class SPServer extends Thread {
 					}
 				});
 				Thread deliver = new Thread(new Runnable() {
-					@Override
 					public void run() {
 						try {
 							while (isRunning) {

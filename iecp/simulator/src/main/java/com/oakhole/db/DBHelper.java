@@ -1,5 +1,12 @@
 package com.oakhole.db;
 
+import com.oakhole.db.connection.DBConnMySql;
+import com.oakhole.packet.cmpp.CMPPCommandID;
+import com.oakhole.packet.cmpp.CMPP_DELIVER;
+import com.oakhole.packet.cmpp.CMPP_SUBMIT;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,14 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.oakhole.db.connection.DBConnMySql;
-import com.oakhole.packet.cmpp.CMPPCommandID;
-import com.oakhole.packet.cmpp.CMPP_DELIVER;
-import com.oakhole.packet.cmpp.CMPP_SUBMIT;
 
 public class DBHelper {
 
@@ -289,7 +288,7 @@ public class DBHelper {
 		submit.setDestUsr_tl((byte) 1);
 		submit.setDest_terminal_Id(new String[] { "13800000000" });
 		submit.setDest_terminal_type((byte) 0);
-		submit.setMsg_Content("Hello ºº×Ö".getBytes());
+		submit.setMsg_Content("Hello World".getBytes());
 		submit.setMsg_Length((byte) submit.getMsg_Content().length);
 		submit.setLinkID("012345678901234567890");
 
